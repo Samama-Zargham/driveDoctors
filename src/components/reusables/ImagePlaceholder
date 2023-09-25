@@ -1,0 +1,58 @@
+// import React, { useState, useEffect } from 'react';
+// import FastImage, { FastImageProps } from 'react-native-fast-image';
+// import { StyleProp, ImageStyle } from 'react-native';
+// import { IMAGES } from '../../assets/images/index'
+// // Placeholder image URL or base64 encoded image data
+// const placeholderImage = IMAGES['Ellipse 1']
+
+// interface ImagePlaceholderProps {
+//     image: string;
+//     imgStyle?: StyleProp<ImageStyle>;
+//     resizeMode?: string
+// }
+
+// const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({ image, imgStyle, ...props }) => {
+//     const [loading, setLoading] = useState(true);
+//     const [error, setError] = useState(false);
+//     const [imageKey, setImageKey] = useState(0); // Add imageKey state
+
+//     useEffect(() => {
+//         setLoading(true);
+//         setError(false);
+//         setImageKey(prevKey => prevKey + 1); // Increment imageKey when URL changes
+//     }, [image]);
+
+//     const handleImageLoaded = () => {
+//         setLoading(false);
+//     };
+
+//     const handleImageError = () => {
+//         setLoading(false); props
+//         setError(true);
+//     };
+//     //   source={{ uri: `${image}`, priority: FastImage.priority.normal }}
+
+//     return (
+//         <FastImage
+//       key= { imageKey } // Use the imageKey as a key to force re-render when URL changes
+//     source = { image }
+//     style = { [styles.image, imgStyle]}
+//     onLoad = { handleImageLoaded }
+//     onError = { handleImageError }
+//     {...props }
+//     >
+//         { loading || error ? (
+//             <FastImage source= { placeholderImage } style = { [styles.image, imgStyle]} />
+//       ) : null}
+// </FastImage>
+//   );
+// };
+
+// const styles = {
+//     image: {
+//         width: '100%',
+//         height: '100%',
+//     },
+// };
+
+// export default ImagePlaceholder;
