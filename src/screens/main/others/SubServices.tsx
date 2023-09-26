@@ -75,6 +75,7 @@ const SubServices = () => {
 
                                 return (
                                     <TouchableOpacity
+                                        key={idx}
                                         onPress={() => SelectUnSelectItems(item, selectedServices, setselectedServices)}
                                         activeOpacity={0.7}  >
                                         <Animated.View

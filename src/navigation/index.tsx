@@ -24,6 +24,9 @@ import SubServices from '../screens/main/others/SubServices';
 import MachanicContact from '../screens/main/others/MachanicContact';
 import MapScreen from '../screens/main/others/MapScreen';
 import ForgetPassword from '../screens/auth/ForgetPassword';
+import Disclaimer from '../screens/main/others/Disclaimer';
+import PrivacyPolicy from '../screens/main/others/PrivacyPolicy';
+import RateUs from '../screens/main/others/RateUs';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -51,6 +54,9 @@ function MainStack() {
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="VerifyCode" component={VerifyCode} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+            <Stack.Screen name="Disclaimer" component={Disclaimer} />
+            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+            <Stack.Screen name="RateUs" component={RateUs} />
 
         </Stack.Navigator>
     );
@@ -163,13 +169,25 @@ const DrawerItems = [
         label: "Home",
         icon: "Layer19",
         route: 'Home',
+        component: Home,
+    },
+    {
+        label: "Bookings",
+        icon: "Layer18",
+        route: 'Bookings',
         component: BottomTab,
     },
     {
         label: "Listed Cars",
         icon: "Layer21",
-        route: 'Home',
+        route: 'CarDetails',
         component: BottomTab,
+    },
+    {
+        label: "Notifications",
+        icon: "Layer16",
+        route: 'Notifications',
+        component: Notifications,
     },
     {
         label: "Contact",
@@ -180,19 +198,19 @@ const DrawerItems = [
     {
         label: "Privacy Policy",
         icon: "Layer25copy",
-        route: 'Home',
-        component: BottomTab,
+        route: 'PrivacyPolicy',
+        component: PrivacyPolicy,
     },
     {
         label: "Disclaimer",
         icon: "Layer26",
-        route: 'Home',
-        component: BottomTab,
+        route: 'Disclaimer',
+        component: Disclaimer,
     },
     {
         label: "Rate us",
         icon: "Layer24",
-        route: 'Home',
-        component: BottomTab,
+        route: 'RateUs',
+        component: RateUs,
     },
 ];

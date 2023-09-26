@@ -30,9 +30,9 @@ const Profile = () => {
                         <PrimaryInput placeholder='+947 3030392388' header='Phone' />
                         <PrimaryInput placeholder='Password' header='Password' />
                         <PrimaryInput placeholder='Confirm Password' header='Confirm Password' />
-                        <PrimaryButton title='Save' />
 
                     </ScrollView>
+                    <PrimaryButton title='Save' />
                 </View>
             </View>
         </BaseScreen>

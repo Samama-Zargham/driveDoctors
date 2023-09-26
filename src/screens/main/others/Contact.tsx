@@ -1,7 +1,6 @@
 import { ScrollView, StyleSheet, View } from 'react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
-import AppText from '../../../components/AppText'
 import { mvs } from '../../../others/utils/responsive'
 import { colors } from '../../../others/utils/colors'
 import FastImage from 'react-native-fast-image'
@@ -28,8 +27,8 @@ const Contact = () => {
                         <PrimaryInput placeholder='ex: dummy@gmail.com' header='Email' />
                         <PrimaryInput multiLine placeholder='Write a note...' header='Note' />
                         <View style={{ marginTop: '20%' }} />
-                        <PrimaryButton onPress={() => navServices.navigate('Home')} title='Submit' />
                     </ScrollView>
+                    <PrimaryButton onPress={() => navServices.navigate('Home')} title='Submit' />
                 </View>
             </View>
         </BaseScreen>

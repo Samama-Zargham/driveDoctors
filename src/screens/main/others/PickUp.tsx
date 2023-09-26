@@ -103,8 +103,8 @@ const PickUp = () => {
                                 })
                             }
                         </View>
-                        <PrimaryButton onPress={() => { navServices.navigate('CarDetails') }} title='Continue' />
                     </ScrollView>
+                    <PrimaryButton onPress={() => { navServices.navigate('CarDetails') }} title='Continue' />
                 </View>
             </View>
         </BaseScreen>

@@ -47,9 +47,9 @@ const CarDetails = () => {
                                 )
                             })
                         }
-                        <PrimaryButton onPress={() => navServices.navigate('CalculateCharges')} title='Save' />
 
                     </ScrollView>
+                    <PrimaryButton onPress={() => navServices.navigate('CalculateCharges')} title='Save' />
                 </View>
             </View>
         </BaseScreen>
