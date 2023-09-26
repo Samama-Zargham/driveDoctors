@@ -26,9 +26,9 @@ const Contact = () => {
                         />
                         <PrimaryInput placeholder='ex: dummy@gmail.com' header='Email' />
                         <PrimaryInput multiLine placeholder='Write a note...' header='Note' />
-                        <View style={{ marginTop: '20%' }} />
+                        <View style={{ marginTop: '85%' }} />
+                        <PrimaryButton onPress={() => navServices.navigate('Home')} title='Submit' />
                     </ScrollView>
-                    <PrimaryButton onPress={() => navServices.navigate('Home')} title='Submit' />
                 </View>
             </View>
         </BaseScreen>
