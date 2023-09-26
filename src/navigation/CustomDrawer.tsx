@@ -9,13 +9,12 @@ import { IMAGES } from '../assets/images'
 import { COMMON_STYLES } from '../others/utils/commonStyles'
 import navServices from '../others/utils/navServices'
 import PrimaryHeader from '../components/reusables/PrimaryHeader'
-import { ShowAlert } from '../others/utils/helpers'
 import AnyIcon, { Icons } from '../components/reusables/AnyIcon'
 import AlertModal from '../components/reusables/AlertModal'
 
 
 const CustomDrawer = (props: any) => {
-    const [routeName, setrouteName] = useState('Home')
+    const [routeName, setrouteName] = useState('Hometab')
     const [modal, setmodal] = useState('')
 
     return (
@@ -35,8 +34,15 @@ const CustomDrawer = (props: any) => {
                             return (
                                 <TouchableOpacity
                                     onPress={() => {
+                                        if (item.route == 'Hometab') {
+                                            const resetToFirstTabScreen = () => {
+                                                navServices.navigate('BottomTab', { screen: 'Home' });
+                                            };
+                                        }
+                                        else {
+                                            navServices.navigate(item.route)
+                                        }
                                         setrouteName(item?.label)
-                                        navServices.navigate(item.route)
                                     }}
                                     style={[styles.items, { backgroundColor: isFocus ? colors.darkGreen1 : 'transparent' }]} key={index}>
                                     <FastImage

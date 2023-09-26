@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View } from 'react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import AppText from '../../../components/AppText'
 import { mvs } from '../../../others/utils/responsive'
@@ -24,7 +24,7 @@ const Profile = () => {
                             style={styles.userImage}
                             resizeMode='contain'
                         />
-                        <AppText center FONT_18 semiBold children='dummy ' />
+                        <AppText center FONT_18 semiBold children='dummy Name' />
                         <PrimaryInput placeholder='Sam Zar' header='Name' />
                         <PrimaryInput placeholder='dummy@gmail.com' header='Email' />
                         <PrimaryInput placeholder='+947 3030392388' header='Phone' />

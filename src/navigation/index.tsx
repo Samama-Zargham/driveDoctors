@@ -143,7 +143,7 @@ export default MainNav;
 
 const TabItems = [
     {
-        label: "Home ",
+        label: "Home",
         icon: "Layer19",
         component: Home,
     },
@@ -166,10 +166,10 @@ const TabItems = [
 
 const DrawerItems = [
     {
-        label: "Home",
+        label: "Home ",
         icon: "Layer19",
         route: 'Home',
-        component: Home,
+        component: BottomTab,
     },
     {
         label: "Bookings",
@@ -187,7 +187,7 @@ const DrawerItems = [
         label: "Notifications",
         icon: "Layer16",
         route: 'Notifications',
-        component: Notifications,
+        component: BottomTab,
     },
     {
         label: "Contact",
