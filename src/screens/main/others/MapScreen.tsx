@@ -155,7 +155,7 @@ const MapInput = ({ setMarkerCoordinate, setLocation }: any) => {
             listViewDisplayed={false}
             styles={styles.google}
             query={{
-                key: 'AIzaSyA0NIYllt6HgBKqD0QeE0Oa5d3ZbysGPSE',
+                key: 'AIzaSyCEKdRBb3B05Q1OTcyEdtl16PoLCtkR3d8',
                 language: 'en',
             }}
             fetchDetails={true}
