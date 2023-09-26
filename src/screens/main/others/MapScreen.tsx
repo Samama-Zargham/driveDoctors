@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import AppText from '../../../components/AppText'
 import { mvs } from '../../../others/utils/responsive'
@@ -7,11 +7,27 @@ import { colors } from '../../../others/utils/colors'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import navServices from '../../../others/utils/navServices'
-import PrimaryInput from '../../../components/reusables/PrimaryInput'
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import { COMMON_STYLES } from '../../../others/utils/commonStyles'
+
 
 const MapScreen = () => {
+    const [Location, setLocation] = useState('')
+    const [MarkerCoordinate, setMarkerCoordinate] = useState({ latitude: 37.78825, longitude: -122.4324 })
+    const [isDragging, setIsDragging] = useState(false);
 
+    const handleMarkerPress = () => {
+        setIsDragging(true);
+    };
+
+    const handleMapPress = (e: any) => {
+        if (isDragging) {
+            const newCoordinate = e.nativeEvent.coordinate;
+            setMarkerCoordinate(newCoordinate);
+            setIsDragging(false);
+        }
+    };
     return (
         <BaseScreen>
             <View style={styles.backDark} >
@@ -24,19 +40,27 @@ const MapScreen = () => {
                             <MapView
                                 provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                                 style={styles.map}
-                                scrollEnabled
+                                onPress={handleMapPress}
                                 region={{
-                                    latitude: 37.78825,
-                                    longitude: -122.4324,
-                                    latitudeDelta: 0.015,
-                                    longitudeDelta: 0.0121,
-                                }}
-                            >
+                                    latitude: MarkerCoordinate.latitude,
+                                    longitude: MarkerCoordinate.longitude,
+                                    latitudeDelta: 0.02,
+                                    longitudeDelta: 0.02
+                                }}>
+                                <Marker
+                                    title={Location}
+                                    coordinate={MarkerCoordinate}
+                                    draggable={true}
+                                    onPress={handleMarkerPress}
+                                />
                             </MapView>
                         </View>
 
                         <View style={styles.btns}>
-                            <PrimaryInput location placeholder='Al Doha Airport' />
+                            <MapInput
+                                setMarkerCoordinate={setMarkerCoordinate}
+                                setLocation={setLocation}
+                            />
                             <PrimaryButton onPress={() => { navServices.navigate('PickUp') }} title='Continue' />
                         </View>
 
@@ -57,6 +81,26 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         overflow: 'hidden'
+    },
+    google: {
+        description: { color: "black" },
+        textInputContainer: { width: "100%", alignSelf: "center" },
+        poweredContainer: { display: 'none' },
+        container: {
+            zIndex: 100, flex: 0
+        },
+        textInput: {
+            backgroundColor: colors.WHITE,
+            height: mvs(60),
+            borderRadius: mvs(10),
+            marginTop: 5,
+            paddingLeft: 10,
+            width: "100%",
+            ...COMMON_STYLES.elevation1,
+            marginVertical: 30,
+            color: "black"
+        },
+
     },
     map: {
         ...StyleSheet.absoluteFillObject,
@@ -99,3 +143,33 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
 })
+
+
+
+const MapInput = ({ setMarkerCoordinate, setLocation }: any) => {
+
+
+    return (
+        <GooglePlacesAutocomplete
+            placeholder={"Find a location..."}
+            listViewDisplayed={false}
+            styles={styles.google}
+            query={{
+                key: 'AIzaSyA0NIYllt6HgBKqD0QeE0Oa5d3ZbysGPSE',
+                language: 'en',
+            }}
+            fetchDetails={true}
+            onPress={(data: any, details: any) => {
+                setMarkerCoordinate(
+                    {
+                        latitude: details?.geometry?.location?.lat,
+                        longitude: details?.geometry?.location?.lng
+                    }
+                )
+                setLocation(data.description);
+            }}
+            placeholderTextColor="gray"
+            onFail={(error) => console.error(error)}
+        />
+    )
+}
