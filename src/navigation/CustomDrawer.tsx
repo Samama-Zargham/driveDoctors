@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import AppText from '../components/AppText'
-import { DrawerContentScrollView } from '@react-navigation/drawer'
+import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer'
 import { colors } from '../others/utils/colors'
 import { mvs } from '../others/utils/responsive'
 import FastImage from 'react-native-fast-image'
@@ -27,8 +27,45 @@ const CustomDrawer = (props: any) => {
                 <DrawerContentScrollView
                     {...props}
                     showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ position: 'absolute', bottom: 0, left: 0, right: 0, }}
                     bounces={false}>
-                    {
+                    <DrawerItemList {...props} />
+                    <DrawerItem
+                        labelStyle={{
+                            height: mvs(48),
+                            paddingVertical: 0,
+                            marginVertical: 0,
+                        }}
+                        label={({ focused, color }) => (<AppText FONT_16 bold color={focused ? colors.primary : colors.secondary} children={"Delete Account"} />)}
+                        icon={({ focused, color, size }) => (
+                            <FastImage
+                                source={IMAGES['logoutIcon']}
+                                style={{
+                                    width: mvs(20),
+                                    height: mvs(20)
+                                }}
+                                resizeMode='contain'
+                            />
+                        )} />
+                    <DrawerItem
+                        labelStyle={{
+
+                            height: mvs(48),
+                            paddingVertical: 0,
+                            marginVertical: 0,
+                        }}
+                        label={({ focused, color }) => (<AppText FONT_16 bold color={focused ? colors.primary : colors.secondary} children={"Logout"} />)}
+                        icon={({ focused, color, size }) => (
+                            <FastImage
+                                source={IMAGES['logoutIcon']}
+                                style={{
+                                    width: mvs(20),
+                                    height: mvs(20)
+                                }}
+                                resizeMode='contain'
+                            />
+                        )} />
+                    {/* {
                         props.data.map((item: any, index: number) => {
                             let isFocus = routeName == item.label
                             return (
@@ -59,8 +96,6 @@ const CustomDrawer = (props: any) => {
                             )
                         })
                     }
-                </DrawerContentScrollView>
-                {/* footer */}
                 <TouchableOpacity style={styles.items2} onPress={() => {
                     setrouteName('')
                     setmodal('delete')
@@ -81,7 +116,9 @@ const CustomDrawer = (props: any) => {
                         resizeMode='contain'
                     />
                     <AppText FONT_18 Medium children={'     Sign Out'} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                </DrawerContentScrollView>
+                {/* footer */}
 
             </View>
             {
@@ -110,8 +147,8 @@ const styles = StyleSheet.create({
     backDark: {
         flex: 1,
         backgroundColor: colors.darkGreen1,
-        borderTopRightRadius: 20,
-        borderBottomRightRadius: 20
+        // borderTopRightRadius: 20,
+        // borderBottomRightRadius: 20
     },
     backWhite: {
         marginTop: 20,
@@ -121,7 +158,7 @@ const styles = StyleSheet.create({
         paddingTop: mvs(20),
         paddingHorizontal: mvs(14),
         flex: 1,
-        borderBottomRightRadius: 20
+        // borderBottomRightRadius: 20
     },
     items: {
         ...COMMON_STYLES.rowDirection,
