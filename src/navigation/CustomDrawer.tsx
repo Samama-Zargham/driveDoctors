@@ -1,21 +1,22 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import AppText from '../components/AppText'
-import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer'
+import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import { colors } from '../others/utils/colors'
-import { mvs } from '../others/utils/responsive'
+import { mvs, width } from '../others/utils/responsive'
 import FastImage from 'react-native-fast-image'
 import { IMAGES } from '../assets/images'
 import { COMMON_STYLES } from '../others/utils/commonStyles'
 import navServices from '../others/utils/navServices'
 import PrimaryHeader from '../components/reusables/PrimaryHeader'
-import AnyIcon, { Icons } from '../components/reusables/AnyIcon'
 import AlertModal from '../components/reusables/AlertModal'
+import DeviceInfo from 'react-native-device-info';
 
 
 const CustomDrawer = (props: any) => {
     const [routeName, setrouteName] = useState('Hometab')
     const [modal, setmodal] = useState('')
+    const isTablet = DeviceInfo.isTablet();
 
     return (
         <View style={styles.backDark} >
@@ -27,33 +28,54 @@ const CustomDrawer = (props: any) => {
                 <DrawerContentScrollView
                     {...props}
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ position: 'absolute', bottom: 0, left: 0, right: 0, }}
+                    contentContainerStyle={{ position: 'absolute', top: 0, left: 0, right: 0, }}
                     bounces={false}>
-                    <DrawerItemList {...props} />
-                    <DrawerItem
-                        labelStyle={{
-                            height: mvs(48),
-                            paddingVertical: 0,
-                            marginVertical: 0,
-                        }}
-                        label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={"Delete Account"} />)}
-                        icon={({ focused, color, size }) => (
-                            <FastImage
-                                source={IMAGES['logoutIcon']}
-                                style={{
-                                    width: mvs(20),
-                                    height: mvs(20)
-                                }}
-                                resizeMode='contain'
-                            />
-                        )} />
-                    <DrawerItem
-                        labelStyle={{
+                    {/* <DrawerItemList {...props} /> */}
+                    {props.data?.map((item, index) => {
+                        let isFocus = routeName == item.label
 
+                        return (<DrawerItem
+                            style={[{
+                                backgroundColor: isFocus ?
+                                    colors.darkGreen1 : 'transparent',
+                                width: isTablet ? width * 0.4 : width * 0.5
+                            }]}
+                            key={index}
+                            onPress={() => {
+                                if (item.route == 'Hometab') {
+                                    navServices.navigate('BottomTab', { screen: 'Home' });
+                                }
+                                else {
+                                    navServices.navigate(item.route)
+                                }
+                                setrouteName(item?.label)
+
+                            }}
+                            labelStyle={{
+                                height: mvs(48),
+                                paddingVertical: 0,
+                                marginVertical: 0,
+                            }}
+                            label={({ focused, color }) => (<AppText bold color={isFocus ? colors.WHITE : colors.BLACK} children={item?.label} />)}
+                            icon={({ focused, color, size }) => (
+                                <FastImage
+                                    source={IMAGES[item?.icon]}
+                                    style={{
+                                        width: mvs(18),
+                                        height: mvs(18)
+                                    }}
+                                    resizeMode='contain'
+                                    tintColor={isFocus ? colors.WHITE : colors.BLACK}
+                                />
+                            )} />)
+                    })}
+                    <DrawerItem
+                        labelStyle={{
                             height: mvs(48),
                             paddingVertical: 0,
                             marginVertical: 0,
                         }}
+                        onPress={() => setmodal('signout')}
                         label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={"Logout"} />)}
                         icon={({ focused, color, size }) => (
                             <FastImage
@@ -67,20 +89,9 @@ const CustomDrawer = (props: any) => {
                         )} />
                     {/* {
                         props.data.map((item: any, index: number) => {
-                            let isFocus = routeName == item.label
                             return (
                                 <TouchableOpacity
-                                    onPress={() => {
-                                        if (item.route == 'Hometab') {
-                                            const resetToFirstTabScreen = () => {
-                                                navServices.navigate('BottomTab', { screen: 'Home' });
-                                            };
-                                        }
-                                        else {
-                                            navServices.navigate(item.route)
-                                        }
-                                        setrouteName(item?.label)
-                                    }}
+                                  
                                     style={[styles.items, { backgroundColor: isFocus ? colors.darkGreen1 : 'transparent' }]} key={index}>
                                     <FastImage
                                         source={IMAGES[item.icon]}
@@ -121,14 +132,7 @@ const CustomDrawer = (props: any) => {
                 {/* footer */}
 
             </View>
-            {
-                modal == 'delete' &&
-                <AlertModal
-                    setmodalvisible={setmodal}
-                    title='Delete Account'
-                    description='Are you sure you want to delete account?'
-                />
-            }
+
             {
                 modal == 'signout' &&
                 <AlertModal

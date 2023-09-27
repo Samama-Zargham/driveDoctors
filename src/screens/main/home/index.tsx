@@ -85,7 +85,7 @@ const Home = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader title='Hi, Welcome' />
+                <PrimaryHeader title='Hi, John Doe' />
                 <View style={styles.backWhite} >
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <Animated.View

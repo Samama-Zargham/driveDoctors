@@ -1,5 +1,5 @@
 import { ImageBackground, StyleSheet, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IMAGES } from '../../assets/images'
 import AppText from '../../components/AppText'
 import { colors } from '../../others/utils/colors'
@@ -10,6 +10,21 @@ import OtpVerification from '../../components/reusables/OtpVerification'
 
 const VerifyCode = () => {
     const [val, setVal] = useState('')
+    const [counter, setCounter] = useState(60);
+
+    useEffect(() => {
+        let interval: any;
+        if (counter > 0) {
+            interval = setInterval(() => {
+                setCounter((pre) => pre - 1);
+            }, 1000);
+        }
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [counter]);
+
     return (
         <ImageBackground
             resizeMode='stretch'
@@ -19,7 +34,7 @@ const VerifyCode = () => {
                 <OtpVerification value={val} setValue={setVal} />
                 <PrimaryButton onPress={() => navServices.navigate('Login')} title='Submit' />
                 <TouchableOpacity onPress={() => { }} style={{ padding: 5 }} >
-                    <AppText Medium center children={`Resend confirmation code?`} color={colors.WHITE} />
+                    <AppText onPress={() => { if (counter == 0) { setCounter(60) } }} Medium center children={counter == 0 ? `Resend confirmation code?` : counter + ' seconds left'} color={colors.WHITE} />
                 </TouchableOpacity>
 
             </View>
@@ -38,3 +53,5 @@ const styles = StyleSheet.create({
         paddingTop: 20
     }
 })
+
+

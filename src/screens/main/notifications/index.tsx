@@ -53,7 +53,7 @@ const Notifications = () => {
                 <PrimaryHeader title='Notifications' />
 
                 <View style={styles.backWhite} >
-                    {services?.length > 0 && <AppText onPress={() => { setservices([]) }} FONT_18 style={{ right: 10, textDecorationLine: 'underline', alignSelf: 'flex-end' }} bold color={colors.darkGreen} children='Clear All' />}
+                    {services?.length > 0 && <AppText onPress={() => { setservices([]) }} FONT_18 style={{ right: 10, alignSelf: 'flex-end' }} bold color={colors.darkGreen} children='Clear All' />}
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {
                             services?.length > 0 ?

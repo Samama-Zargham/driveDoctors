@@ -62,7 +62,7 @@ const Bookings = () => {
             <View style={styles.backDark} >
                 <PrimaryHeader title='My Bookings' />
                 <View style={styles.backWhite} >
-                    <ScrollView showsVerticalScrollIndicator={false}>
+                    <ScrollView contentContainerStyle={{ paddingTop: mvs(20) }} showsVerticalScrollIndicator={false}>
                         {
                             services.map((item: booking, idx: number) => {
                                 return (
@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.parrot1,
         borderTopLeftRadius: mvs(20),
         borderTopRightRadius: mvs(20),
-        paddingTop: mvs(20),
         paddingHorizontal: mvs(14),
         flex: 1
     },

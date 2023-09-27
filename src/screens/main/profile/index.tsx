@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import AppText from '../../../components/AppText'
 import { mvs } from '../../../others/utils/responsive'
@@ -9,16 +9,17 @@ import { IMAGES } from '../../../assets/images'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import PrimaryInput from '../../../components/reusables/PrimaryInput'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
+import AlertModal from '../../../components/reusables/AlertModal'
 
 const Profile = () => {
-
+    const [modal, setmodal] = useState(false)
 
     return (
         <BaseScreen>
             <View style={styles.backDark} >
                 <PrimaryHeader title='Profile' />
                 <View style={styles.backWhite} >
-                    <ScrollView showsVerticalScrollIndicator={false}>
+                    <ScrollView contentContainerStyle={{ paddingTop: mvs(20) }} showsVerticalScrollIndicator={false}>
                         <FastImage
                             source={IMAGES.Layer15}
                             style={styles.userImage}
@@ -31,10 +32,20 @@ const Profile = () => {
                         <PrimaryInput placeholder='Password' header='Password' />
                         <PrimaryInput placeholder='Confirm Password' header='Confirm Password' />
 
+                        <PrimaryButton title='Save' />
+                        <PrimaryButton onPress={() => setmodal('delete')} containerStyle={{ marginTop: 2 }} title='Delete Account' />
+
                     </ScrollView>
-                    <PrimaryButton title='Save' />
                 </View>
             </View>
+            {
+                modal == 'delete' &&
+                <AlertModal
+                    setmodalvisible={setmodal}
+                    title='Delete Account'
+                    description='Are you sure you want to delete account?'
+                />
+            }
         </BaseScreen>
     )
 }
@@ -54,7 +65,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.parrot1,
         borderTopLeftRadius: mvs(20),
         borderTopRightRadius: mvs(20),
-        paddingTop: mvs(20),
         paddingHorizontal: mvs(14),
         flex: 1,
     },

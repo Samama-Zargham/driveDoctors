@@ -78,15 +78,15 @@ function AuthStack() {
 function MyDrawer() {
     return (
         <Drawer.Navigator
-            drawerContent={props => <CustomDrawer  {...props} />}
+            drawerContent={props => <CustomDrawer  {...props} data={DrawerItems} />}
             screenOptions={{
                 headerShown: false,
                 // overlayColor: "transparent",
                 drawerStyle: {
                     backgroundColor: 'transparent',
-                    width:'100%',
+                    width: '100%',
                 },
-                drawerActiveBackgroundColor:colors.darkGreen
+                drawerActiveBackgroundColor: colors.darkGreen
             }}>
             {DrawerItems.map((_: any, i: any) => (
                 <Drawer.Screen
@@ -94,29 +94,34 @@ function MyDrawer() {
                     name={_.label}
                     component={_.component}
                     options={{
-                        swipeEnabled: false,
                         // @ts-ignore
                         item: _,
-                        unmountOnBlur: _?.unmountOnBlur || false,
-                        drawerItemStyle: {
-                            height: mvs(48),
-                            width:mvs(200),
-                            paddingVertical: 0,
-                            marginVertical:0,
-                        },
-                        drawerLabel: ({ focused, color }) => <AppText bold FONT_16  color={focused ? colors.WHITE : colors.darkGreen} children={_.label} />,
-                        drawerIcon: ({ focused, color, size }) => (
-                            <FastImage
-                                source={IMAGES[_.icon]}
-                                style={{
-                                    width: mvs(20),
-                                    height: mvs(20)
-                                }}
-                                tintColor={focused ? colors.WHITE : colors.BLACK}
-                                resizeMode='contain'
-                            />
-                        )
+                        unmountOnBlur: _?.unmountOnBlur || false
                     }}
+                // options={{
+                //     swipeEnabled: false,
+                //     // @ts-ignore
+                //     item: _,
+                //     unmountOnBlur: _?.unmountOnBlur || false,
+                //     drawerItemStyle: {
+                //         height: mvs(48),
+                //         width:mvs(200),
+                //         paddingVertical: 0,
+                //         marginVertical:0,
+                //     },
+                //     drawerLabel: ({ focused, color }) => <AppText bold FONT_16  color={focused ? colors.WHITE : colors.darkGreen} children={_.label} />,
+                //     drawerIcon: ({ focused, color, size }) => (
+                //         <FastImage
+                //             source={IMAGES[_.icon]}
+                //             style={{
+                //                 width: mvs(20),
+                //                 height: mvs(20)
+                //             }}
+                //             tintColor={focused ? colors.WHITE : colors.BLACK}
+                //             resizeMode='contain'
+                //         />
+                //     )
+                // }}
                 />
             ))}
         </Drawer.Navigator >

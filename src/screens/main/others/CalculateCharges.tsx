@@ -1,6 +1,6 @@
 
 import { ScrollView, StyleSheet, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import AppText from '../../../components/AppText'
 import { mvs } from '../../../others/utils/responsive'
@@ -9,9 +9,19 @@ import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import navServices from '../../../others/utils/navServices'
+import BaseModal from '../../../components/reusables/BaseModal'
+import LottieView from 'lottie-react-native'
 
 const CalculateCharges = () => {
+    const [modal, setmodal] = useState(false)
 
+    const handleBookNow = () => {
+        setmodal(true)
+        setTimeout(() => {
+            setmodal(false)
+            navServices.navigate('Home')
+        }, 3000);
+    }
     return (
         <BaseScreen>
             <View style={styles.backDark} >
@@ -68,11 +78,28 @@ const CalculateCharges = () => {
                             })
                         }
 
-                        <PrimaryButton onPress={() => navServices.navigate('Home')} title='Book Now' />
+                        <PrimaryButton onPress={handleBookNow} title='Book Now' />
 
                     </ScrollView>
                 </View>
             </View>
+            {
+                modal &&
+                <BaseModal
+                    containerStyle={{ padding: mvs(20) }}
+                    modalvisible={true}
+                    toggleModal={() => setmodal(false)}>
+
+                    <View style={styles.lottie}>
+                        <LottieView
+                            autoPlay
+                            style={{ width: '100%', height: mvs(90) }}
+                            source={require('../../../assets/lottie/splash.json')}
+                        />
+                        <AppText style={{ marginVertical: mvs(6) }} semiBold FONT_16 children={'Successfully Booked!'} color={colors.darkGreen1} />
+                    </View>
+                </BaseModal>
+            }
         </BaseScreen>
     )
 }
@@ -89,6 +116,12 @@ const styles = StyleSheet.create({
         paddingTop: mvs(20),
         paddingHorizontal: mvs(14),
         flex: 1,
+    },
+    lottie: {
+        backgroundColor: colors.parrot2,
+        width: mvs(250),
+        justifyContent: "center",
+        alignItems: 'center'
     },
     car: {
         width: mvs(60),

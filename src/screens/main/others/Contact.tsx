@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
-import { mvs } from '../../../others/utils/responsive'
+import { mvs, width } from '../../../others/utils/responsive'
 import { colors } from '../../../others/utils/colors'
 import FastImage from 'react-native-fast-image'
 import { IMAGES } from '../../../assets/images'
@@ -9,8 +9,10 @@ import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import PrimaryInput from '../../../components/reusables/PrimaryInput'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import navServices from '../../../others/utils/navServices'
+import DeviceInfo from 'react-native-device-info';
 
 const Contact = () => {
+    const isTablet = DeviceInfo.isTablet();
 
 
     return (
@@ -26,7 +28,7 @@ const Contact = () => {
                         />
                         <PrimaryInput placeholder='ex: dummy@gmail.com' header='Email' />
                         <PrimaryInput multiLine placeholder='Write a note...' header='Note' />
-                        <View style={{ marginTop: '85%' }} />
+                        <View style={{ marginTop: isTablet ? '60%' : '70%' }} />
                         <PrimaryButton onPress={() => navServices.navigate('Home')} title='Submit' />
                     </ScrollView>
                 </View>

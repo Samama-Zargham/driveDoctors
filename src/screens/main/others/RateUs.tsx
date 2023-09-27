@@ -12,16 +12,18 @@ import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import AppText from '../../../components/AppText'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import DeviceInfo from 'react-native-device-info';
 
 const RateUs = () => {
 
+    const isTablet = DeviceInfo.isTablet();
 
     return (
         <BaseScreen>
             <View style={styles.backDark} >
                 <PrimaryHeader notDrawer title='Rate Us' />
                 <View style={styles.backWhite} >
-                    <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+                    <KeyboardAwareScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
                         <FastImage
                             source={IMAGES.darkLogo}
                             style={styles.userImage}
@@ -37,7 +39,7 @@ const RateUs = () => {
                         />
 
                         <PrimaryInput multiLine placeholder='Write Feedback...' header='FeedBack' />
-                        <View style={{ marginTop: '85%' }} />
+                        <View style={{ marginTop: isTablet ? '60%' : '70%' }} />
                         <PrimaryButton onPress={() => navServices.navigate('Home')} title='Submit' />
                     </KeyboardAwareScrollView>
                 </View>
