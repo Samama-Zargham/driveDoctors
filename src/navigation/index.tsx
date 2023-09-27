@@ -86,7 +86,7 @@ function MyDrawer() {
                     backgroundColor: 'transparent',
                     width:'100%',
                 },
-                drawerActiveBackgroundColor:colors.DARK
+                drawerActiveBackgroundColor:colors.darkGreen
             }}>
             {DrawerItems.map((_: any, i: any) => (
                 <Drawer.Screen
@@ -104,7 +104,7 @@ function MyDrawer() {
                             paddingVertical: 0,
                             marginVertical:0,
                         },
-                        drawerLabel: ({ focused, color }) => <AppText bold FONT_16  color={focused ? colors.primary : colors.secondary} children={_.label} />,
+                        drawerLabel: ({ focused, color }) => <AppText bold FONT_16  color={focused ? colors.WHITE : colors.darkGreen} children={_.label} />,
                         drawerIcon: ({ focused, color, size }) => (
                             <FastImage
                                 source={IMAGES[_.icon]}

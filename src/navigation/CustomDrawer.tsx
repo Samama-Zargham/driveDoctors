@@ -36,7 +36,7 @@ const CustomDrawer = (props: any) => {
                             paddingVertical: 0,
                             marginVertical: 0,
                         }}
-                        label={({ focused, color }) => (<AppText FONT_16 bold color={focused ? colors.primary : colors.secondary} children={"Delete Account"} />)}
+                        label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={"Delete Account"} />)}
                         icon={({ focused, color, size }) => (
                             <FastImage
                                 source={IMAGES['logoutIcon']}
@@ -54,7 +54,7 @@ const CustomDrawer = (props: any) => {
                             paddingVertical: 0,
                             marginVertical: 0,
                         }}
-                        label={({ focused, color }) => (<AppText FONT_16 bold color={focused ? colors.primary : colors.secondary} children={"Logout"} />)}
+                        label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={"Logout"} />)}
                         icon={({ focused, color, size }) => (
                             <FastImage
                                 source={IMAGES['logoutIcon']}
@@ -146,7 +146,7 @@ export default CustomDrawer
 const styles = StyleSheet.create({
     backDark: {
         flex: 1,
-        backgroundColor: colors.darkGreen1,
+        backgroundColor: colors.darkGreen,
         // borderTopRightRadius: 20,
         // borderBottomRightRadius: 20
     },
