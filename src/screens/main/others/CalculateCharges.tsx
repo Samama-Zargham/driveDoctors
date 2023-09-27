@@ -20,7 +20,7 @@ const CalculateCharges = () => {
         setTimeout(() => {
             setmodal(false)
             navServices.navigate('Home')
-        }, 3000);
+        }, 3200);
     }
     return (
         <BaseScreen>
