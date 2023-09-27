@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         // borderBottomRightRadius: 20
     },
     backWhite: {
-        marginTop: 20,
+        // marginTop: 20,
         backgroundColor: colors.parrot1,
         borderTopLeftRadius: mvs(20),
         borderTopRightRadius: mvs(20),

@@ -32,10 +32,10 @@ const PrimaryHeader: React.FC<Props> = ({
                     size={notDrawer ? 30 : 40}
                     color='white'
                 />}
-                <AppText FONT_18 bold color={colors.WHITE} children={(rightIcon ? "    " : '') + title} />
+                <AppText FONT_24 bold color={colors.WHITE} children={(rightIcon ? "    " : '') + title} />
             </View>
             {
-                !rightIcon && <AnyIcon size={35} disabled type={Icons.MaterialCommunityIcons} name='close-box' color={colors.WHITE} />
+                !rightIcon && <AnyIcon size={mvs(30)} disabled type={Icons.AntDesign} name='close' color={colors.WHITE} />
             }
         </TouchableOpacity>
     )
