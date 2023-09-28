@@ -126,7 +126,8 @@ const CustomDrawer = (props: any) => {
                 </DrawerContentScrollView>
                 {/* footer */}
                 <View >
-                    <AppText color={colors.GRAY} style={{ marginVertical: 10 }} center children={'Version 1.0.0'} />
+                    <AppText color={colors.GRAY} center children={'Developed by Selida Interactive'} />
+                    <AppText color={colors.GRAY} style={{ marginBottom: 10 }} center children={'Version 1.0.0'} />
                 </View>
             </View>
 
