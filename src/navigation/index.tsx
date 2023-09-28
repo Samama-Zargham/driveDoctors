@@ -93,35 +93,35 @@ function MyDrawer() {
                     key={i}
                     name={_.label}
                     component={_.component}
+                    // options={{
+                    //     // @ts-ignore
+                    //     item: _,
+                    //     unmountOnBlur: _?.unmountOnBlur || false
+                    // }}
                     options={{
+                        swipeEnabled: false,
                         // @ts-ignore
                         item: _,
-                        unmountOnBlur: _?.unmountOnBlur || false
+                        unmountOnBlur: _?.unmountOnBlur || false,
+                        drawerItemStyle: {
+                            height: mvs(48),
+                            width: mvs(200),
+                            paddingVertical: 0,
+                            marginVertical: 0,
+                        },
+                        drawerLabel: ({ focused, color }) => <AppText bold FONT_16 color={focused ? colors.WHITE : colors.darkGreen} children={_.label} />,
+                        drawerIcon: ({ focused, color, size }) => (
+                            <FastImage
+                                source={IMAGES[_.icon]}
+                                style={{
+                                    width: mvs(20),
+                                    height: mvs(20)
+                                }}
+                                tintColor={focused ? colors.WHITE : colors.BLACK}
+                                resizeMode='contain'
+                            />
+                        )
                     }}
-                // options={{
-                //     swipeEnabled: false,
-                //     // @ts-ignore
-                //     item: _,
-                //     unmountOnBlur: _?.unmountOnBlur || false,
-                //     drawerItemStyle: {
-                //         height: mvs(48),
-                //         width:mvs(200),
-                //         paddingVertical: 0,
-                //         marginVertical:0,
-                //     },
-                //     drawerLabel: ({ focused, color }) => <AppText bold FONT_16  color={focused ? colors.WHITE : colors.darkGreen} children={_.label} />,
-                //     drawerIcon: ({ focused, color, size }) => (
-                //         <FastImage
-                //             source={IMAGES[_.icon]}
-                //             style={{
-                //                 width: mvs(20),
-                //                 height: mvs(20)
-                //             }}
-                //             tintColor={focused ? colors.WHITE : colors.BLACK}
-                //             resizeMode='contain'
-                //         />
-                //     )
-                // }}
                 />
             ))}
         </Drawer.Navigator >
@@ -198,24 +198,24 @@ const DrawerItems = [
         route: 'Home',
         component: BottomTab,
     },
-    {
-        label: "Bookings",
-        icon: "Layer18",
-        route: 'Bookings',
-        component: BottomTab,
-    },
+    // {
+    //     label: "Bookings",
+    //     icon: "Layer18",
+    //     route: 'booking',
+    //     component: Bookings,
+    // },
     {
         label: "Listed Cars",
         icon: "Layer21",
         route: 'CarDetails',
         component: CarDetails,
     },
-    {
-        label: "Notifications",
-        icon: "Layer16",
-        route: 'Notifications',
-        component: BottomTab,
-    },
+    // {
+    //     label: "Notifications",
+    //     icon: "Layer16",
+    //     route: 'Notification',
+    //     component: Notifications,
+    // },
     {
         label: "Contact",
         icon: "Layer20",

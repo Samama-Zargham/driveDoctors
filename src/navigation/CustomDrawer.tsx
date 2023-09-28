@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import AppText from '../components/AppText'
-import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
+import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer'
 import { colors } from '../others/utils/colors'
 import { mvs, width } from '../others/utils/responsive'
 import FastImage from 'react-native-fast-image'
@@ -33,8 +33,8 @@ const CustomDrawer = (props: any) => {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ position: 'absolute', top: 0, left: 0, right: 0, }}
                     bounces={false}>
-                    {/* <DrawerItemList {...props} /> */}
-                    {props.data?.map((item, index) => {
+                    <DrawerItemList {...props} />
+                    {/* {props.data?.map((item, index) => {
                         let isFocus = routeName == item.label
 
                         return (<DrawerItem
@@ -71,7 +71,7 @@ const CustomDrawer = (props: any) => {
                                     tintColor={isFocus ? colors.WHITE : colors.BLACK}
                                 />
                             )} />)
-                    })}
+                    })} */}
                     <DrawerItem
                         labelStyle={{
                             height: mvs(48),
