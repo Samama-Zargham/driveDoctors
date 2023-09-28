@@ -208,7 +208,7 @@ const DrawerItems = [
         label: "Listed Cars",
         icon: "Layer21",
         route: 'CarDetails',
-        component: BottomTab,
+        component: CarDetails,
     },
     {
         label: "Notifications",

@@ -18,7 +18,6 @@ const AlertModal: React.FC<Props> = React.memo(({
 }) => {
     const handleModal = () => {
         setmodalvisible(false)
-        navServices.toggleDrawer()
     }
 
     return (

@@ -20,7 +20,7 @@ const Contact = () => {
             <View style={styles.backDark} >
                 <PrimaryHeader notDrawer title='Contact Us' />
                 <View style={styles.backWhite} >
-                    <ScrollView contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+                    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
                         <FastImage
                             source={IMAGES.darkLogo}
                             style={styles.userImage}

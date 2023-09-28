@@ -11,12 +11,15 @@ import navServices from '../others/utils/navServices'
 import PrimaryHeader from '../components/reusables/PrimaryHeader'
 import AlertModal from '../components/reusables/AlertModal'
 import DeviceInfo from 'react-native-device-info';
+import ToggleSwitch from 'toggle-switch-react-native'
+import { fontFamily } from '../others/utils/fonts'
 
 
 const CustomDrawer = (props: any) => {
     const [routeName, setrouteName] = useState('Hometab')
     const [modal, setmodal] = useState('')
     const isTablet = DeviceInfo.isTablet();
+    const [toggle, settoggle] = useState(false)
 
     return (
         <View style={styles.backDark} >
@@ -75,6 +78,38 @@ const CustomDrawer = (props: any) => {
                             paddingVertical: 0,
                             marginVertical: 0,
                         }}
+                        activeTintColor='red'
+                        onPress={() => settoggle(!toggle)}
+                        label={({ focused, color }) => (
+                            <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { width: width - 115 }]}>
+                                <AppText FONT_16 bold color={colors.darkGreen} children={"Language"} />
+                                <ToggleSwitch
+                                    isOn={toggle}
+                                    onColor={'#4bb04f'}
+                                    offColor={colors.darkGreen}
+                                    label={toggle ? 'AR' : 'EN'}
+                                    labelStyle={{ color: "black", fontFamily: fontFamily[600] }}
+                                    size="small"
+                                    onToggle={settoggle}
+                                />
+                            </View>
+                        )}
+                        icon={({ focused, color, size }) => (
+                            <FastImage
+                                source={IMAGES['Layer23']}
+                                style={{
+                                    width: mvs(20),
+                                    height: mvs(20)
+                                }}
+                                resizeMode='contain'
+                            />
+                        )} />
+                    <DrawerItem
+                        labelStyle={{
+                            height: mvs(48),
+                            paddingVertical: 0,
+                            marginVertical: 0,
+                        }}
                         onPress={() => setmodal('signout')}
                         label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={"Logout"} />)}
                         icon={({ focused, color, size }) => (
@@ -87,56 +122,18 @@ const CustomDrawer = (props: any) => {
                                 resizeMode='contain'
                             />
                         )} />
-                    {/* {
-                        props.data.map((item: any, index: number) => {
-                            return (
-                                <TouchableOpacity
-                                  
-                                    style={[styles.items, { backgroundColor: isFocus ? colors.darkGreen1 : 'transparent' }]} key={index}>
-                                    <FastImage
-                                        source={IMAGES[item.icon]}
-                                        style={{
-                                            width: mvs(25),
-                                            height: mvs(25)
-                                        }}
-                                        tintColor={isFocus ? colors.WHITE : colors.BLACK}
-                                        resizeMode='contain'
-                                    />
-                                    <AppText color={isFocus ? colors.WHITE : colors.BLACK} FONT_18 Medium children={'     ' + item.label} />
-                                </TouchableOpacity>
-                            )
-                        })
-                    }
-                <TouchableOpacity style={styles.items2} onPress={() => {
-                    setrouteName('')
-                    setmodal('delete')
-                }}>
-                    <AnyIcon name='deleteuser' type={Icons.AntDesign} size={27} disabled />
-                    <AppText FONT_18 Medium children={'   Delete Account'} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.items1} onPress={() => {
-                    setrouteName('')
-                    setmodal('signout')
-                }}>
-                    <FastImage
-                        source={IMAGES['logoutIcon']}
-                        style={{
-                            width: mvs(25),
-                            height: mvs(25)
-                        }}
-                        resizeMode='contain'
-                    />
-                    <AppText FONT_18 Medium children={'     Sign Out'} />
-                </TouchableOpacity> */}
+
                 </DrawerContentScrollView>
                 {/* footer */}
-
+                <View >
+                    <AppText color={colors.GRAY} style={{ marginVertical: 10 }} center children={'Version 1.0.0'} />
+                </View>
             </View>
 
             {
                 modal == 'signout' &&
                 <AlertModal
-                    setmodalvisible={setmodal}
+                    setmodalvisible={() => { setmodal('') }}
                     title='Sign Out'
                     description='Are you sure you want to Sign Out?'
                 />
