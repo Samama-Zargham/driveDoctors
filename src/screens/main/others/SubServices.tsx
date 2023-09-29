@@ -96,7 +96,7 @@ const SubServices = () => {
                             })
                         }
                     </ScrollView>
-                    <PrimaryButton containerStyle={styles.btn} onPress={() => navServices.navigate('PickUp')} title='Continue' />
+                    <PrimaryButton containerStyle={styles.btn} onPress={() => navServices.navigate('Home')} title='Continue' />
                 </View>
             </View>
         </BaseScreen>

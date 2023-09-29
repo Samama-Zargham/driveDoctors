@@ -11,7 +11,7 @@ import navServices from '../../others/utils/navServices'
 const ForgetPassword = () => {
     return (
         <ImageBackground
-            resizeMode='stretch'
+            resizeMode='cover'
             style={{ flex: 1 }} source={IMAGES['login2']}>
             <View style={styles.ForgetPassword}>
                 <AppText bold FONT_22 children='Forget Password' color={colors.WHITE} />

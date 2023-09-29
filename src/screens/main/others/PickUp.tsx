@@ -13,13 +13,7 @@ import DatePicker from '../../../components/datePicker'
 import navServices from '../../../others/utils/navServices'
 
 const PickUp = () => {
-    const [pickUpType, setpickUpType] = useState([])
-    useEffect(() => {
-        if (pickUpType == 1) {
-            navServices.navigate('MachanicContact')
-        }
-    }, [pickUpType])
-
+    const [pickUpType, setpickUpType] = useState()
     const [date, setdate] = useState('')
     const [time, settime] = useState('')
     const data = [
@@ -75,7 +69,12 @@ const PickUp = () => {
                         {data.map((_: any, i: number) => {
                             return (
                                 <TouchableOpacity
-                                    onPress={() => setpickUpType(_?.id)}
+                                    onPress={() => {
+                                        setpickUpType(_?.id)
+                                        if (_?.id == 1) {
+                                            navServices.navigate('MapScreen')
+                                        }
+                                    }}
                                     activeOpacity={0.9}
                                     key={i} style={[styles.carcare, { backgroundColor: pickUpType == _.id ? colors.parrot : colors.WHITE }]} >
                                     <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={_?.title} />
@@ -87,24 +86,36 @@ const PickUp = () => {
                                 </TouchableOpacity>
                             )
                         })}
-                        <AppText FONT_18 bold color={colors.darkGreen2} children={'Date and Time'} />
-                        <DatePicker date={date} setDate={setdate} />
-                        <View style={styles.scrollContent}>
-                            {
-                                timeArray?.map((_: any, i: number) => {
-                                    return (
-                                        <TouchableOpacity
-                                            activeOpacity={0.9}
-                                            onPress={() => settime(_)}
-                                            key={i} style={[styles.time, { backgroundColor: time == _ ? colors.parrot : colors.WHITE }]} >
-                                            <AppText Medium style={{ padding: 2 }} children={_} />
-                                        </TouchableOpacity>
-                                    )
-                                })
-                            }
-                        </View>
+                        {pickUpType &&
+                            <>
+                                <AppText FONT_18 bold color={colors.darkGreen2} children={'Date and Time'} />
+                                <DatePicker date={date} setDate={setdate} />
+                            </>
+                        }
+                        {date &&
+                            <>
+                                <AppText style={{ marginTop: 18 }} FONT_18 bold color={colors.darkGreen2} children={'Select time slot'} />
+                                <View style={styles.scrollContent}>
+                                    {
+                                        timeArray?.map((_: any, i: number) => {
+                                            return (
+                                                <TouchableOpacity
+                                                    activeOpacity={0.9}
+                                                    onPress={() => settime(_)}
+                                                    key={i} style={[styles.time, { backgroundColor: time == _ ? colors.parrot : colors.WHITE }]} >
+                                                    <AppText Medium style={{ padding: 2 }} children={_} />
+                                                </TouchableOpacity>
+                                            )
+                                        })
+                                    }
+                                </View>
+                            </>
+                        }
+                        {
+                            time &&
+                            <PrimaryButton onPress={() => { navServices.navigate('MachanicContact') }} title='Continue' />
+                        }
                     </ScrollView>
-                    <PrimaryButton onPress={() => { navServices.navigate('CarDetails') }} title='Continue' />
                 </View>
             </View>
         </BaseScreen>

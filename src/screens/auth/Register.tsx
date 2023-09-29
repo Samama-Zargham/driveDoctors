@@ -11,7 +11,7 @@ import navServices from '../../others/utils/navServices'
 const Register = () => {
     return (
         <ImageBackground
-            resizeMode='stretch'
+            resizeMode='cover'
             style={{ flex: 1 }} source={IMAGES['login']}>
             <View style={styles.register}>
                 <AppText bold FONT_22 children='Register' color={colors.WHITE} />

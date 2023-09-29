@@ -31,7 +31,7 @@ const MapScreen = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader notDrawer title='Location' />
+                <PrimaryHeader notDrawer title='Add Your location' />
                 <View style={styles.backWhite} >
                     <AppText style={{ paddingLeft: mvs(30) }} children={'Please Select your Location'} color='white' />
                     <View style={styles.backWhite1} >
@@ -151,7 +151,7 @@ const MapInput = ({ setMarkerCoordinate, setLocation }: any) => {
 
     return (
         <GooglePlacesAutocomplete
-            placeholder={"Find a location..."}
+            placeholder={"Find your location"}
             listViewDisplayed={false}
             styles={styles.google}
             query={{

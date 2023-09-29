@@ -1,4 +1,4 @@
-import { Animated, Platform, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Animated, Platform, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import AppText from '../../../components/AppText'
@@ -11,14 +11,20 @@ import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import navServices from '../../../others/utils/navServices'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import LinearGradient from 'react-native-linear-gradient'
+import BaseModal from '../../../components/reusables/BaseModal'
+import PrimaryInput from '../../../components/reusables/PrimaryInput'
+import { fontFamily } from '../../../others/utils/fonts'
+import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 
 const Home = () => {
     const [selectedServices, setselectedServices] = useState([])
+    const [modal, setmodal] = useState('')
     const [services, setservices] = useState([
         {
             id: 1,
-            name: 'Car Repair',
-            icon: IMAGES['Layer7']
+            name: 'Car Diagnostic',
+            icon: IMAGES['Layer7'],
+            onPress: (item: any) => setmodal(item?.name)
         },
         {
             id: 2,
@@ -33,7 +39,8 @@ const Home = () => {
         {
             id: 4,
             name: 'AC Repair',
-            icon: IMAGES['Layer10']
+            icon: IMAGES['Layer10'],
+            onPress: (item: any) => setmodal(item?.name)
         },
         {
             id: 5,
@@ -42,8 +49,9 @@ const Home = () => {
         },
         {
             id: 6,
-            name: 'Car Diagnostics',
-            icon: IMAGES['Layer14']
+            name: 'Car Repair',
+            icon: IMAGES['Layer14'],
+            onPress: (item: any) => navServices.navigate('SubServices', { item })
         },
     ])
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -106,22 +114,23 @@ const Home = () => {
                         <View style={styles.scrollContent} >
                             {
                                 services.map((item: services, idx: number) => {
-                                    // const foundElement: any = selectedServices.find((i: services) => i.id == item.id);
+                                    const foundElement: any = selectedServices.find((i: services) => i.id == item.id);
                                     return (
                                         <Animated.View
                                             key={idx}
-                                            style={{ opacity: animatedValues[idx], width: '47%' }}
-                                        >
+                                            style={{ opacity: animatedValues[idx], width: '47%' }}>
                                             <LinearGradient
                                                 style={styles.service}
                                                 start={{ x: 0, y: 2 }} end={{ x: 1.5, y: 0 }}
-                                                colors={[colors.parrot, colors.parrot2, colors.parrot2]} >
+                                                colors={foundElement?.id ? [colors.parrot, colors.parrot] : [colors.parrot, colors.parrot2, colors.parrot2]} >
                                                 <TouchableOpacity
                                                     activeOpacity={0.7}
-                                                    onPress={() => navServices.navigate('SubServices', { item })}
-                                                // onPress={() => SelectUnSelectItems(item, selectedServices, setselectedServices)}
-                                                // style={[styles.service, { backgroundColor: foundElement?.id ? colors.parrot : colors.parrot2 }]}
-                                                >
+                                                    onPress={() => {
+                                                        if (!foundElement?.id && item?.onPress) {
+                                                            item?.onPress(item)
+                                                        }
+                                                        SelectUnSelectItems(item, selectedServices, setselectedServices)
+                                                    }} >
                                                     <AppText Medium children={item.name} />
                                                     <FastImage
                                                         source={item.icon}
@@ -135,7 +144,15 @@ const Home = () => {
                                 })
                             }
                         </View>
+                        {
+                            selectedServices.length > 0 &&
+                            <PrimaryButton onPress={() => navServices.navigate('CarDetails')} title='Continue' />
+                        }
                     </ScrollView>
+                    {
+                        modal &&
+                        <InputModal modal={modal} setmodal={setmodal} />
+                    }
                 </View>
             </View>
         </BaseScreen>
@@ -143,12 +160,54 @@ const Home = () => {
 }
 
 export default Home
+const InputModal = ({ setmodal, modal }: any) => {
+    const handleModal = () => setmodal(false)
+    const [txt, settxt] = useState('')
+    const handleReset = () => {
 
+    }
+    return (
+        <BaseModal
+            containerStyle={{ paddingBottom: mvs(5), width: '85%', overflow: "hidden" }}
+            modalvisible={true}
+            toggleModal={() => setmodal(false)}>
+
+            <AppText FONT_18 style={{ marginBottom: mvs(10) }} semiBold children={modal} />
+            <TextInput
+                style={styles.input}
+                multiline={true}
+                onChangeText={settxt}
+                placeholder={'Describe the issue you are facing...'}
+            />
+            <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >
+                <PrimaryButton onPress={handleReset} isBorder width={'47%'} title='Reset' />
+                <PrimaryButton
+                    onPress={() => {
+                        handleModal()
+                        navServices.navigate('Login')
+                    }}
+                    disabled={!txt}
+                    width={'47%'}
+                    title='Submit' />
+            </View>
+        </BaseModal>
+    )
+}
 const styles = StyleSheet.create({
+    input: {
+        width: "100%",
+        backgroundColor: colors.WHITE,
+        borderRadius: 6,
+        height: mvs(120),
+        textAlignVertical: "top",
+        padding: 10,
+        fontFamily: fontFamily[400],
+        alignSelf: "center"
+    },
     backDark: { flex: 1, backgroundColor: colors.darkGreen },
     icon: {
-        width: mvs(100),
-        height: mvs(70),
+        width: mvs(90),
+        height: mvs(65),
         alignSelf: "flex-end",
         left: mvs(20),
         top: mvs(10),
@@ -195,5 +254,6 @@ const styles = StyleSheet.create({
 type services = {
     id: number,
     name: string,
-    icon: any
+    icon: any,
+    onPress?: any
 }

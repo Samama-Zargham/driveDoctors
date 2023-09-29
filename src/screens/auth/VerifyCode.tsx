@@ -27,7 +27,7 @@ const VerifyCode = () => {
 
     return (
         <ImageBackground
-            resizeMode='stretch'
+            resizeMode='cover'
             style={{ flex: 1 }} source={IMAGES['login2']}>
             <View style={styles.VerifyCode}>
                 <AppText bold FONT_22 children='Code Verification' color={colors.WHITE} />

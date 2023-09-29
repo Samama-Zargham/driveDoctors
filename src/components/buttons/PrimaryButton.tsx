@@ -20,12 +20,16 @@ const PrimaryButton: React.FC<Props> = ({
     width,
     isBorder = false
 }) => {
+    console.log(disabled)
     return (
         <TouchableOpacity
             onPress={onPress}
             activeOpacity={0.8}
             disabled={disabled}
-            style={[styles.btn, containerStyle, width ? { width } : {}, isBorder ? { borderColor: colors.darkGreen, borderWidth: 1 } : {}, { backgroundColor: colors[disabled ? 'SILVER' : isBorder ? 'parrot2' : 'parrot'] }]}>
+            style={[styles.btn, containerStyle,
+            width ? { width } : {},
+            isBorder ? { borderColor: colors.darkGreen, borderWidth: 1 } : {},
+            { backgroundColor: disabled ? '#cecece' : colors[isBorder ? 'parrot2' : 'parrot'] }]}>
             <AppText FONT_18 Medium children={title} />
         </TouchableOpacity>
     )

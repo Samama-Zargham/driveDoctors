@@ -50,7 +50,7 @@ const MachanicContact = () => {
                         </View>
 
 
-                        <PrimaryButton onPress={() => navServices.navigate('MapScreen')} title='View Location Map' />
+                        <PrimaryButton onPress={() => navServices.navigate('CalculateCharges')} title='Continue' />
 
                     </ScrollView>
                 </View>

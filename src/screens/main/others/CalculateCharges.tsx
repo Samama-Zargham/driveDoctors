@@ -37,20 +37,16 @@ const CalculateCharges = () => {
                                     quantity: 1
                                 },
                                 {
-                                    name: 'Car Repair',
-                                    quantity: 1
-                                },
-                                {
                                     name: 'Car AC Repair',
                                     quantity: 1
                                 },
                                 {
                                     name: 'Labour Charges',
-                                    amount: '250'
+                                    amount: '100'
                                 },
                                 {
                                     name: 'Total',
-                                    amount: '250'
+                                    amount: '350'
                                 }
                             ].map((item: any, index: number) => {
                                 return (
@@ -61,13 +57,14 @@ const CalculateCharges = () => {
                                                 {
                                                     item.quantity ?
                                                         <>
-                                                            <AppText FONT_10 bold children={'X'} />
-                                                            <AppText FONT_18 Medium children={'1'} />
+                                                            <AppText bold children={'125' + '   '} />
+                                                            <AppText color={colors.parrot} FONT_10 bold children={'X'} />
+                                                            <AppText color={colors.parrot} FONT_18 Medium children={'1'} />
                                                         </>
                                                         :
                                                         <>
-                                                            <AppText FONT_16 bold children={'250'} />
-                                                            <AppText FONT_12 color={colors.parrot} Medium children={' QAR'} />
+                                                            <AppText FONT_16 bold children={item.amount} />
+                                                            <AppText FONT_12 color={colors.parrot} Medium children={'   ' + 'QAR'} />
                                                         </>
                                                 }
 

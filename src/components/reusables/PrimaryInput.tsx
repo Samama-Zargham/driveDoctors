@@ -24,6 +24,7 @@ const PrimaryInput: React.FC<Props> = ({
         minHeight: mvs(130),
         padding: mvs(10),
         flex: 1,
+        textAlignVertical: "top"
     };
     return (
         <View style={{ marginTop: mvs(top), width: "100%" }}>
@@ -31,7 +32,7 @@ const PrimaryInput: React.FC<Props> = ({
             <View style={[styles.input, { ...(multiLine && multiinput) }]}>
                 {location && <AnyIcon type={Icons.Ionicons} name='location-sharp' size={30} />}
                 <TextInput
-                    style={{ flex: 1 }}
+                    style={{ flex: 1, }}
                     multiline={multiLine}
                     placeholder={placeholder}
                 />

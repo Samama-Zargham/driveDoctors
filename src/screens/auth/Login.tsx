@@ -11,7 +11,7 @@ import navServices from '../../others/utils/navServices'
 const Login = () => {
     return (
         <ImageBackground
-            resizeMode='stretch'
+            resizeMode='cover'
             style={{ flex: 1 }} source={IMAGES['login2']}>
             <View style={styles.login}>
                 <AppText bold FONT_22 children='Sign In' color={colors.WHITE} />
