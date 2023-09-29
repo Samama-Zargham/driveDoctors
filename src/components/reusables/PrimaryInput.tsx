@@ -32,7 +32,10 @@ const PrimaryInput: React.FC<Props> = ({
             <View style={[styles.input, { ...(multiLine && multiinput) }]}>
                 {location && <AnyIcon type={Icons.Ionicons} name='location-sharp' size={30} />}
                 <TextInput
-                    style={{ flex: 1, }}
+                    style={{
+                        flex: 1,
+                        height: mvs(multiLine ? 150 : 60),
+                    }}
                     multiline={multiLine}
                     placeholder={placeholder}
                 />

@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { TextStyle, View, ViewStyle } from "react-native";
+import { Platform, TextStyle, View, ViewStyle } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COMMON_STYLES } from "../../others/utils/commonStyles";
@@ -64,18 +64,19 @@ const BaseScreen: React.FC<Props> = ({
     }
     else return (
         <SafeAreaView
-            edges={edges || ["right", "top", "left"]}
-            style={[
-                generalWidth && { ...COMMON_STYLES.GeneralWidth },
-                { flex: 1, },
-                isBorderRadius && { borderRadius: 10, },
-                isbackgroundColor && { backgroundColor: "#FFFFFF" },
-                containerStyle,
-            ]}>
+            edges={Platform.OS == 'ios' ? ["right", "left"] : ["right", "top", "left"]}
+            style={
+                [
+                    generalWidth && { ...COMMON_STYLES.GeneralWidth },
+                    { flex: 1, },
+                    isBorderRadius && { borderRadius: 10, },
+                    isbackgroundColor && { backgroundColor: "#FFFFFF" },
+                    containerStyle,
+                ]} >
             <View style={{ flex: 1 }}>
                 {children}
             </View>
-        </SafeAreaView>
+        </SafeAreaView >
     );
 }
 export default BaseScreen;
