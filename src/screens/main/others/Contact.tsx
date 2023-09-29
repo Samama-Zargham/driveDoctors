@@ -18,7 +18,7 @@ const Contact = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader notDrawer title='Contact Us' />
+                <PrimaryHeader title='Contact Us' />
                 <View style={styles.backWhite} >
                     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
                         <FastImage

@@ -20,7 +20,6 @@ import PickUp from '../screens/main/others/PickUp';
 import CarDetails from '../screens/main/others/CarDetails';
 import CalculateCharges from '../screens/main/others/CalculateCharges';
 import Contact from '../screens/main/others/Contact';
-import SubServices from '../screens/main/others/SubServices';
 import MachanicContact from '../screens/main/others/MachanicContact';
 import MapScreen from '../screens/main/others/MapScreen';
 import ForgetPassword from '../screens/auth/ForgetPassword';
@@ -48,16 +47,11 @@ function MainStack() {
             <Stack.Screen name="PickUp" component={PickUp} />
             <Stack.Screen name="CarDetails" component={CarDetails} />
             <Stack.Screen name="CalculateCharges" component={CalculateCharges} />
-            <Stack.Screen name="Contact" component={Contact} />
-            <Stack.Screen name="SubServices" component={SubServices} />
             <Stack.Screen name="MachanicContact" component={MachanicContact} />
             <Stack.Screen name="MapScreen" component={MapScreen} />
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="VerifyCode" component={VerifyCode} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
-            <Stack.Screen name="Disclaimer" component={Disclaimer} />
-            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
-            <Stack.Screen name="RateUs" component={RateUs} />
 
         </Stack.Navigator>
     );
@@ -198,24 +192,24 @@ const DrawerItems = [
         route: 'Home',
         component: BottomTab,
     },
-    // {
-    //     label: "Bookings",
-    //     icon: "Layer18",
-    //     route: 'booking',
-    //     component: Bookings,
-    // },
+    {
+        label: "Bookings",
+        icon: "Layer18",
+        route: 'booking',
+        component: Bookings,
+    },
     {
         label: "Listed Cars",
         icon: "Layer21",
         route: 'CarDetails',
         component: CarDetails,
     },
-    // {
-    //     label: "Notifications",
-    //     icon: "Layer16",
-    //     route: 'Notification',
-    //     component: Notifications,
-    // },
+    {
+        label: "Notifications",
+        icon: "Layer16",
+        route: 'Notification',
+        component: Notifications,
+    },
     {
         label: "Contact",
         icon: "Layer20",

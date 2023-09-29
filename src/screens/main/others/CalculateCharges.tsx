@@ -8,18 +8,26 @@ import { colors } from '../../../others/utils/colors'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import { COMMON_STYLES } from '../../../others/utils/commonStyles'
-import navServices from '../../../others/utils/navServices'
 import BaseModal from '../../../components/reusables/BaseModal'
 import LottieView from 'lottie-react-native'
+import { CommonActions, useNavigation } from '@react-navigation/native'
 
 const CalculateCharges = () => {
     const [modal, setmodal] = useState(false)
-
+    const nav = useNavigation()
     const handleBookNow = () => {
         setmodal(true)
         setTimeout(() => {
             setmodal(false)
-            navServices.navigate('Home')
+            nav.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [
+                        { name: 'Home' }
+                    ],
+                })
+            );
+            nav.navigate('Home')
         }, 3200);
     }
     return (

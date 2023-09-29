@@ -12,15 +12,20 @@ import FastImage from 'react-native-fast-image'
 import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import { IMAGES } from '../../../assets/images'
 import navServices from '../../../others/utils/navServices'
+import { useRoute } from '@react-navigation/native'
 
 const CarDetails = () => {
+    const route = useRoute();
+    const isDrawer = route.name === 'CarDetails';
+
     const [carMake, setcarMake] = useState('')
     const [carModal, setcarModal] = useState('')
     const [selectedCar, setselectedCar] = useState('')
+
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader notDrawer title='Car Details' />
+                <PrimaryHeader notDrawer={isDrawer} title='Car Details' />
                 <View style={styles.backWhite} >
                     <ScrollView style={{ flex: 1 }}
                         nestedScrollEnabled={true}

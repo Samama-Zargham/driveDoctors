@@ -1,4 +1,4 @@
-import { Animated, Platform, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import { Animated, Platform, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import AppText from '../../../components/AppText'
@@ -11,14 +11,13 @@ import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import navServices from '../../../others/utils/navServices'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import LinearGradient from 'react-native-linear-gradient'
-import BaseModal from '../../../components/reusables/BaseModal'
-import PrimaryInput from '../../../components/reusables/PrimaryInput'
-import { fontFamily } from '../../../others/utils/fonts'
-import { COMMON_STYLES } from '../../../others/utils/commonStyles'
+import ServiceModal from './ServiceModal'
 
 const Home = () => {
     const [selectedServices, setselectedServices] = useState([])
     const [modal, setmodal] = useState('')
+    const [state, setState] = useState('')
+    const [selectedItem, setselectedItem] = useState({})
     const [services, setservices] = useState([
         {
             id: 1,
@@ -51,11 +50,13 @@ const Home = () => {
             id: 6,
             name: 'Car Repair',
             icon: IMAGES['Layer14'],
-            onPress: (item: any) => navServices.navigate('SubServices', { item })
+            onPress: (item: any) => setmodal(item?.name),
+            isSubService: true
         },
     ])
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(-100)).current;
+
 
     useEffect(() => {
         const fadeIn = Animated.timing(fadeAnim, {
@@ -88,8 +89,28 @@ const Home = () => {
         Animated.stagger(200, animations).start(); // Start animations in sequence with a stagger
 
     }, [animatedValues, services]);
-
-
+    const handleReset = () => {
+        delete state[modal]
+        SelectUnSelectItems(selectedItem, selectedServices, setselectedServices)
+        setmodal('')
+    }
+    const handleSumit = (newItem: any) => {
+        setState((pre: any) => ({ ...pre, [modal]: newItem }))
+        setmodal('')
+    }
+    const Modal = React.useMemo(() => {
+        if (modal) {
+            return (<ServiceModal
+                state={state}
+                handleReset={handleReset}
+                setState={setState}
+                modal={modal}
+                handleSumit={handleSumit}
+                setmodal={setmodal}
+                item={selectedItem}
+            />)
+        } else null
+    }, [modal])
     return (
         <BaseScreen>
             <View style={styles.backDark} >
@@ -119,40 +140,38 @@ const Home = () => {
                                         <Animated.View
                                             key={idx}
                                             style={{ opacity: animatedValues[idx], width: '47%' }}>
-                                            <LinearGradient
-                                                style={styles.service}
-                                                start={{ x: 0, y: 2 }} end={{ x: 1.5, y: 0 }}
-                                                colors={foundElement?.id ? [colors.parrot, colors.parrot] : [colors.parrot, colors.parrot2, colors.parrot2]} >
-                                                <TouchableOpacity
-                                                    activeOpacity={0.7}
-                                                    onPress={() => {
-                                                        if (!foundElement?.id && item?.onPress) {
-                                                            item?.onPress(item)
-                                                        }
+                                            <TouchableOpacity
+                                                activeOpacity={0.7}
+                                                onPress={() => {
+                                                    setselectedItem(item)
+                                                    if (state[item?.name]) {
+                                                        item?.onPress(item)
+                                                    }
+                                                    else {
+                                                        item?.onPress && item?.onPress(item)
                                                         SelectUnSelectItems(item, selectedServices, setselectedServices)
-                                                    }} >
+                                                    }
+                                                }} >
+                                                <LinearGradient
+                                                    style={styles.service}
+                                                    start={{ x: 0, y: 2 }} end={{ x: 1.5, y: 0 }}
+                                                    colors={foundElement?.id ? [colors.parrot, colors.parrot] : [colors.parrot, colors.parrot2, colors.parrot2]} >
                                                     <AppText Medium children={item.name} />
                                                     <FastImage
                                                         source={item.icon}
                                                         resizeMode='contain'
                                                         style={styles.icon}
                                                     />
-                                                </TouchableOpacity>
-                                            </LinearGradient>
+                                                </LinearGradient>
+                                            </TouchableOpacity>
                                         </Animated.View>
                                     )
                                 })
                             }
                         </View>
-                        {
-                            selectedServices.length > 0 &&
-                            <PrimaryButton onPress={() => navServices.navigate('CarDetails')} title='Continue' />
-                        }
+                        <PrimaryButton disabled={!selectedServices[0]?.id} onPress={() => navServices.navigate('CarDetails')} title='Continue' />
                     </ScrollView>
-                    {
-                        modal &&
-                        <InputModal modal={modal} setmodal={setmodal} />
-                    }
+                    {Modal}
                 </View>
             </View>
         </BaseScreen>
@@ -160,50 +179,8 @@ const Home = () => {
 }
 
 export default Home
-const InputModal = ({ setmodal, modal }: any) => {
-    const handleModal = () => setmodal(false)
-    const [txt, settxt] = useState('')
-    const handleReset = () => {
 
-    }
-    return (
-        <BaseModal
-            containerStyle={{ paddingBottom: mvs(5), width: '85%', overflow: "hidden" }}
-            modalvisible={true}
-            toggleModal={() => setmodal(false)}>
-
-            <AppText FONT_18 style={{ marginBottom: mvs(10) }} semiBold children={modal} />
-            <TextInput
-                style={styles.input}
-                multiline={true}
-                onChangeText={settxt}
-                placeholder={'Describe the issue you are facing...'}
-            />
-            <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >
-                <PrimaryButton onPress={handleReset} isBorder width={'47%'} title='Reset' />
-                <PrimaryButton
-                    onPress={() => {
-                        handleModal()
-                        navServices.navigate('Login')
-                    }}
-                    disabled={!txt}
-                    width={'47%'}
-                    title='Submit' />
-            </View>
-        </BaseModal>
-    )
-}
 const styles = StyleSheet.create({
-    input: {
-        width: "100%",
-        backgroundColor: colors.WHITE,
-        borderRadius: 6,
-        height: mvs(120),
-        textAlignVertical: "top",
-        padding: 10,
-        fontFamily: fontFamily[400],
-        alignSelf: "center"
-    },
     backDark: { flex: 1, backgroundColor: colors.darkGreen },
     icon: {
         width: mvs(90),

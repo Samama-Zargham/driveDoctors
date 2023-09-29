@@ -11,7 +11,7 @@ const Disclaimer = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader notDrawer title='Disclaimer' />
+                <PrimaryHeader title='Disclaimer' />
                 <View style={styles.backWhite} >
 
                 </View>

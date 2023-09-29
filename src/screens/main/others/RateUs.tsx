@@ -21,7 +21,7 @@ const RateUs = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader notDrawer title='Rate Us' />
+                <PrimaryHeader title='Rate Us' />
                 <View style={styles.backWhite} >
                     <KeyboardAwareScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
                         <FastImage

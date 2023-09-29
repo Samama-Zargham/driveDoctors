@@ -11,7 +11,7 @@ const PrivacyPolicy = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader notDrawer title='Privacy Policy' />
+                <PrimaryHeader title='Privacy Policy' />
                 <View style={styles.backWhite} >
 
                 </View>

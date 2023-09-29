@@ -269,9 +269,9 @@ export const formatDate = (date: Date | string, format: string = "YYYY-MM-DD", u
     return format ? momentDate.format(format) : momentDate.format('YYYY-MM-DD');
 };
 const SelectUnSelectItems = async (item: any, array: Array<any>, setState: any) => {
-    var selectedItems = Object.assign([], array)
-    if (selectedItems.filter(i => i.id == item.id).length > 0) {
-        selectedItems = selectedItems.filter(i => i.id !== item.id)
+    let selectedItems = Object.assign([], array)
+    if (selectedItems?.filter(i => i.id == item.id).length > 0) {
+        selectedItems = selectedItems?.filter(i => i.id !== item.id)
     }
     else {
         selectedItems.push(item)
