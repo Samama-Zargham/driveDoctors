@@ -12,10 +12,11 @@ const Splash = () => {
         }, 1500);
     }, [])
 
-    if (splash) return (
-        <ImageBackground style={{ flex: 1 }} source={IMAGES['splash']} />
-    )
-    else return <View style={{ flex: 1, backgroundColor: colors.parrot2 }}>
+    // if (splash) return (
+    //     <ImageBackground style={{ flex: 1 }} source={IMAGES['splash']} />
+    // )
+    // else
+     return <View style={{ flex: 1, backgroundColor: colors.parrot2 }}>
         <LottieView
             autoPlay
             style={{ width: '100%', height: '100%' }}
