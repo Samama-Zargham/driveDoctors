@@ -38,7 +38,7 @@ const Splash = () => {
             style={{ width: '100%', height: '100%' }}
             source={require('../../assets/lottie/splash.json')}
         /> */}
-        <Animated.View
+        {/* <Animated.View
             style={{
                 opacity: fadeAnim,
                 transform: [{ translateX: slideAnim }],
@@ -57,7 +57,7 @@ const Splash = () => {
                     borderRadius: 20
                 }}
                 source={IMAGES['darkLogo']} />
-        </Animated.View>
+        </Animated.View> */}
 
     </View>
 }
