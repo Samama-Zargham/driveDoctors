@@ -15,7 +15,7 @@ const ForgetPassword = () => {
             style={{ flex: 1 }} source={IMAGES['login2']}>
             <View style={styles.ForgetPassword}>
                 <AppText bold FONT_22 children='Forget Password' color={colors.WHITE} />
-                <PrimaryInput top={10} placeholder='Email' />
+                <PrimaryInput top={10} placeholder='Enter your phone number' />
                 <PrimaryButton onPress={() => navServices.navigate('VerifyCode')} title='Forget' />
                 <TouchableOpacity onPress={() => navServices.navigate('Login')} style={{ padding: 5 }} >
                     <AppText Medium center children={`back to login`} color={colors.WHITE} />

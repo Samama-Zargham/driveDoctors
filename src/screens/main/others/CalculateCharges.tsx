@@ -16,9 +16,9 @@ const CalculateCharges = () => {
     const [modal, setmodal] = useState(false)
     const nav = useNavigation()
     const handleBookNow = () => {
-        setmodal(true)
+        // setmodal(true)
         setTimeout(() => {
-            setmodal(false)
+            // setmodal(false)
             nav.dispatch(
                 CommonActions.reset({
                     index: 0,
@@ -28,7 +28,7 @@ const CalculateCharges = () => {
                 })
             );
             nav.navigate('Home')
-        }, 3200);
+        }, 200);
     }
     return (
         <BaseScreen>
@@ -65,9 +65,10 @@ const CalculateCharges = () => {
                                                 {
                                                     item.quantity ?
                                                         <>
-                                                            <AppText bold children={'125' + '   '} />
-                                                            <AppText color={colors.parrot} FONT_10 bold children={'X'} />
-                                                            <AppText color={colors.parrot} FONT_18 Medium children={'1'} />
+                                                            <AppText bold children={'125'} />
+                                                            <AppText FONT_12 color={colors.parrot} Medium children={'  QAR' + '   '} />
+                                                            <AppText FONT_10 bold children={'X'} />
+                                                            <AppText FONT_18 Medium children={'1'} />
                                                         </>
                                                         :
                                                         <>

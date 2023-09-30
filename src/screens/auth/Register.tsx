@@ -16,9 +16,9 @@ const Register = () => {
             <View style={styles.register}>
                 <AppText bold FONT_22 children='Register' color={colors.WHITE} />
                 <PrimaryInput top={10} placeholder='Full Name' />
-                <PrimaryInput top={10} placeholder='Email' />
-                <PrimaryInput top={10} placeholder='Password' />
+                {/* <PrimaryInput top={10} placeholder='Phone' /> */}
                 <PrimaryInput top={10} placeholder='Phone Number' />
+                <PrimaryInput top={10} placeholder='Password' />
                 <PrimaryButton onPress={() => navServices.navigate('VerifyCode')} title='Register' />
                 <TouchableOpacity onPress={() => navServices.navigate('Login')} style={{ padding: 5 }} >
                     <AppText Medium center children={`Already have a account? Sign In`} color={colors.WHITE} />

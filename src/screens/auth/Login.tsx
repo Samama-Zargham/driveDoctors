@@ -15,12 +15,12 @@ const Login = () => {
             style={{ flex: 1 }} source={IMAGES['login2']}>
             <View style={styles.login}>
                 <AppText bold FONT_22 children='Sign In' color={colors.WHITE} />
-                <PrimaryInput top={10} placeholder='Email' />
-                <PrimaryInput top={10} placeholder='Password' />
-                <TouchableOpacity onPress={() => navServices.navigate('ForgetPassword')} style={{ padding: 5 }} >
+                <PrimaryInput top={10} placeholder='Phone Number' />
+                {/* <PrimaryInput top={10} placeholder='Password' /> */}
+                {/* <TouchableOpacity onPress={() => navServices.navigate('ForgetPassword')} style={{ padding: 5 }} >
                     <AppText style={{ alignSelf: "flex-end", top: 7 }} Medium center children={`Forget Password? `} color={colors.WHITE} />
-                </TouchableOpacity>
-                <PrimaryButton onPress={() => navServices.navigate('MyDrawer')} title='Sign In' />
+                </TouchableOpacity> */}
+                <PrimaryButton onPress={() => navServices.navigate('VerifyCode')} title='Sign In' />
                 <TouchableOpacity onPress={() => navServices.navigate('Register')} style={{ padding: 5 }} >
                     <AppText Medium center children={`Don't have an account? Sign Up`} color={colors.WHITE} />
                 </TouchableOpacity>

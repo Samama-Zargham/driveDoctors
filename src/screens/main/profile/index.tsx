@@ -27,10 +27,10 @@ const Profile = () => {
                         />
                         <AppText center FONT_18 semiBold children='dummy Name' />
                         <PrimaryInput placeholder='Sam Zar' header='Name' />
-                        <PrimaryInput placeholder='dummy@gmail.com' header='Email' />
+                        {/* <PrimaryInput placeholder='dummy@gmail.com' header='Email' /> */}
                         <PrimaryInput placeholder='+947 3030392388' header='Phone' />
-                        <PrimaryInput placeholder='Password' header='Password' />
-                        <PrimaryInput placeholder='Confirm Password' header='Confirm Password' />
+                        <PrimaryInput placeholder='New Password' header='Password' />
+                        <PrimaryInput placeholder='Confirm New Password' header='Confirm Password' />
 
                         <PrimaryButton title='Save' />
                         <PrimaryButton onPress={() => setmodal('delete')} containerStyle={{ marginTop: 2 }} title='Delete Account' />

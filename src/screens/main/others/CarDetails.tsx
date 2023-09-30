@@ -16,7 +16,7 @@ import { useRoute } from '@react-navigation/native'
 
 const CarDetails = () => {
     const route = useRoute();
-    const isDrawer = route.name === 'CarDetails';
+    const isTab = route.name === 'CarDetails';
 
     const [carMake, setcarMake] = useState('')
     const [carModal, setcarModal] = useState('')
@@ -25,7 +25,7 @@ const CarDetails = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader notDrawer={isDrawer} title='Car Details' />
+                <PrimaryHeader notDrawer={isTab} title='Car Details' />
                 <View style={styles.backWhite} >
                     <ScrollView style={{ flex: 1 }}
                         nestedScrollEnabled={true}
@@ -53,7 +53,7 @@ const CarDetails = () => {
                             })
                         }
 
-                        <PrimaryButton onPress={() => navServices.navigate('PickUp')} title='Save' />
+                        <PrimaryButton onPress={() => { !isTab ? {} : navServices.navigate('PickUp') }} title='Save' />
                     </ScrollView>
                 </View>
             </View>

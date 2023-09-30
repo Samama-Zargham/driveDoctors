@@ -60,7 +60,7 @@ const Bookings = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader title='My Bookings' />
+                <PrimaryHeader title='Bookings' />
                 <View style={styles.backWhite} >
                     <ScrollView contentContainerStyle={{ paddingTop: mvs(20) }} showsVerticalScrollIndicator={false}>
                         {

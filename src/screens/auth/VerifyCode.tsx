@@ -32,7 +32,7 @@ const VerifyCode = () => {
             <View style={styles.VerifyCode}>
                 <AppText bold FONT_22 children='Code Verification' color={colors.WHITE} />
                 <OtpVerification value={val} setValue={setVal} />
-                <PrimaryButton onPress={() => navServices.navigate('Login')} title='Submit' />
+                <PrimaryButton onPress={() => navServices.navigate('MyDrawer')} title='Submit' />
                 <TouchableOpacity onPress={() => { }} style={{ padding: 5 }} >
                     <AppText onPress={() => { if (counter == 0) { setCounter(60) } }} Medium center children={counter == 0 ? `Resend confirmation code?` : counter + ' seconds left'} color={colors.WHITE} />
                 </TouchableOpacity>

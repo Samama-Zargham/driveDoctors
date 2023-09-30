@@ -27,13 +27,13 @@ const Home = () => {
         },
         {
             id: 2,
-            name: 'Car Oil Change',
+            name: 'Change Oil',
             icon: IMAGES['Layer8']
         },
         {
             id: 3,
-            name: 'Battery Replace',
-            icon: IMAGES['Layer9']
+            name: 'Suspension',
+            icon: IMAGES['Layer13copy']
         },
         {
             id: 4,
@@ -43,16 +43,22 @@ const Home = () => {
         },
         {
             id: 5,
-            name: 'Try Change',
+            name: 'Tranmission',
             icon: IMAGES['Layer13copy']
         },
         {
+            id: 7,
+            name: 'Electrical work',
+            icon: IMAGES['Layer7'],
+            onPress: (item: any) => setmodal(item?.name)
+        },
+        {
             id: 6,
-            name: 'Car Repair',
+            name: 'Other Car Repair',
             icon: IMAGES['Layer14'],
             onPress: (item: any) => setmodal(item?.name),
             isSubService: true
-        },
+        }
     ])
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(-100)).current;
