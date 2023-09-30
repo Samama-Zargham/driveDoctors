@@ -13,27 +13,26 @@ import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import { IMAGES } from '../../../assets/images'
 import navServices from '../../../others/utils/navServices'
 import { useRoute } from '@react-navigation/native'
+import BaseModal from '../../../components/reusables/BaseModal'
+import AnyIcon, { Icons } from '../../../components/reusables/AnyIcon'
 
 const CarDetails = () => {
     const route = useRoute();
     const isTab = route.name === 'CarDetails';
-
-    const [carMake, setcarMake] = useState('')
-    const [carModal, setcarModal] = useState('')
     const [selectedCar, setselectedCar] = useState('')
+    const [modal, setmodal] = useState(false)
+
 
     return (
         <BaseScreen>
             <View style={styles.backDark} >
                 <PrimaryHeader notDrawer={isTab} title='Car Details' />
                 <View style={styles.backWhite} >
-                    <ScrollView style={{ flex: 1 }}
+                    <ScrollView contentContainerStyle={{ flex: 1 }} style={{ flex: 1 }}
                         nestedScrollEnabled={true}
                         showsVerticalScrollIndicator={false}>
-                        <PrimaryInput placeholder='ex: ABDC 1234' header='Car Number Plate' />
-                        <DropDown zIndex={2} value={carMake} setValue={setcarMake} header='Car Make' />
-                        <DropDown value={carModal} setValue={setcarModal} header='Car Modal' />
-                        <AppText style={{ marginTop: mvs(20) }} FONT_18 semiBold children={'Select Listed Car'} />
+
+                        <AppText style={{ marginTop: mvs(20) }} FONT_18 semiBold children={'Listed Cars'} />
                         {
                             [1, 2, 3].map((item: any, index: number) => {
                                 return (
@@ -53,15 +52,64 @@ const CarDetails = () => {
                             })
                         }
 
-                        <PrimaryButton onPress={() => { !isTab ? {} : navServices.navigate('PickUp') }} title='Save' />
+                        <PrimaryButton
+                            containerStyle={styles.addCar}
+                            txtColor={colors.WHITE}
+                            backgroundColor={colors.darkGreen}
+                            onPress={() => setmodal(true)}
+                            title='Add New Car' />
+
+
+                        {
+                            isTab &&
+                            <PrimaryButton onPress={() => { navServices.navigate('PickUp') }} title='Continue' />
+                        }
                     </ScrollView>
                 </View>
             </View>
+            {
+                modal &&
+                <AddCar setmodal={setmodal} />
+            }
         </BaseScreen>
     )
 }
 
 export default CarDetails
+
+
+const AddCar = ({ setmodal }: any) => {
+    const [carMake, setcarMake] = useState('')
+    const [carModal, setcarModal] = useState('')
+    return (
+        <BaseModal
+            containerStyle={{ maxHeight: '85%', paddingBottom: 0 }}
+            isBottomSheet
+            modalvisible={true}
+            toggleModal={() => setmodal(false)}>
+            <AppText FONT_24 bold children={'Add Car Details'} />
+            <ScrollView
+                onStartShouldSetResponder={() => true}
+                style={styles.backWhite}
+                showsVerticalScrollIndicator={false}>
+                <PrimaryInput placeholder='ex: ABDC 1234' header='Car Number Plate' />
+                <DropDown zIndex={2} value={carMake} setValue={setcarMake} header='Car Make' />
+                <DropDown value={carModal} setValue={setcarModal} header='Car Modal' />
+                <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 90 }]} >
+                    <PrimaryButton onPress={() => setmodal(false)} isBorder width={'47%'} title='Cancel' />
+                    <PrimaryButton
+                        onPress={() => setmodal(false)}
+                        disabled={!carModal || !carMake}
+                        width={'47%'}
+                        title='Continue' />
+                </View>
+            </ScrollView>
+        </BaseModal>
+    )
+}
+
+
+
 
 const styles = StyleSheet.create({
     backDark: { flex: 1, backgroundColor: colors.darkGreen },
@@ -73,6 +121,13 @@ const styles = StyleSheet.create({
         paddingTop: mvs(20),
         paddingHorizontal: mvs(14),
         flex: 1,
+    },
+    addCar: {
+        position: "absolute",
+        borderRadius: mvs(20),
+        width: '40%',
+        alignSelf: "flex-end",
+        bottom: 20,
     },
     car: {
         width: mvs(60),

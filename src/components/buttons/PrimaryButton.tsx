@@ -1,8 +1,10 @@
-import { StyleProp, StyleSheet, TouchableOpacity, ViewProps } from 'react-native'
+import { StyleProp, StyleSheet, TouchableOpacity, View, ViewProps } from 'react-native'
 import React from 'react'
 import AppText from '../AppText'
 import { colors } from '../../others/utils/colors'
 import { mvs } from '../../others/utils/responsive'
+import { COMMON_STYLES } from '../../others/utils/commonStyles'
+import AnyIcon, { Icons } from '../reusables/AnyIcon'
 
 type Props = {
     title: string,
@@ -10,7 +12,10 @@ type Props = {
     disabled?: any;
     containerStyle?: StyleProp<ViewProps>;
     width?: string | number,
-    isBorder?: boolean
+    isBorder?: boolean,
+    backgroundColor?: string,
+    txtColor?: string;
+    rightIcon?: string
 }
 const PrimaryButton: React.FC<Props> = ({
     title,
@@ -18,9 +23,11 @@ const PrimaryButton: React.FC<Props> = ({
     disabled = false,
     containerStyle = {},
     width,
-    isBorder = false
+    isBorder = false,
+    backgroundColor,
+    txtColor,
+    rightIcon = false
 }) => {
-    console.log(disabled)
     return (
         <TouchableOpacity
             onPress={onPress}
@@ -29,8 +36,11 @@ const PrimaryButton: React.FC<Props> = ({
             style={[styles.btn, containerStyle,
             width ? { width } : {},
             isBorder ? { borderColor: colors.darkGreen, borderWidth: 1 } : {},
-            { backgroundColor: disabled ? '#cecece' : colors[isBorder ? 'parrot2' : 'parrot'] }]}>
-            <AppText FONT_18 Medium children={title} />
+            { backgroundColor: backgroundColor ? backgroundColor : disabled ? '#cecece' : colors[isBorder ? 'parrot2' : 'parrot'] }]}>
+            <View style={COMMON_STYLES.rowDirection}>
+                {rightIcon && <AnyIcon style={{ marginRight: 10 }} size={25} type={Icons.MaterialCommunityIcons} name={rightIcon} />}
+                <AppText color={txtColor ? txtColor : colors.BLACK} FONT_18 Medium children={title} />
+            </View>
         </TouchableOpacity>
     )
 }

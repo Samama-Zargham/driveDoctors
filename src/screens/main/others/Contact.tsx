@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Linking, ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import { mvs, width } from '../../../others/utils/responsive'
@@ -13,7 +13,22 @@ import DeviceInfo from 'react-native-device-info';
 
 const Contact = () => {
     const isTablet = DeviceInfo.isTablet();
-
+    const phoneNumber = '0097451300087'; // Replace with the recipient's phone number
+    let whatsapp = `whatsapp://send?phone=${phoneNumber}`;
+    let phone = `tel:${phoneNumber}`
+    const handlePress = (url: any) => {
+        if (phoneNumber.length < 10) {
+            alert('Please insert correct WhatsApp number');
+            return;
+        }
+        Linking.openURL(url)
+            .then((data) => {
+                console.log('WhatsApp Opened', { data });
+            })
+            .catch(() => {
+                alert('Make sure Whatsapp installed on your device');
+            })
+    };
 
     return (
         <BaseScreen>
@@ -26,10 +41,19 @@ const Contact = () => {
                             style={styles.userImage}
                             resizeMode='contain'
                         />
-                        <PrimaryInput placeholder='ex: dummy@gmail.com' header='Email' />
-                        <PrimaryInput multiLine placeholder='Write a note...' header='Note' />
-                        <View style={{ marginTop: isTablet ? '60%' : '70%' }} />
-                        <PrimaryButton onPress={() => navServices.navigate('Home')} title='Submit' />
+                        {/* <PrimaryInput placeholder='ex: 303024802348' header='Phone' />
+                        <PrimaryInput multiLine placeholder='Write a note...' header='Note' /> */}
+                        <View style={{ marginTop: isTablet ? '10%' : '20%' }} />
+                        <PrimaryButton
+                            rightIcon='phone-classic'
+                            onPress={() => handlePress(phone)}
+                            title='Phone Call' />
+                        <PrimaryButton
+                            rightIcon='whatsapp'
+                            containerStyle={{ marginTop: 0 }}
+                            isBorder onPress={() => handlePress(whatsapp)}
+                            title='Contact on WhatsApp' />
+
                     </ScrollView>
                 </View>
             </View>
