@@ -1,6 +1,6 @@
 
 import { ScrollView, StyleSheet, View } from 'react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import AppText from '../../../components/AppText'
 import { mvs } from '../../../others/utils/responsive'
@@ -8,27 +8,11 @@ import { colors } from '../../../others/utils/colors'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import { COMMON_STYLES } from '../../../others/utils/commonStyles'
-import BaseModal from '../../../components/reusables/BaseModal'
-import LottieView from 'lottie-react-native'
-import { CommonActions, useNavigation } from '@react-navigation/native'
+import navServices from '../../../others/utils/navServices'
 
 const CalculateCharges = () => {
-    const [modal, setmodal] = useState(false)
-    const nav = useNavigation()
     const handleBookNow = () => {
-        // setmodal(true)
-        setTimeout(() => {
-            // setmodal(false)
-            nav.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [
-                        { name: 'Home' }
-                    ],
-                })
-            );
-            nav.navigate('Home')
-        }, 200);
+        navServices.navigate('ThanksScreen')
     }
     return (
         <BaseScreen>
@@ -89,23 +73,7 @@ const CalculateCharges = () => {
                     </ScrollView>
                 </View>
             </View>
-            {
-                modal &&
-                <BaseModal
-                    containerStyle={{ padding: mvs(20) }}
-                    modalvisible={true}
-                    toggleModal={() => setmodal(false)}>
 
-                    <View style={styles.lottie}>
-                        <LottieView
-                            autoPlay
-                            style={{ width: '100%', height: mvs(90) }}
-                            source={require('../../../assets/lottie/splash.json')}
-                        />
-                        <AppText style={{ marginVertical: mvs(6) }} semiBold FONT_16 children={'Successfully Booked!'} color={colors.darkGreen1} />
-                    </View>
-                </BaseModal>
-            }
         </BaseScreen>
     )
 }

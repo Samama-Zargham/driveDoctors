@@ -27,6 +27,7 @@ import Disclaimer from '../screens/main/others/Disclaimer';
 import PrivacyPolicy from '../screens/main/others/PrivacyPolicy';
 import RateUs from '../screens/main/others/RateUs';
 import AppText from '../components/AppText';
+import ThanksScreen from '../screens/main/others/ThanksScreen';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -52,6 +53,7 @@ function MainStack() {
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="VerifyCode" component={VerifyCode} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+            <Stack.Screen name="ThanksScreen" component={ThanksScreen} />
 
         </Stack.Navigator>
     );
