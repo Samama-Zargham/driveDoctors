@@ -9,7 +9,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setsplash(false)
-    }, 3000);
+    }, 5000);
   }, [])
 
   return (
