@@ -21,7 +21,7 @@ const ThanksScreen = () => {
             service: 'Filter Change, Oil Change',
             date: '17 Septemper 2023',
             TimeSlot: '11:00-11:30',
-            status: 'In-Progress',
+            status: 'Our clinic waiting your car',
             payment: '250 QAR',
         }
     ])

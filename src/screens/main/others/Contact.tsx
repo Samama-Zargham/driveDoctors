@@ -44,7 +44,7 @@ const Contact = () => {
                         />
                         <PrimaryInput placeholder='ex: 303024802348' header='Phone' />
                         <PrimaryInput multiLine placeholder='Write a note...' header='Note' />
-                        <View style={{ marginTop: isTablet ? '10%' : '20%' }} />
+                        <View style={{ marginTop: '20%' }} />
                         <PrimaryButton
                             txtColor={colors.WHITE}
                             backgroundColor={colors.darkGreen}
