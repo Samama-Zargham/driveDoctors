@@ -22,19 +22,19 @@ const Bookings = () => {
             carName: 'KIA telluride',
             service: 'Filter Change, Oil Change',
             date: '17 Septemper 2023',
-            status: 'Our clinic waiting your car',
+            status: 'In-Progress',
             payment: '250 QAR'
         }, {
             carName: 'KIA telluride',
             service: 'Filter Change, Oil Change',
             date: '17 Septemper 2023',
-            status: 'Our clinic waiting your car',
+            status: 'In-Progress',
             payment: '250 QAR'
         }, {
             carName: 'KIA telluride',
             service: 'Filter Change, Oil Change',
             date: '17 Septemper 2023',
-            status: 'Our clinic waiting your car',
+            status: 'In-Progress',
             payment: '250 QAR'
         },
 

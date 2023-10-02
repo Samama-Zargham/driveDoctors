@@ -10,6 +10,7 @@ import PrimaryInput from '../../../components/reusables/PrimaryInput'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import navServices from '../../../others/utils/navServices'
 import DeviceInfo from 'react-native-device-info';
+import AppText from '../../../components/AppText'
 
 const Contact = () => {
     const isTablet = DeviceInfo.isTablet();
@@ -41,9 +42,17 @@ const Contact = () => {
                             style={styles.userImage}
                             resizeMode='contain'
                         />
-                        {/* <PrimaryInput placeholder='ex: 303024802348' header='Phone' />
-                        <PrimaryInput multiLine placeholder='Write a note...' header='Note' /> */}
+                        <PrimaryInput placeholder='ex: 303024802348' header='Phone' />
+                        <PrimaryInput multiLine placeholder='Write a note...' header='Note' />
                         <View style={{ marginTop: isTablet ? '10%' : '20%' }} />
+                        <PrimaryButton
+                            txtColor={colors.WHITE}
+                            backgroundColor={colors.darkGreen}
+                            // onPress={() => handlePress(phone)}
+                            title='Submit Note' />
+                        <View>
+                            <AppText FONT_18 semiBold center children='or' />
+                        </View>
                         <PrimaryButton
                             rightIcon='phone-classic'
                             onPress={() => handlePress(phone)}
