@@ -37,6 +37,7 @@ const CarDetails = () => {
                             [1, 2, 3].map((item: any, index: number) => {
                                 return (
                                     <TouchableOpacity
+                                        disabled={!isTab}
                                         onPress={() => setselectedCar(item)}
                                         activeOpacity={0.9}
                                         style={[styles.booking, { backgroundColor: selectedCar == item ? colors.parrot : colors.WHITE }]} key={index} >
@@ -62,7 +63,7 @@ const CarDetails = () => {
 
                         {
                             isTab &&
-                            <PrimaryButton onPress={() => { navServices.navigate('PickUp') }} title='Continue' />
+                            <PrimaryButton disabled={selectedCar == ''} onPress={() => { navServices.navigate('PickUp') }} title='Continue' />
                         }
                     </ScrollView>
                 </View>
