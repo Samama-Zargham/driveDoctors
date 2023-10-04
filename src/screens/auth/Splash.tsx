@@ -18,13 +18,13 @@ const Splash = () => {
         }}>
 
         <FastImage
-            resizeMode={ 'cover'}//isTablet ? 'stretch' :
+            resizeMode={'contain'}
             style={{
-                width: width,
-                height: height,
+                width: '80%',
+                height: '35%',
                 borderRadius: 20
             }}
-            source={require('../../assets/gif/carsdoctors2.gif')} />
+            source={require('../../assets/gif/carsdoctor.gif')} />
 
     </View>
 }
