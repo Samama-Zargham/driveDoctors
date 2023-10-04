@@ -12,7 +12,7 @@ const Register = () => {
     return (
         <ImageBackground
             resizeMode='cover'
-            style={{ flex: 1 }} source={IMAGES['login']}>
+            style={{ flex: 1 }} source={IMAGES['login2']}>
             <View style={styles.register}>
                 <AppText bold FONT_22 children='Register' color={colors.WHITE} />
                 <PrimaryInput top={10} placeholder='Full Name' />

@@ -8,6 +8,17 @@ import DeviceInfo from 'react-native-device-info';
 
 const Splash = () => {
     const isTablet = DeviceInfo.isTablet();
+    const [isGif, setisGif] = useState(true)
+    useEffect(() => {
+        setTimeout(() => {
+            setisGif(false)
+        }, 1000);
+    }, [])
+
+    let img = isGif ?
+        require('../../assets/gif/carsdoctor.gif')
+        :
+        require('../../assets/images/carsdoctor1.jpg')
 
     return <View
         style={{
@@ -24,7 +35,7 @@ const Splash = () => {
                 height: '35%',
                 borderRadius: 20
             }}
-            source={require('../../assets/gif/carsdoctor.gif')} />
+            source={img} />
 
     </View>
 }
