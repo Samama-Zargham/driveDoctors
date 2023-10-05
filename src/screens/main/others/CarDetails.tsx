@@ -1,8 +1,8 @@
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { Animated, Easing, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import AppText from '../../../components/AppText'
-import { mvs } from '../../../others/utils/responsive'
+import { mvs, width } from '../../../others/utils/responsive'
 import { colors } from '../../../others/utils/colors'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import PrimaryInput from '../../../components/reusables/PrimaryInput'
@@ -23,6 +23,29 @@ const CarDetails = () => {
     const [modal, setmodal] = useState(false)
 
 
+    const [animation] = useState(new Animated.Value(0));
+
+    useEffect(() => {
+        Animated.timing(animation, {
+            toValue: 1, // Final value (fully visible)
+            duration: 1000, // Animation duration in milliseconds
+            easing: Easing.linear, // Easing function
+            useNativeDriver: false, // Required for opacity animation
+        }).start(); // Start the animation
+    }, []);
+
+    const animatedStyles = {
+        transform: [
+            {
+                translateX: animation.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [width, 0],
+                }),
+            },
+        ],
+        opacity: animation,
+    };
+
     return (
         <BaseScreen>
             <View style={styles.backDark} >
@@ -36,19 +59,28 @@ const CarDetails = () => {
                         {
                             [1, 2, 3].map((item: any, index: number) => {
                                 return (
-                                    <TouchableOpacity
-                                        disabled={!isTab}
-                                        onPress={() => setselectedCar(item)}
-                                        activeOpacity={0.9}
-                                        style={[styles.booking, { backgroundColor: selectedCar == item ? colors.parrot : colors.WHITE }]} key={index} >
-                                        <View style={COMMON_STYLES.rowDirection} >
-                                            <FastImage style={styles.car}
-                                                source={IMAGES['car']}
-                                                resizeMode='contain'
-                                            />
-                                            <AppText Medium children={"      " + 'KIA Telluride'} />
-                                        </View>
-                                    </TouchableOpacity>
+                                    <Animated.View style={animatedStyles} key={index}>
+                                        <TouchableOpacity
+                                            disabled={!isTab}
+                                            onPress={() => setselectedCar(item)}
+                                            activeOpacity={0.9}
+                                            style={[styles.booking, animatedStyles, { backgroundColor: selectedCar == item ? colors.parrot : colors.WHITE }]} key={index} >
+
+                                            <View style={COMMON_STYLES.rowDirection} >
+                                                <FastImage style={styles.car}
+                                                    source={IMAGES['car']}
+                                                    resizeMode='contain'
+                                                />
+                                                <AppText Medium children={"      " + 'KIA Telluride'} />
+                                            </View>
+
+                                        </TouchableOpacity>
+                                        {
+                                            index == 2 &&
+                                            isTab &&
+                                            <PrimaryButton disabled={selectedCar == ''} onPress={() => { navServices.navigate('PickUp') }} title='Continue' />
+                                        }
+                                    </Animated.View>
                                 )
                             })
                         }
@@ -61,10 +93,7 @@ const CarDetails = () => {
                             title='Add New Car' />
 
 
-                        {
-                            isTab &&
-                            <PrimaryButton disabled={selectedCar == ''} onPress={() => { navServices.navigate('PickUp') }} title='Continue' />
-                        }
+
                     </ScrollView>
                 </View>
             </View>

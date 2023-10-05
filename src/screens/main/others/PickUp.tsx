@@ -1,8 +1,8 @@
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Animated, Easing, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import AppText from '../../../components/AppText'
-import { mvs } from '../../../others/utils/responsive'
+import { mvs, width } from '../../../others/utils/responsive'
 import { colors } from '../../../others/utils/colors'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import FastImage from 'react-native-fast-image'
@@ -59,6 +59,29 @@ const PickUp = () => {
         // "10:00 PM",
         // "10:30 PM"
     ];
+
+    const [animation] = useState(new Animated.Value(0));
+
+    useEffect(() => {
+        Animated.timing(animation, {
+            toValue: 1,
+            duration: 1000,
+            easing: Easing.linear,
+            useNativeDriver: false,
+        }).start();
+    }, []);
+
+    const animatedStyles = {
+        transform: [
+            {
+                translateX: animation.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [-width, 0], // Reverse the values
+                }),
+            },
+        ],
+        opacity: animation,
+    }
     return (
         <BaseScreen>
             <View style={styles.backDark} >
@@ -68,22 +91,21 @@ const PickUp = () => {
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {data.map((_: any, i: number) => {
                             return (
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        setpickUpType(_?.id)
-                                        if (_?.id == 1) {
-                                            navServices.navigate('MapScreen')
-                                        }
-                                    }}
-                                    activeOpacity={0.9}
-                                    key={i} style={[styles.carcare, { backgroundColor: pickUpType == _.id ? colors.parrot : colors.WHITE }]} >
-                                    <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={_?.title} />
-                                    <FastImage
-                                        source={IMAGES[_?.icon]}
-                                        resizeMode='contain'
-                                        style={styles.image}
-                                    />
-                                </TouchableOpacity>
+                                <Animated.View style={animatedStyles} key={i}>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            setpickUpType(_?.id)
+                                        }}
+                                        activeOpacity={0.9}
+                                        style={[styles.carcare, { backgroundColor: pickUpType == _.id ? colors.parrot : colors.WHITE }]} >
+                                        <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={_?.title} />
+                                        <FastImage
+                                            source={IMAGES[_?.icon]}
+                                            resizeMode='contain'
+                                            style={styles.image}
+                                        />
+                                    </TouchableOpacity>
+                                </Animated.View>
                             )
                         })}
                         {pickUpType &&
@@ -113,7 +135,7 @@ const PickUp = () => {
                         }
                         {
                             time &&
-                            <PrimaryButton onPress={() => { navServices.navigate('MachanicContact') }} title='Continue' />
+                            <PrimaryButton onPress={() => { navServices.navigate('ThanksScreen') }} title='Continue' />
                         }
                     </ScrollView>
                 </View>

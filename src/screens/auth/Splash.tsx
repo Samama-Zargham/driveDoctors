@@ -1,18 +1,15 @@
-import { Animated, View } from 'react-native'
+import { View } from 'react-native'
 import React, { useEffect, useRef, useState, } from 'react';
-import LottieView from 'lottie-react-native';
-import { colors } from '../../others/utils/colors';
 import FastImage from 'react-native-fast-image';
-import { height, width } from '../../others/utils/responsive';
 import DeviceInfo from 'react-native-device-info';
 
-const Splash = () => {
+const Splash = React.memo(() => {
     const isTablet = DeviceInfo.isTablet();
     const [isGif, setisGif] = useState(true)
     useEffect(() => {
         setTimeout(() => {
             setisGif(false)
-        }, 1000);
+        }, 1230);
     }, [])
 
     let img = isGif ?
@@ -38,6 +35,6 @@ const Splash = () => {
             source={img} />
 
     </View>
-}
+})
 
 export default Splash

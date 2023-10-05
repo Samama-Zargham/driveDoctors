@@ -10,7 +10,7 @@ import { colors } from '../others/utils/colors';
 import { mvs } from '../others/utils/responsive';
 import { COMMON_STYLES } from '../others/utils/commonStyles';
 import { Platform, Text } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawer from './CustomDrawer';
 import Login from '../screens/auth/Login';
@@ -31,7 +31,7 @@ import ThanksScreen from '../screens/main/others/ThanksScreen';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 function MainNav() {
     const [islogged, setislogged] = useState(true)
@@ -41,8 +41,14 @@ function MainNav() {
 }
 
 function MainStack() {
+
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+                cardStyleInterpolator: customTransition
+
+            }}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="MyDrawer" component={MyDrawer} />
             <Stack.Screen name="PickUp" component={PickUp} />
@@ -61,7 +67,10 @@ function MainStack() {
 
 function AuthStack() {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator screenOptions={{
+            headerShown: false,
+            cardStyleInterpolator: customTransition
+        }}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="VerifyCode" component={VerifyCode} />
@@ -162,7 +171,21 @@ const BottomTab = () => {
 }
 export default MainNav;
 
-
+const customTransition = ({ current }: any) => {
+    return {
+        cardStyle: {
+            opacity: current.progress,
+            transform: [
+                {
+                    scale: current.progress.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [0.8, 1],
+                    }),
+                },
+            ],
+        },
+    };
+};
 
 const TabItems = [
     {
