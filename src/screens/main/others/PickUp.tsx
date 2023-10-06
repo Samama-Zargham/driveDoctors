@@ -10,7 +10,9 @@ import { IMAGES } from '../../../assets/images'
 import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import DatePicker from '../../../components/datePicker'
+import LottieView from 'lottie-react-native'
 import navServices from '../../../others/utils/navServices'
+import DeviceInfo from 'react-native-device-info'
 
 const PickUp = () => {
     const [pickUpType, setpickUpType] = useState()
@@ -59,7 +61,7 @@ const PickUp = () => {
         // "10:00 PM",
         // "10:30 PM"
     ];
-
+    const [modal, setmodal] = useState(false)
     const [animation] = useState(new Animated.Value(0));
 
     useEffect(() => {
@@ -82,6 +84,8 @@ const PickUp = () => {
         ],
         opacity: animation,
     }
+    const isTablet = DeviceInfo.isTablet();
+
     return (
         <BaseScreen>
             <View style={styles.backDark} >
@@ -135,11 +139,33 @@ const PickUp = () => {
                         }
                         {
                             time &&
-                            <PrimaryButton onPress={() => { navServices.navigate('ThanksScreen') }} title='Continue' />
+                            <PrimaryButton onPress={() => {
+                                setmodal(true)
+                                setTimeout(() => {
+                                    navServices.navigate('ThanksScreen'),
+                                        setmodal(false)
+                                }, 1000);
+                            }} title='Continue' />
                         }
+
                     </ScrollView>
                 </View>
             </View>
+
+            {modal &&
+                <View
+                    style={styles.loader}>
+                    <LottieView
+                        source={require('../../../assets/gif/animation3.json')}
+                        autoPlay
+                        style={{
+                            position: "absolute",
+                            width: mvs(400),
+                            height: mvs(isTablet ? 400 : 250)
+                        }}
+                    />
+                </View>
+            }
         </BaseScreen>
     )
 }
@@ -147,7 +173,21 @@ const PickUp = () => {
 export default PickUp
 
 const styles = StyleSheet.create({
-    backDark: { flex: 1, backgroundColor: colors.darkGreen },
+    backDark: {
+        flex: 1,
+        backgroundColor: colors.darkGreen
+    },
+    loader: {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 1,
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: `rgba(255,255,255,0.15)`,
+    },
     backWhite: {
         marginTop: 10,
         backgroundColor: colors.parrot1,

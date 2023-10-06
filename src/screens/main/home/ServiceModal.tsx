@@ -122,7 +122,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
             <BaseModal
                 containerStyle={{ paddingBottom: mvs(5), width: '85%', overflow: "hidden" }}
                 modalvisible={true}
-                toggleModal={() => handleToggle(txt)}>
+                toggleModal={handleToggle}>
 
                 <AppText FONT_18 style={{ marginBottom: mvs(10) }} semiBold children={modal} />
                 <TextInput
@@ -133,7 +133,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                     placeholder={'Describe the issue you are facing...'}
                 />
                 <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >
-                    <PrimaryButton onPress={handleReset} isBorder width={'47%'} title='Reset' />
+                    <PrimaryButton onPress={handleToggle} isBorder width={'47%'} title='Cancel' />
                     <PrimaryButton
                         onPress={() => handleSumit(txt)}
                         disabled={!txt}

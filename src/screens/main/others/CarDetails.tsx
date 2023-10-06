@@ -64,7 +64,7 @@ const CarDetails = () => {
                                             disabled={!isTab}
                                             onPress={() => setselectedCar(item)}
                                             activeOpacity={0.9}
-                                            style={[styles.booking, animatedStyles, { backgroundColor: selectedCar == item ? colors.parrot : colors.WHITE }]} key={index} >
+                                            style={[styles.booking, { backgroundColor: selectedCar == item ? colors.parrot : colors.WHITE }]} key={index} >
 
                                             <View style={COMMON_STYLES.rowDirection} >
                                                 <FastImage style={styles.car}
@@ -108,9 +108,33 @@ const CarDetails = () => {
 export default CarDetails
 
 
-const AddCar = ({ setmodal }: any) => {
+export const AddCar = ({ setmodal, isNavigate = false }: any) => {
     const [carMake, setcarMake] = useState('')
     const [carModal, setcarModal] = useState('')
+
+
+    const [animation] = useState(new Animated.Value(0));
+
+    useEffect(() => {
+        Animated.timing(animation, {
+            toValue: 1,
+            duration: 450,
+            easing: Easing.linear,
+            useNativeDriver: false,
+        }).start();
+    }, []);
+
+    const animatedStyles = {
+        transform: [
+            {
+                translateX: animation.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [-width, 0], // Reverse the values
+                }),
+            },
+        ],
+        opacity: animation,
+    }
     return (
         <BaseModal
             containerStyle={{ maxHeight: '85%', paddingBottom: 0 }}
@@ -120,19 +144,26 @@ const AddCar = ({ setmodal }: any) => {
             <AppText FONT_24 bold children={'Add Car Details'} />
             <ScrollView
                 onStartShouldSetResponder={() => true}
-                style={styles.backWhite}
+                style={[styles.backWhite]}
                 showsVerticalScrollIndicator={false}>
-                <PrimaryInput placeholder='ex: ABDC 1234' header='Car Number Plate' />
-                <DropDown zIndex={2} value={carMake} setValue={setcarMake} header='Car Make' />
-                <DropDown value={carModal} setValue={setcarModal} header='Car Modal' />
-                <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 90 }]} >
-                    <PrimaryButton onPress={() => setmodal(false)} isBorder width={'47%'} title='Cancel' />
-                    <PrimaryButton
-                        onPress={() => setmodal(false)}
-                        disabled={!carModal || !carMake}
-                        width={'47%'}
-                        title='Continue' />
-                </View>
+                <Animated.View style={animatedStyles}>
+                    <DropDown zIndex={2} value={carMake} setValue={setcarMake} header='Car Make' />
+                    <DropDown value={carModal} setValue={setcarModal} header='Car Modal' />
+                    <PrimaryInput placeholder='ex: ABDC 1234' header='Car Number Plate' />
+                    <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 90 }]} >
+                        <PrimaryButton onPress={() => setmodal(false)} isBorder width={'47%'} title='Cancel' />
+                        <PrimaryButton
+                            onPress={() => {
+                                setmodal(false)
+                                if (isNavigate) {
+                                    navServices.navigate('PickUp')
+                                }
+                            }}
+                            disabled={!carModal || !carMake}
+                            width={'47%'}
+                            title='Continue' />
+                    </View>
+                </Animated.View>
             </ScrollView>
         </BaseModal>
     )

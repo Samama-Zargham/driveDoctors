@@ -12,10 +12,14 @@ import navServices from '../../../others/utils/navServices'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import LinearGradient from 'react-native-linear-gradient'
 import ServiceModal from './ServiceModal'
+import { COMMON_STYLES } from '../../../others/utils/commonStyles'
+import { AddCar } from '../others/CarDetails'
+import SelectCarModal from './SelectCarModal'
 
 const Home = () => {
     const [selectedServices, setselectedServices] = useState([])
     const [modal, setmodal] = useState('')
+    const [selectCar, setselectCar] = useState('')
     const [state, setState] = useState('')
     const [selectedItem, setselectedItem] = useState({})
     const [services, setservices] = useState([
@@ -150,11 +154,11 @@ const Home = () => {
                                                 activeOpacity={0.7}
                                                 onPress={() => {
                                                     setselectedItem(item)
-                                                    if (state[item?.name]) {
+                                                    if (state[item?.name] && item?.isSubService) {
                                                         item?.onPress(item)
                                                     }
                                                     else {
-                                                        item?.onPress && item?.onPress(item)
+                                                        item?.onPress && !foundElement?.id && item?.onPress(item)
                                                         SelectUnSelectItems(item, selectedServices, setselectedServices)
                                                     }
                                                 }} >
@@ -175,9 +179,27 @@ const Home = () => {
                                 })
                             }
                         </View>
-                        <PrimaryButton disabled={!selectedServices[0]?.id} onPress={() => navServices.navigate('CarDetails')} title='Continue' />
+                        {/* <PrimaryButton disabled={!selectedServices[0]?.id} onPress={() => navServices.navigate('CarDetails')} title='Continue' /> */}
+                        <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >
+                            <PrimaryButton
+                                disabled={!selectedServices[0]?.id}
+                                onPress={() => setselectCar('SelectCarModal')}
+                                isBorder width={'47%'}
+                                title='Select Car' />
+                            <PrimaryButton
+                                onPress={() => setselectCar('addCar')}
+                                disabled={!selectedServices[0]?.id}
+                                width={'47%'}
+                                title='Add New Car' />
+                        </View>
                     </ScrollView>
                     {Modal}
+                    {
+                        selectCar == 'addCar' && <AddCar isNavigate={true} setmodal={setselectCar} />
+                    }
+                    {
+                        selectCar == 'SelectCarModal' && <SelectCarModal setmodal={setselectCar} />
+                    }
                 </View>
             </View>
         </BaseScreen>
@@ -238,5 +260,6 @@ type services = {
     id: number,
     name: string,
     icon: any,
-    onPress?: any
+    onPress?: any,
+    isSubService: boolean
 }
