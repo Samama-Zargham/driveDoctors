@@ -144,7 +144,7 @@ const PickUp = () => {
                                 setTimeout(() => {
                                     navServices.navigate('ThanksScreen'),
                                         setmodal(false)
-                                }, 1000);
+                                }, 3000);
                             }} title='Continue' />
                         }
 
@@ -156,11 +156,115 @@ const PickUp = () => {
                 <View
                     style={styles.loader}>
                     <LottieView
-                        source={require('../../../assets/gif/animation3.json')}
+                        source={require('../../../assets/gif/booked.json')}
                         autoPlay
+                        loop={false}
+                        colorFilters={[
+                            {
+                                keypath: 'Shape Layer 9', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Layer 2/confirmation Outlines', // Replace with the name of the layer or path you want to target
+                                color: colors.WHITE, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Shape Layer 6', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Shape Layer 7', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Shape Layer 8', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Shape Layer 3', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Shape Layer 4', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Shape Layer 2', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Shape Layer 1', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Shape Layer 5', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'ADBE Vector Graphic - Fill', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Comp 1', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Fill 1', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Ellipse 1', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'ADBE Vector Group', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Trim Paths 1', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Transform', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Transform', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Transform', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Capa 1/confirmation Outlines', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Group 1', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'Path 1', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'ADBE Vector Shape - Group', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'ADBE Vector Graphic - Fill', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+                            {
+                                keypath: 'ADBE Vector Group', // Replace with the name of the layer or path you want to target
+                                color: colors.darkGreen, // Replace with the desired color
+                            },
+
+                        ]}
                         style={{
                             position: "absolute",
-                            width: mvs(400),
+                            width: '100%',
                             height: mvs(isTablet ? 400 : 250)
                         }}
                     />
