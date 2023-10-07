@@ -7,6 +7,14 @@ interface LOGIN {
     password: string;
 }
 
+type VehiclePayload = {
+    customer_id: string;
+    make: string;
+    model: string;
+    plate: string;
+  };
+  
+
 interface SIGNUP {
     name: string;
     phone: string;
@@ -43,6 +51,11 @@ export const APIService = {
     mainServices: async () => {
         const url = `${API_CONFIG.BASE_URL}${API_CONFIG.services}`;
         const { data } = await axios.get(url);
+        return data
+    },
+    addVehicle: async (payload:VehiclePayload) => {
+        const url = API_CONFIG.addVehicle
+        const { data } = await HTTP_CLIENT.get(url);
         return data
     }
 };

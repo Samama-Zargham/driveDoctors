@@ -11,5 +11,6 @@ export const API_CONFIG = {
     bookings: '/bookings/list',
     vehicles: '/vehicles/list',
     services: '/services',
+    addVehicle: '/vehicles/add',
 
 }
