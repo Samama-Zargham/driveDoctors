@@ -15,7 +15,11 @@ import navServices from '../../../others/utils/navServices'
 import { useRoute } from '@react-navigation/native'
 import BaseModal from '../../../components/reusables/BaseModal'
 import AnyIcon, { Icons } from '../../../components/reusables/AnyIcon'
-
+import {useSelector} from 'react-redux'
+import store, { RootState } from '../../../others/redux/store'
+import { useApi } from '../../../others/services/useApi'
+import { APIService } from '../../../others/services/APIServices'
+import { setVehicles } from '../../../others/redux/reducers/userReducer'
 const CarDetails = () => {
     const route = useRoute();
     const isTab = route.name === 'CarDetails';
@@ -24,6 +28,17 @@ const CarDetails = () => {
 
 
     const [animation] = useState(new Animated.Value(0));
+    const { user, bookings } = useSelector((state: RootState) => state.user)
+    const myVehicleService = useApi(APIService.myvehicles)
+
+    useEffect(() => {
+        myVehicleService.requestCall(user.id)
+            .then((response) => {
+                store.dispatch(setVehicles(response.booking))
+            })
+            .catch(() => { });
+    }, [])
+
 
     useEffect(() => {
         Animated.timing(animation, {

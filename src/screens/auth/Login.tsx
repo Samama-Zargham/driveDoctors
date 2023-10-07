@@ -17,16 +17,14 @@ const Login = () => {
 
     const [phone, setPhone] = useState<string>("123456");
     const [password, setPassword] = useState<string>("123456");
-    // console.log(store.getState().user)
+
     const loginService = useApi(APIService.login)
     const mainCategoryServices = useApi(APIService.mainServices)
     const handleSignIn = () => {
-        // Perform sign-in logic (e.g., validation, authentication, etc.)
         loginService.requestCall({
             phone,
-            password:phone
+            password
         }).then((response) => {
-            // If sign-in is successful, navigate to the dashboard
             store.dispatch(setUser(response.data));
             // navServices.navigate('VerifyCode', {response:response.data})
         }).catch((error) => { })
@@ -41,7 +39,7 @@ const Login = () => {
             <View style={styles.login}>
                 <AppText bold FONT_22 children='Sign In' color={colors.WHITE} />
                 <PrimaryInput top={10} value={phone} placeholder='Phone Number' onChangeText={setPhone} />
-                {/* <PrimaryInput top={10} value={password} placeholder='Password' onChangeText={setPassword} /> */}
+                <PrimaryInput top={10} value={password} placeholder='Password' onChangeText={setPassword} />
                 {/* <TouchableOpacity onPress={() => navServices.navigate('ForgetPassword')} style={{ padding: 5 }} >
                     <AppText style={{ alignSelf: "flex-end", top: 7 }} Medium center children={`Forget Password? `} color={colors.WHITE} />
                 </TouchableOpacity> */}
