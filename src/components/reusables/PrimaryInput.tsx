@@ -1,11 +1,11 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native'
 import React from 'react'
 import AppText from '../AppText'
 import { colors } from '../../others/utils/colors'
 import { mvs } from '../../others/utils/responsive'
 import { COMMON_STYLES } from '../../others/utils/commonStyles'
 import AnyIcon, { Icons } from './AnyIcon'
-type Props = {
+interface Props extends TextInputProps {
     header?: string,
     multiLine?: boolean
     location?: boolean
@@ -17,7 +17,8 @@ const PrimaryInput: React.FC<Props> = ({
     multiLine,
     top = 20,
     location = false,
-    placeholder
+    placeholder,
+    ...props
 }) => {
     const multiinput = {
         maxHeight: mvs(150),
@@ -38,6 +39,7 @@ const PrimaryInput: React.FC<Props> = ({
                     }}
                     multiline={multiLine}
                     placeholder={placeholder}
+                    {...props}
                 />
             </View>
         </View>

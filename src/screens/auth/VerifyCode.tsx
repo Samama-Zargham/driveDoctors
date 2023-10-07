@@ -7,8 +7,12 @@ import { mvs } from '../../others/utils/responsive'
 import PrimaryButton from '../../components/buttons/PrimaryButton'
 import navServices from '../../others/utils/navServices'
 import OtpVerification from '../../components/reusables/OtpVerification'
+import store from '../../others/redux/store'
+import { setUser } from '../../others/redux/reducers/userReducer'
 
-const VerifyCode = () => {
+const VerifyCode = (props) => {
+    let data = props?.route?.params
+    data = data ? data.response : null
     const [val, setVal] = useState('')
     const [counter, setCounter] = useState(60);
 
@@ -25,6 +29,16 @@ const VerifyCode = () => {
         };
     }, [counter]);
 
+
+    const handleOtpVerification = () => {
+        if (data) {
+            if (val === data?.user?.otp) {
+                store.dispatch(setUser(data));
+                navServices.navigate('MyDrawer')
+            }
+        }
+    }
+
     return (
         <ImageBackground
             resizeMode='cover'
@@ -32,7 +46,7 @@ const VerifyCode = () => {
             <View style={styles.VerifyCode}>
                 <AppText bold FONT_22 children='Code Verification' color={colors.WHITE} />
                 <OtpVerification value={val} setValue={setVal} />
-                <PrimaryButton onPress={() => navServices.navigate('MyDrawer')} title='Submit' />
+                <PrimaryButton onPress={handleOtpVerification} title='Submit' />
                 <TouchableOpacity onPress={() => { }} style={{ padding: 5 }} >
                     <AppText onPress={() => { if (counter == 0) { setCounter(60) } }} Medium center children={counter == 0 ? `Resend confirmation code?` : counter + ' seconds left'} color={colors.WHITE} />
                 </TouchableOpacity>

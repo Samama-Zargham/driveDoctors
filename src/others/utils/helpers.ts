@@ -2,6 +2,8 @@
 import moment from "moment";
 import { Alert, Platform } from "react-native";
 import { openCamera, openPicker } from "react-native-image-crop-picker";
+import store from "../redux/store";
+import { updateSnackBar } from "../redux/reducers/userReducer";
 // import DocumentPicker from "react-native-document-picker";
 
 
@@ -337,7 +339,93 @@ const uploadImageOnS3F = (file: string, uploading: (v: boolean) => void, onSucce
 
 };
 
+export function formatErrorMessages(error: any): string {
+    if (typeof error === "object" && error !== null) {
+        return Object.values(error).join("\n");
+    } else {
+        return String(error);
+    }
+}
+
+
+const _returnError = (error: any): string | undefined => {
+    console.log(error?.response);
+
+    
+    if (error?.response?.request) {
+        let { _response } = error?.response?.request;
+        if (Array.isArray(JSON.parse(_response)?.message)) {
+            return JSON.parse(_response)?.message[0];
+        } else if (JSON.parse(_response)?.message) {
+            return JSON.parse(_response)?.message;
+        } else {
+            return formatErrorMessages(JSON.parse(_response)?.error);
+        }
+    } else {
+        //  console.log("error?.message,", error?.message)
+        if (error === "Hi Dude") {
+            return "Dismiss";
+        } else if (error?.message) {
+            if (error?.message === "Network Error") {
+                return "Network Error";
+            } else {
+                if (error === "Hi Dude") {
+                    return "Dismiss";
+                } else if (error?.message) {
+                    if (error?.message === "Network Error") {
+                        return "Network Error";
+                    } else {
+                        return error.message?.toString();
+                    }
+                } else {
+                    return error?.toString();
+                }
+            }
+        }
+    }
+};
+
+const showError = (message: string | undefined) => {
+    store.dispatch(
+        updateSnackBar({
+            type: "error",
+            message,
+        })
+    );
+};
+const showSuccess = (message: string | undefined) => {
+    store.dispatch(
+        updateSnackBar({
+            type: "success",
+            message,
+        })
+    );
+};
+
+interface Service {
+    id: string;
+    name: string;
+    charges: string;
+    icon: string;
+    category: string;
+  }
+  
+  function convertArrayToObject(inputArray: Service[]):  Record<string, Service>  {
+    const servicesObject: Record<string, Service> = {};
+  
+    inputArray.forEach((item) => {
+      servicesObject[item.id] = item;
+    });
+  
+    return servicesObject 
+  }
+
+
 export {
+    convertArrayToObject,
+    showError,
+    showSuccess,
+    _returnError,
     ShowAlert,
     AddORremoveFromArray,
     AddItemtoArray,

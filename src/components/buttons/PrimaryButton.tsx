@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, TouchableOpacity, View, ViewProps } from 'react-native'
+import { ActivityIndicator, StyleProp, StyleSheet, TouchableOpacity, View, ViewProps } from 'react-native'
 import React from 'react'
 import AppText from '../AppText'
 import { colors } from '../../others/utils/colors'
@@ -13,6 +13,7 @@ type Props = {
     containerStyle?: StyleProp<ViewProps>;
     width?: string | number,
     isBorder?: boolean,
+    loading?: boolean,
     backgroundColor?: string,
     txtColor?: string;
     rightIcon?: string
@@ -26,7 +27,8 @@ const PrimaryButton: React.FC<Props> = ({
     isBorder = false,
     backgroundColor,
     txtColor,
-    rightIcon = false
+    rightIcon = false,
+    loading = false,
 }) => {
     return (
         <TouchableOpacity
@@ -37,10 +39,13 @@ const PrimaryButton: React.FC<Props> = ({
             width ? { width } : {},
             isBorder ? { borderColor: colors.darkGreen, borderWidth: 1 } : {},
             { backgroundColor: backgroundColor ? backgroundColor : disabled ? '#cecece' : colors[isBorder ? 'parrot2' : 'parrot'] }]}>
+           {loading ?
+           <ActivityIndicator />:
             <View style={COMMON_STYLES.rowDirection}>
                 {rightIcon && <AnyIcon style={{ marginRight: 10 }} size={25} type={Icons.MaterialCommunityIcons} name={rightIcon} />}
                 <AppText color={txtColor ? txtColor : colors.BLACK} FONT_18 Medium children={title} />
             </View>
+}
         </TouchableOpacity>
     )
 }

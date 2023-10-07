@@ -15,13 +15,20 @@ import ServiceModal from './ServiceModal'
 import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import { AddCar } from '../others/CarDetails'
 import SelectCarModal from './SelectCarModal'
-
+import { useApi } from '../../../others/services/useApi'
+import { APIService } from '../../../others/services/APIServices'
+import { useSelector, useDispatch } from 'react-redux'
+import store, { RootState } from '../../../others/redux/store'
+import { setBookings, setVehicles } from '../../../others/redux/reducers/userReducer'
 const Home = () => {
     const [selectedServices, setselectedServices] = useState([])
     const [modal, setmodal] = useState('')
     const [selectCar, setselectCar] = useState('')
     const [state, setState] = useState('')
-    const [selectedItem, setselectedItem] = useState({})
+    const [selectedItem, setselectedItem] = useState({});
+
+
+
     const [services, setservices] = useState([
         {
             id: 1,
@@ -64,9 +71,21 @@ const Home = () => {
             isSubService: true
         }
     ])
+
+
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(-100)).current;
-
+    const { user } = useSelector((state: RootState) => state.user)
+    const myvehicles = useApi(APIService.myvehicles)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        myvehicles.requestCall(user?.id)
+            .then((response) => {
+                console.log(response)
+                dispatch(setVehicles(response.vehicles))
+            })
+            .catch(() => { });
+    }, [])
 
     useEffect(() => {
         const fadeIn = Animated.timing(fadeAnim, {

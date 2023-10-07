@@ -8,53 +8,70 @@ import FastImage from 'react-native-fast-image'
 import { IMAGES } from '../../../assets/images'
 import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
-
+import { useApi } from '../../../others/services/useApi'
+import { APIService } from '../../../others/services/APIServices'
+import store, { RootState } from '../../../others/redux/store'
+import { setBookings } from '../../../others/redux/reducers/userReducer'
+import { useSelector } from 'react-redux'
 const Bookings = () => {
-    const [services, setservices] = useState([
-        {
-            carName: 'KIA telluride',
-            service: 'Filter Change, Oil Change',
-            date: '17 Septemper 2023',
-            status: 'Our clinic waiting for your car',
-            payment: '250 QAR'
-        },
-        {
-            carName: 'KIA telluride',
-            service: 'Filter Change, Oil Change',
-            date: '17 Septemper 2023',
-            status: 'Our clinic waiting for your car',
-            payment: '250 QAR'
-        }, {
-            carName: 'KIA telluride',
-            service: 'Filter Change, Oil Change',
-            date: '17 Septemper 2023',
-            status: 'Our clinic waiting for your car',
-            payment: '250 QAR'
-        }, {
-            carName: 'KIA telluride',
-            service: 'Filter Change, Oil Change',
-            date: '17 Septemper 2023',
-            status: 'Our clinic waiting for your car',
-            payment: '250 QAR'
-        },
+    // const [services, setservices] = useState([
+    //     {
+    //         carName: 'KIA telluride',
+    //         service: 'Filter Change, Oil Change',
+    //         date: '17 Septemper 2023',
+    //         status: 'Our clinic waiting for your car',
+    //         payment: '250 QAR'
+    //     },
+    //     {
+    //         carName: 'KIA telluride',
+    //         service: 'Filter Change, Oil Change',
+    //         date: '17 Septemper 2023',
+    //         status: 'Our clinic waiting for your car',
+    //         payment: '250 QAR'
+    //     }, {
+    //         carName: 'KIA telluride',
+    //         service: 'Filter Change, Oil Change',
+    //         date: '17 Septemper 2023',
+    //         status: 'Our clinic waiting for your car',
+    //         payment: '250 QAR'
+    //     }, {
+    //         carName: 'KIA telluride',
+    //         service: 'Filter Change, Oil Change',
+    //         date: '17 Septemper 2023',
+    //         status: 'Our clinic waiting for your car',
+    //         payment: '250 QAR'
+    //     },
 
-    ])
+    // ])
 
-    const animatedValues = useRef(services.map(() => new Animated.Value(0))).current;
+    const { user, bookings } = useSelector((state: RootState) => state.user)
+    const animatedValues = useRef(bookings.map(() => new Animated.Value(0))).current;
+    const myBookingsService = useApi(APIService.myBookings)
 
     useEffect(() => {
-        const animations = services.map((item, index) =>
-            Animated.timing(animatedValues[index], {
-                toValue: 1, // Fade-in to full opacity
-                duration: 1000, // Animation duration in milliseconds
-                useNativeDriver: true, // For performance, use native driver
-                delay: index * 200, // Delay each animation
+        myBookingsService.requestCall(user.id)
+            .then((response) => {
+                store.dispatch(setBookings(response.booking))
             })
-        );
+            .catch(() => { });
+    }, [])
 
-        Animated.stagger(200, animations).start(); // Start animations in sequence with a stagger
+    useEffect(() => {
 
-    }, [animatedValues, services]);
+        if (bookings.length > 0) {
+            const animations = bookings.map((item, index) =>
+                Animated.timing(animatedValues[index], {
+                    toValue: 1, // Fade-in to full opacity
+                    duration: 1000, // Animation duration in milliseconds
+                    useNativeDriver: true, // For performance, use native driver
+                    delay: index * 200, // Delay each animation
+                })
+            );
+
+            Animated.stagger(200, animations).start(); // Start animations in sequence with a stagger
+        }
+
+    }, [ bookings]);
 
 
     return (
@@ -64,7 +81,7 @@ const Bookings = () => {
                 <View style={styles.backWhite} >
                     <ScrollView contentContainerStyle={{ paddingTop: mvs(20) }} showsVerticalScrollIndicator={false}>
                         {
-                            services.map((item: booking, idx: number) => {
+                            bookings.map((item: booking, idx: number) => {
                                 return (
                                     <Animated.View
                                         key={idx}

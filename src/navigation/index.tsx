@@ -28,15 +28,21 @@ import PrivacyPolicy from '../screens/main/others/PrivacyPolicy';
 import RateUs from '../screens/main/others/RateUs';
 import AppText from '../components/AppText';
 import ThanksScreen from '../screens/main/others/ThanksScreen';
-
+import CustomSnackBar from '../components/Snakbar/SnackBar';
+import { useSelector } from 'react-redux';
+import { RootState } from '../others/redux/store';
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 function MainNav() {
-    const [islogged, setislogged] = useState(true)
+    const isLogedIn = useSelector((state: RootState) => state.user.loggedInUser)
+    console.log(isLogedIn)
     return (
-        islogged ? <MainStack /> : <AuthStack />
+        <>
+            <CustomSnackBar />
+            {isLogedIn ? <MainStack /> : <AuthStack />}
+        </>
     );
 }
 
@@ -49,7 +55,7 @@ function MainStack() {
                 cardStyleInterpolator: customTransition
 
             }}>
-            <Stack.Screen name="Login" component={Login} />
+            {/* <Stack.Screen name="Login" component={Login} /> */}
             <Stack.Screen name="MyDrawer" component={MyDrawer} />
             <Stack.Screen name="PickUp" component={PickUp} />
             <Stack.Screen name="CarDetails" component={CarDetails} />
