@@ -15,6 +15,7 @@ export const useApi = (apiFunction: any) => {
       setloading(false);
       return response;
     } catch (error: any) {
+      console.log({ error: _returnError(error) })
       setloading(false);
       seterror(error);
       showError(_returnError(error));

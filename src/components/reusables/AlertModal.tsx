@@ -10,11 +10,13 @@ interface Props {
     setmodalvisible: any;
     title?: string;
     description?: string;
+    handleYes?: () => void;
 }
 const AlertModal: React.FC<Props> = React.memo(({
     setmodalvisible,
     title,
-    description
+    description,
+    handleYes
 }) => {
     const handleModal = () => {
         setmodalvisible(false)
@@ -37,7 +39,7 @@ const AlertModal: React.FC<Props> = React.memo(({
                 <PrimaryButton
                     onPress={() => {
                         handleModal()
-                        navServices.navigate('Login')
+                        handleYes()
                     }}
                     width={'47%'}
                     title='Yes' />

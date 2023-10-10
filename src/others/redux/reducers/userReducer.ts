@@ -14,10 +14,10 @@ export type ServicesObject = Record<string, Service>;
 interface State {
   user: any;
   authToken: any;
-  bookings:any[];
-  vehicles:any[];
-  services:Service[];
-  servicesObject:ServicesObject;
+  bookings: any[];
+  vehicles: any[];
+  services: Service[];
+  servicesObject: ServicesObject;
   loggedInUser: boolean;
   snackBar: {
     duration: 3000,
@@ -29,10 +29,10 @@ interface State {
 const initialState: State = {
   user: null,
   authToken: null,
-  bookings:[],
-  vehicles:[],
-  services:[],
-  servicesObject:{},
+  bookings: [],
+  vehicles: [],
+  services: [],
+  servicesObject: {},
   loggedInUser: false,
   snackBar: {
     duration: 3000,
@@ -47,9 +47,10 @@ export const userReducer = createSlice({
   reducers: {
     resetUserReducer: () => initialState,
     setUser: (state, action) => {
+      console.log({ payload: action.payload })
       state.user = action.payload.user;
       state.authToken = action.payload.access_token;
-      state.loggedInUser = true
+      state.loggedInUser = action.payload.loggedInUser
     },
     setAuthToken: (state, action) => {
       state.authToken = action.payload;
@@ -64,7 +65,7 @@ export const userReducer = createSlice({
       state.services = action.payload;
       state.servicesObject = convertArrayToObject(action.payload);
     },
-  
+
     setLoggedInUser: (state, action) => {
       console.log("payload", action.payload);
       state.loggedInUser = action.payload;
@@ -83,6 +84,6 @@ export const getUserRoles = (state: any) => state.entities.user.userRole;
 //will give the only LogedInuser Roles Redux data from store
 export const getLoggedInUser = (state: any) => state.entities.user.loggedInUser;
 
-export const {resetUserReducer, setUser, setAuthToken, updateSnackBar, setLoggedInUser, setBookings, setVehicles, setServices } = userReducer.actions;
+export const { resetUserReducer, setUser, setAuthToken, updateSnackBar, setLoggedInUser, setBookings, setVehicles, setServices } = userReducer.actions;
 
 export default userReducer.reducer;

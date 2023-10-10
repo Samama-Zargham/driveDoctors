@@ -244,7 +244,7 @@ const formatBytes = (bytes, decimals = 2) => {
         return exactMbs;
     }
 };
-const ShowAlert = ({ title, des, onPressYes }: any) => {
+const ShowAlert = (title, des, onPressYes) => {
     Alert.alert(
         title,
         des,
@@ -254,7 +254,7 @@ const ShowAlert = ({ title, des, onPressYes }: any) => {
                 onPress: () => console.log("no Pressed"),
                 style: "cancel"
             },
-            { text: "yes", onPress: onPressYes }
+            { text: "yes", onPress: onPressYes ? onPressYes : () => console.log("no Pressed") }
         ]
     );
 }
@@ -351,7 +351,7 @@ export function formatErrorMessages(error: any): string {
 const _returnError = (error: any): string | undefined => {
     console.log(error?.response);
 
-    
+
     if (error?.response?.request) {
         let { _response } = error?.response?.request;
         if (Array.isArray(JSON.parse(_response)?.message)) {
@@ -408,17 +408,17 @@ interface Service {
     charges: string;
     icon: string;
     category: string;
-  }
-  
-  function convertArrayToObject(inputArray: Service[]):  Record<string, Service>  {
+}
+
+function convertArrayToObject(inputArray: Service[]): Record<string, Service> {
     const servicesObject: Record<string, Service> = {};
-  
+
     inputArray.forEach((item) => {
-      servicesObject[item.id] = item;
+        servicesObject[item.id] = item;
     });
-  
-    return servicesObject 
-  }
+
+    return servicesObject
+}
 
 
 export {

@@ -12,8 +12,8 @@ type VehiclePayload = {
     make: string;
     model: string;
     plate: string;
-  };
-  
+};
+
 
 interface SIGNUP {
     name: string;
@@ -25,16 +25,17 @@ interface FORGOT {
 }
 
 export const APIService = {
-    login: async (payload: LOGIN) => {
-        const body = payload;
+    login: async (body: LOGIN) => {
         const url = `${API_CONFIG.BASE_URL}${API_CONFIG.auth.login}`;
         const response = await axios.post(url, body);
         return response;
     },
-
-    signUp: async (payload: SIGNUP) => {
-        const body = payload;
-        const url = API_CONFIG.auth.register;
+    signUp: async (body: SIGNUP) => {
+        const url = `${API_CONFIG.BASE_URL}${API_CONFIG.auth.register}`;
+        return axios.post(url, body);
+    },
+    verifyOtp: async (body: SIGNUP) => {
+        const url = `${API_CONFIG.BASE_URL}${API_CONFIG.auth.verifyOtp}`;
         return axios.post(url, body);
     },
     myBookings: async (customerId: string | number) => {
@@ -53,7 +54,7 @@ export const APIService = {
         const { data } = await axios.get(url);
         return data
     },
-    addVehicle: async (payload:VehiclePayload) => {
+    addVehicle: async (payload: VehiclePayload) => {
         const url = API_CONFIG.addVehicle
         const { data } = await HTTP_CLIENT.get(url);
         return data

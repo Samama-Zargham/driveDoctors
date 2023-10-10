@@ -11,26 +11,38 @@ import { APIService } from '../../others/services/APIServices'
 import { useApi } from '../../others/services/useApi'
 import store from '../../others/redux/store'
 import { setServices, setUser } from '../../others/redux/reducers/userReducer'
-import { convertArrayToObject } from '../../others/utils/helpers'
+import { _returnError, convertArrayToObject, showError } from '../../others/utils/helpers'
 
 const Login = () => {
 
-    const [phone, setPhone] = useState<string>("123456");
-    const [password, setPassword] = useState<string>("123456");
+    const [phone, setPhone] = useState<any>();
+    // const [password, setPassword] = useState<string>("123456");
 
     const loginService = useApi(APIService.login)
-    const mainCategoryServices = useApi(APIService.mainServices)
+    // const mainCategoryServices = useApi(APIService.mainServices)
     const handleSignIn = () => {
-        loginService.requestCall({
-            phone,
-            password
-        }).then((response) => {
-            store.dispatch(setUser(response.data));
-            // navServices.navigate('VerifyCode', {response:response.data})
-        }).catch((error) => { })
-        mainCategoryServices.requestCall().then((response) => {
-            store.dispatch(setServices(response.services));
-        }).catch((error) => { })
+        const regex = /^[0-9]+$/;
+
+        if (phone?.length > 15 || phone?.length < 7) {
+            return showError('Please write correct phone number')
+        }
+        if (!regex.test(phone)) {
+            console.log(regex.test(phone))
+            return showError('Please write phone number in correct format')
+        }
+        else {
+            loginService.requestCall({ phone }).then((response) => {
+                console.log({ response: response.data })
+                // store.dispatch(setUser(response.data));
+                if (response?.data?.error == 'Invalid customer phone.') {
+                    showError('Phone number not registered')
+                }
+                else navServices.navigate('VerifyCode', { phone })
+            }).catch((error) => console.log(error))
+        }
+        // mainCategoryServices.requestCall().then((response) => {
+        //     store.dispatch(setServices(response.services));
+        // }).catch((error) => { })
     };
     return (
         <ImageBackground
@@ -39,11 +51,11 @@ const Login = () => {
             <View style={styles.login}>
                 <AppText bold FONT_22 children='Sign In' color={colors.WHITE} />
                 <PrimaryInput top={10} value={phone} placeholder='Phone Number' onChangeText={setPhone} />
-                <PrimaryInput top={10} value={password} placeholder='Password' onChangeText={setPassword} />
+                {/* <PrimaryInput top={10} value={password} placeholder='Password' onChangeText={setPassword} /> */}
                 {/* <TouchableOpacity onPress={() => navServices.navigate('ForgetPassword')} style={{ padding: 5 }} >
                     <AppText style={{ alignSelf: "flex-end", top: 7 }} Medium center children={`Forget Password? `} color={colors.WHITE} />
                 </TouchableOpacity> */}
-                <PrimaryButton loading={loginService.loading } disabled={loginService.loading} onPress={handleSignIn} title='Sign In' />
+                <PrimaryButton loading={loginService.loading} disabled={loginService.loading} onPress={handleSignIn} title='Sign In' />
                 <TouchableOpacity onPress={() => navServices.navigate('Register')} style={{ padding: 5 }} >
                     <AppText Medium center children={`Don't have an account? Sign Up`} color={colors.WHITE} />
                 </TouchableOpacity>

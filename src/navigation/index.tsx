@@ -37,7 +37,7 @@ const Stack = createStackNavigator();
 
 function MainNav() {
     const isLogedIn = useSelector((state: RootState) => state.user.loggedInUser)
-    console.log(isLogedIn)
+    console.log({ isLogedIn })
     return (
         <>
             <CustomSnackBar />
@@ -50,21 +50,17 @@ function MainStack() {
 
     return (
         <Stack.Navigator
+            initialRouteName='MyDrawer'
             screenOptions={{
                 headerShown: false,
                 cardStyleInterpolator: customTransition
-
             }}>
-            {/* <Stack.Screen name="Login" component={Login} /> */}
             <Stack.Screen name="MyDrawer" component={MyDrawer} />
             <Stack.Screen name="PickUp" component={PickUp} />
             <Stack.Screen name="CarDetails" component={CarDetails} />
             <Stack.Screen name="CalculateCharges" component={CalculateCharges} />
             <Stack.Screen name="MachanicContact" component={MachanicContact} />
             <Stack.Screen name="MapScreen" component={MapScreen} />
-            <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="VerifyCode" component={VerifyCode} />
-            <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
             <Stack.Screen name="ThanksScreen" component={ThanksScreen} />
 
         </Stack.Navigator>

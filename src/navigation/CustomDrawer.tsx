@@ -13,6 +13,8 @@ import AlertModal from '../components/reusables/AlertModal'
 import DeviceInfo from 'react-native-device-info';
 import ToggleSwitch from 'toggle-switch-react-native'
 import { fontFamily } from '../others/utils/fonts'
+import store from '../others/redux/store'
+import { setUser } from '../others/redux/reducers/userReducer'
 
 
 const CustomDrawer = (props: any) => {
@@ -137,6 +139,13 @@ const CustomDrawer = (props: any) => {
                     setmodalvisible={() => { setmodal('') }}
                     title='Sign Out'
                     description='Are you sure you want to Sign Out?'
+                    handleYes={() => {
+                        store?.dispatch(setUser({
+                            loggedInUser: false,
+                            user: null,
+                            access_token: null
+                        }))
+                    }}
                 />
             }
         </View>
