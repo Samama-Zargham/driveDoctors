@@ -28,7 +28,6 @@ const Home = () => {
     const [selectedItem, setselectedItem] = useState({});
 
 
-
     const [services, setservices] = useState([
         {
             id: 1,
@@ -143,7 +142,7 @@ const Home = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader title='Hi, John Doe' />
+                <PrimaryHeader title={'Hi, ' + user?.name} />
                 <View style={styles.backWhite} >
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <Animated.View

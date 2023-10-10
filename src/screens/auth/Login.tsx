@@ -15,11 +15,11 @@ import { _returnError, convertArrayToObject, showError } from '../../others/util
 
 const Login = () => {
 
-    const [phone, setPhone] = useState<any>();
+    const [phone, setPhone] = useState<any>('03091349180');
     // const [password, setPassword] = useState<string>("123456");
 
     const loginService = useApi(APIService.login)
-    // const mainCategoryServices = useApi(APIService.mainServices)
+    const mainCategoryServices = useApi(APIService.mainServices)
     const handleSignIn = () => {
         const regex = /^[0-9]+$/;
 
@@ -27,7 +27,6 @@ const Login = () => {
             return showError('Please write correct phone number')
         }
         if (!regex.test(phone)) {
-            console.log(regex.test(phone))
             return showError('Please write phone number in correct format')
         }
         else {
@@ -37,12 +36,16 @@ const Login = () => {
                 if (response?.data?.error == 'Invalid customer phone.') {
                     showError('Phone number not registered')
                 }
-                else navServices.navigate('VerifyCode', { phone })
+                else {
+                    mainCategoryServices.requestCall().then((response) => {
+                        console.log({ services: response.services })
+                        store.dispatch(setServices(response.services));
+                        navServices.navigate('VerifyCode', { phone })
+                    }).catch((error) => { })
+                }
             }).catch((error) => console.log(error))
         }
-        // mainCategoryServices.requestCall().then((response) => {
-        //     store.dispatch(setServices(response.services));
-        // }).catch((error) => { })
+
     };
     return (
         <ImageBackground
@@ -55,7 +58,7 @@ const Login = () => {
                 {/* <TouchableOpacity onPress={() => navServices.navigate('ForgetPassword')} style={{ padding: 5 }} >
                     <AppText style={{ alignSelf: "flex-end", top: 7 }} Medium center children={`Forget Password? `} color={colors.WHITE} />
                 </TouchableOpacity> */}
-                <PrimaryButton loading={loginService.loading} disabled={loginService.loading} onPress={handleSignIn} title='Sign In' />
+                <PrimaryButton loading={loginService.loading || mainCategoryServices?.loading} disabled={loginService.loading} onPress={handleSignIn} title='Sign In' />
                 <TouchableOpacity onPress={() => navServices.navigate('Register')} style={{ padding: 5 }} >
                     <AppText Medium center children={`Don't have an account? Sign Up`} color={colors.WHITE} />
                 </TouchableOpacity>
