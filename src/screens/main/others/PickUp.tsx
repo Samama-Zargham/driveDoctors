@@ -22,7 +22,7 @@ import { APIService } from '../../../others/services/APIServices'
 
 const PickUp = () => {
     const selectedServices = useSelector((state: any) => state.user?.selectedServices);
-    console.log({ selectedServices: JSON.stringify(selectedServices) })
+    // console.log({ selectedServices: JSON.stringify(selectedServices) })
     const [pickUpType, setpickUpType] = useState()
     const [date, setdate] = useState('')
     const [time, settime] = useState('')
@@ -125,20 +125,12 @@ const PickUp = () => {
             });
         }
         addBooking.requestCall({
-
             customer_id: selectedServices?.customer_id,
-
             vehicle_id: selectedServices?.vehicle_id,
-
-
             services: arr1?.join(','),
-
             service_messages: messages,
-
             price,
-
             time: selectedServices?.time1,
-
             is_pickup: selectedServices?.is_pickup,
         }).then((res: any) => {
 

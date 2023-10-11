@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import store from '../../../others/redux/store'
 import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
-import { setVehicles } from '../../../others/redux/reducers/userReducer'
+import { setSelectedServices, setVehicles } from '../../../others/redux/reducers/userReducer'
 import { carDataFormatted, getCarModels } from '../../../others/utils/carsData'
 const CarDetails = () => {
     const route = useRoute();
@@ -160,6 +160,7 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
         ],
         opacity: animation,
     }
+    const selectedServices = useSelector((state: any) => state.user?.selectedServices);
 
     const addVehicle = useApi(APIService.addVehicle)
 
@@ -213,9 +214,12 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                                     model: carModal,
                                     plate: numberPlate
                                 }).then((response) => {
+                                    //Zohaib bhai idhr jo vehicle id aye gi wo store me dispatch kerwadey selectedServices ki state me
+                                    // store.dispatch(setSelectedServices({ ...selectedServices, vehicle_id: response?.vehicle_id }))
                                     // setIsAdded(Math.random())
                                     console.log(response)
                                     setmodal(false)
+                                    navServices.navigate('PickUp')
                                 }).catch((error) => { })
                                 // }
                             }}
