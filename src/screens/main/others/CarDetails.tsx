@@ -20,6 +20,7 @@ import store, { RootState } from '../../../others/redux/store'
 import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 import { setVehicles } from '../../../others/redux/reducers/userReducer'
+import { carDataFormatted, getCarModels } from '../../../others/utils/carsData'
 const CarDetails = () => {
     const route = useRoute();
     const isTab = route.name === 'CarDetails';
@@ -124,7 +125,7 @@ export default CarDetails
 
 
 export const AddCar = ({ setmodal, isNavigate = false }: any) => {
-    const [carMake, setcarMake] = useState('')
+    const [carMake, setcarMake] = useState('Acura')
     const [carModal, setcarModal] = useState('')
 
 
@@ -162,8 +163,21 @@ export const AddCar = ({ setmodal, isNavigate = false }: any) => {
                 style={[styles.backWhite]}
                 showsVerticalScrollIndicator={false}>
                 <Animated.View style={animatedStyles}>
-                    <DropDown zIndex={2} value={carMake} setValue={setcarMake} header='Car Make' />
-                    <DropDown value={carModal} setValue={setcarModal} header='Car Modal' />
+                    <DropDown zIndex={2} value={carMake} itemsArray={carDataFormatted} schema={{
+                        lable:'key',
+                        value:'value'
+                    }} setValue={setcarMake}
+                    
+                   
+                    header='Car Make' />
+                    <DropDown value={carModal} setValue={setcarModal} 
+                    
+                    itemsArray={getCarModels(carMake)} 
+                    schema={{
+                        lable:'model',
+                        value:'model'
+                    }} 
+                    header='Car Modal' />
                     <PrimaryInput placeholder='ex: ABDC 1234' header='Car Number Plate' />
                     <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 90 }]} >
                         <PrimaryButton onPress={() => setmodal(false)} isBorder width={'47%'} title='Cancel' />

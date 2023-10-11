@@ -10,14 +10,16 @@ type Props = {
     value: string
     setValue: any
     itemsArray?: any
-    zIndex?: number
+    zIndex?: number,
+    schema?:any
 }
 export default function DropDown({
     header,
     value,
     setValue,
     itemsArray,
-    zIndex = 1
+    zIndex = 1,
+    schema
 }: Props) {
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(itemsArray || [
@@ -49,6 +51,7 @@ export default function DropDown({
                     scrollViewProps={{
                         nestedScrollEnabled: true,
                     }}
+                    schema={schema}
                     setValue={setValue}
                     setItems={setItems}
                     placeholder={'Select an Item'}
