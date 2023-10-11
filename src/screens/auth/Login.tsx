@@ -15,7 +15,7 @@ import { _returnError, convertArrayToObject, showError } from '../../others/util
 
 const Login = () => {
 
-    const [phone, setPhone] = useState<any>('03091349180');
+    const [phone, setPhone] = useState<any>('123456');
     // const [password, setPassword] = useState<string>("123456");
 
     const loginService = useApi(APIService.login)
@@ -23,13 +23,13 @@ const Login = () => {
     const handleSignIn = () => {
         const regex = /^[0-9]+$/;
 
-        if (phone?.length > 15 || phone?.length < 7) {
-            return showError('Please write correct phone number')
-        }
-        if (!regex.test(phone)) {
-            return showError('Please write phone number in correct format')
-        }
-        else {
+        // if (phone?.length > 15 || phone?.length < 7) {
+        //     return showError('Please write correct phone number')
+        // }
+        // if (!regex.test(phone)) {
+        //     return showError('Please write phone number in correct format')
+        // }
+        // else {
             loginService.requestCall({ phone }).then((response) => {
                 console.log({ response: response.data })
                 // store.dispatch(setUser(response.data));
@@ -44,7 +44,7 @@ const Login = () => {
                     }).catch((error) => { })
                 }
             }).catch((error) => console.log(error))
-        }
+        // }
 
     };
     return (

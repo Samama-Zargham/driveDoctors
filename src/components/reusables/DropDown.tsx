@@ -47,7 +47,7 @@ export default function DropDown({
                     value={value}
                     items={items}
                     setOpen={setOpen}
-                    listMode="SCROLLVIEW"
+                    listMode="MODAL"
                     scrollViewProps={{
                         nestedScrollEnabled: true,
                     }}

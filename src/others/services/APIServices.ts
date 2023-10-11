@@ -56,7 +56,7 @@ export const APIService = {
     },
     addVehicle: async (payload: VehiclePayload) => {
         const url = API_CONFIG.addVehicle
-        const { data } = await HTTP_CLIENT.get(url);
+        const { data } = await HTTP_CLIENT.post(url, payload);
         return data
     }
 };

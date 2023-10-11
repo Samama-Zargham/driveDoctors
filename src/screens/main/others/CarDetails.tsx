@@ -15,7 +15,7 @@ import navServices from '../../../others/utils/navServices'
 import { useRoute } from '@react-navigation/native'
 import BaseModal from '../../../components/reusables/BaseModal'
 import AnyIcon, { Icons } from '../../../components/reusables/AnyIcon'
-import {useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import store, { RootState } from '../../../others/redux/store'
 import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
@@ -29,16 +29,21 @@ const CarDetails = () => {
 
 
     const [animation] = useState(new Animated.Value(0));
-    const { user, bookings } = useSelector((state: RootState) => state.user)
+    const { user, vehicles, servicesObject } = useSelector((state: RootState) => state.user)
+
+    console.log({ servicesObject })
     const myVehicleService = useApi(APIService.myvehicles)
+
 
     useEffect(() => {
         myVehicleService.requestCall(user.id)
             .then((response) => {
-                store.dispatch(setVehicles(response.booking))
+                store.dispatch(setVehicles(response.vehicles))
             })
             .catch(() => { });
     }, [])
+
+    console.log({ vehicles })
 
 
     useEffect(() => {
@@ -73,7 +78,7 @@ const CarDetails = () => {
 
                         <AppText style={{ marginTop: mvs(20) }} FONT_18 semiBold children={'Listed Cars'} />
                         {
-                            [1, 2, 3].map((item: any, index: number) => {
+                            vehicles.map((item: any, index: number) => {
                                 return (
                                     <Animated.View style={animatedStyles} key={index}>
                                         <TouchableOpacity
@@ -87,7 +92,7 @@ const CarDetails = () => {
                                                     source={IMAGES['car']}
                                                     resizeMode='contain'
                                                 />
-                                                <AppText Medium children={"      " + 'KIA Telluride'} />
+                                                <AppText Medium children={`   ${item.make} |  ${item.model} | ${item.plate}`} />
                                             </View>
 
                                         </TouchableOpacity>
@@ -127,9 +132,11 @@ export default CarDetails
 export const AddCar = ({ setmodal, isNavigate = false }: any) => {
     const [carMake, setcarMake] = useState('Acura')
     const [carModal, setcarModal] = useState('')
+    const [numberPlate, setNumberPlate] = useState('')
 
 
     const [animation] = useState(new Animated.Value(0));
+    const { user } = useSelector((state: RootState) => state.user)
 
     useEffect(() => {
         Animated.timing(animation, {
@@ -139,6 +146,8 @@ export const AddCar = ({ setmodal, isNavigate = false }: any) => {
             useNativeDriver: false,
         }).start();
     }, []);
+
+
 
     const animatedStyles = {
         transform: [
@@ -151,12 +160,33 @@ export const AddCar = ({ setmodal, isNavigate = false }: any) => {
         ],
         opacity: animation,
     }
+
+    const addVehicle = useApi(APIService.addVehicle)
+
+    const fetchNewCars = () => {
+        const myvehicles = useApi(APIService.myvehicles)
+        const dispatch = useDispatch()
+
+        myvehicles.requestCall(user?.id)
+            .then((response) => {
+                console.log(response)
+                dispatch(setVehicles(response.vehicles))
+            })
+            .catch(() => { });
+
+    }
     return (
         <BaseModal
             containerStyle={{ maxHeight: '85%', paddingBottom: 0 }}
             isBottomSheet
             modalvisible={true}
-            toggleModal={() => setmodal(false)}>
+            toggleModal={() => {
+                if (addVehicle.loading) {
+
+                } else {
+                    setmodal(false)
+                }
+            }}>
             <AppText FONT_24 bold children={'Add Car Details'} />
             <ScrollView
                 onStartShouldSetResponder={() => true}
@@ -164,28 +194,39 @@ export const AddCar = ({ setmodal, isNavigate = false }: any) => {
                 showsVerticalScrollIndicator={false}>
                 <Animated.View style={animatedStyles}>
                     <DropDown zIndex={2} value={carMake} itemsArray={carDataFormatted} schema={{
-                        lable:'key',
-                        value:'value'
+                        label: 'key',
+                        value: 'value'
                     }} setValue={setcarMake}
-                    
-                   
-                    header='Car Make' />
-                    <DropDown value={carModal} setValue={setcarModal} 
-                    
-                    itemsArray={getCarModels(carMake)} 
-                    schema={{
-                        lable:'model',
-                        value:'model'
-                    }} 
-                    header='Car Modal' />
-                    <PrimaryInput placeholder='ex: ABDC 1234' header='Car Number Plate' />
+
+
+                        header='Car Make' />
+                    <DropDown value={carModal} setValue={setcarModal}
+
+                        itemsArray={getCarModels(carMake)}
+                        schema={{
+                            label: 'model',
+                            value: 'model'
+                        }}
+                        header='Car Modal' />
+                    <PrimaryInput placeholder='ex: ABDC 1234' header='Car Number Plate' onChangeText={setNumberPlate} />
                     <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 90 }]} >
-                        <PrimaryButton onPress={() => setmodal(false)} isBorder width={'47%'} title='Cancel' />
+                        <PrimaryButton onPress={() =>addVehicle.loading ? {}: setmodal(false)} isBorder width={'47%'} title='Cancel' />
                         <PrimaryButton
+                            loading={addVehicle.loading}
                             onPress={() => {
-                                setmodal(false)
+                            
                                 if (isNavigate) {
                                     navServices.navigate('PickUp')
+                                } else {
+                                    addVehicle.requestCall({
+                                        customer_id: user.id,
+                                        make: carMake,
+                                        model: carModal,
+                                        plate: numberPlate
+                                    }).then((response) => {
+                                        fetchNewCars();
+                                        setmodal(false)
+                                    }).catch((error) => { })
                                 }
                             }}
                             disabled={!carModal || !carMake}
