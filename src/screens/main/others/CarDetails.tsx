@@ -26,6 +26,7 @@ const CarDetails = () => {
     const isTab = route.name === 'CarDetails';
     const [selectedCar, setselectedCar] = useState('')
     const [modal, setmodal] = useState(false)
+    const [isAdded, setIsAdded] = useState(false)
 
 
     const [animation] = useState(new Animated.Value(0));
@@ -41,9 +42,8 @@ const CarDetails = () => {
                 store.dispatch(setVehicles(response.vehicles))
             })
             .catch(() => { });
-    }, [])
+    }, [isAdded])
 
-    console.log({ vehicles })
 
 
     useEffect(() => {
@@ -120,7 +120,7 @@ const CarDetails = () => {
             </View>
             {
                 modal &&
-                <AddCar setmodal={setmodal} />
+                <AddCar setmodal={setmodal} setIsAdded={setIsAdded} />
             }
         </BaseScreen>
     )
@@ -129,7 +129,7 @@ const CarDetails = () => {
 export default CarDetails
 
 
-export const AddCar = ({ setmodal, isNavigate = false }: any) => {
+export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
     const [carMake, setcarMake] = useState('Acura')
     const [carModal, setcarModal] = useState('')
     const [numberPlate, setNumberPlate] = useState('')
@@ -163,18 +163,7 @@ export const AddCar = ({ setmodal, isNavigate = false }: any) => {
 
     const addVehicle = useApi(APIService.addVehicle)
 
-    const fetchNewCars = () => {
-        const myvehicles = useApi(APIService.myvehicles)
-        const dispatch = useDispatch()
 
-        myvehicles.requestCall(user?.id)
-            .then((response) => {
-                console.log(response)
-                dispatch(setVehicles(response.vehicles))
-            })
-            .catch(() => { });
-
-    }
     return (
         <BaseModal
             containerStyle={{ maxHeight: '85%', paddingBottom: 0 }}
@@ -224,7 +213,7 @@ export const AddCar = ({ setmodal, isNavigate = false }: any) => {
                                         model: carModal,
                                         plate: numberPlate
                                     }).then((response) => {
-                                        fetchNewCars();
+                                        setIsAdded(Math.random())
                                         setmodal(false)
                                     }).catch((error) => { })
                                 }
