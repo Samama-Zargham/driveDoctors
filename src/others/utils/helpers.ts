@@ -421,7 +421,26 @@ function convertArrayToObject(inputArray: Service[]): Record<string, Service> {
 }
 
 
+type MyObject = {
+    [key: string]: {
+      name: string;
+    };
+  };
+  
+  function extractNamesByKey(obj: MyObject, keysToExtract: string[]): string[] {
+    const extractedNames: string[] = [];
+  
+    for (const key of keysToExtract) {
+      if (obj[key] && obj[key].name) {
+        extractedNames.push(obj[key].name);
+      }
+    }
+  
+    return extractedNames
+  }
+
 export {
+    extractNamesByKey,
     convertArrayToObject,
     showError,
     showSuccess,
