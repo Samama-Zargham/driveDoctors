@@ -30,5 +30,5 @@ const AppStore = () => {
 const store = AppStore();
 
 export const persistor = persistStore(store);
-export type RootState = ReturnType<typeof reducers>;
+// export type RootState = ReturnType<typeof reducers>;
 export default store;

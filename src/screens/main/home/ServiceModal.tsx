@@ -1,7 +1,7 @@
 import { Animated, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import AppText from '../../../components/AppText'
-import { mvs } from '../../../others/utils/responsive'
+import { height, mvs } from '../../../others/utils/responsive'
 import { colors } from '../../../others/utils/colors'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import { COMMON_STYLES } from '../../../others/utils/commonStyles'
@@ -10,10 +10,9 @@ import { SelectUnSelectItems } from '../../../others/utils/helpers'
 import BaseModal from '../../../components/reusables/BaseModal'
 import { fontFamily } from '../../../others/utils/fonts'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../others/redux/store'
 
 const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }: any) => {
-    const servicesData =  useSelector((state:RootState)=>state.user.services.filter(e=>e.category === 'other'));
+    const servicesData = useSelector((state: any) => state.user.services.filter(e => e.category === 'other'));
     const handleToggle = (val: any) => {
         if (val) {
             setmodal(false)
@@ -40,7 +39,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
 
         return (
             <BaseModal
-                containerStyle={{ maxHeight: '85%', paddingBottom: 0 }}
+                containerStyle={{ maxHeight: height - 200, paddingBottom: 0 }}
                 isBottomSheet
                 modalvisible={true}
                 toggleModal={() => handleToggle(selectedServices?.length)}>
@@ -92,7 +91,6 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
             </BaseModal>
         )
     })
-
     const InputModal = () => {
         const [txt, settxt] = useState(state[modal] || '')
         return (
@@ -101,7 +99,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                 modalvisible={true}
                 toggleModal={handleToggle}>
 
-                <AppText FONT_18 style={{ marginBottom: mvs(10) }} semiBold children={modal} />
+                <AppText FONT_18 style={{ marginBottom: mvs(10) }} semiBold children={item?.name} />
                 <TextInput
                     style={styles.input}
                     multiline={true}

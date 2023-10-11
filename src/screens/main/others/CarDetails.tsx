@@ -16,7 +16,7 @@ import { useRoute } from '@react-navigation/native'
 import BaseModal from '../../../components/reusables/BaseModal'
 import AnyIcon, { Icons } from '../../../components/reusables/AnyIcon'
 import { useDispatch, useSelector } from 'react-redux'
-import store, { RootState } from '../../../others/redux/store'
+import store from '../../../others/redux/store'
 import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 import { setVehicles } from '../../../others/redux/reducers/userReducer'
@@ -30,7 +30,7 @@ const CarDetails = () => {
 
 
     const [animation] = useState(new Animated.Value(0));
-    const { user, vehicles, servicesObject } = useSelector((state: RootState) => state.user)
+    const { user, vehicles, servicesObject } = useSelector((state: any) => state.user)
 
     console.log({ servicesObject })
     const myVehicleService = useApi(APIService.myvehicles)
@@ -136,7 +136,7 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
 
 
     const [animation] = useState(new Animated.Value(0));
-    const { user } = useSelector((state: RootState) => state.user)
+    const { user } = useSelector((state: any) => state.user)
 
     useEffect(() => {
         Animated.timing(animation, {
@@ -199,26 +199,27 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                         header='Car Modal' />
                     <PrimaryInput placeholder='ex: ABDC 1234' header='Car Number Plate' onChangeText={setNumberPlate} />
                     <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 90 }]} >
-                        <PrimaryButton onPress={() =>addVehicle.loading ? {}: setmodal(false)} isBorder width={'47%'} title='Cancel' />
+                        <PrimaryButton onPress={() => addVehicle.loading ? {} : setmodal(false)} isBorder width={'47%'} title='Cancel' />
                         <PrimaryButton
                             loading={addVehicle.loading}
                             onPress={() => {
-                            
-                                if (isNavigate) {
-                                    navServices.navigate('PickUp')
-                                } else {
-                                    addVehicle.requestCall({
-                                        customer_id: user.id,
-                                        make: carMake,
-                                        model: carModal,
-                                        plate: numberPlate
-                                    }).then((response) => {
-                                        setIsAdded(Math.random())
-                                        setmodal(false)
-                                    }).catch((error) => { })
-                                }
+
+                                // if (isNavigate) {
+                                //     navServices.navigate('PickUp')
+                                // } else {
+                                addVehicle.requestCall({
+                                    customer_id: user.id,
+                                    make: carMake,
+                                    model: carModal,
+                                    plate: numberPlate
+                                }).then((response) => {
+                                    // setIsAdded(Math.random())
+                                    console.log(response)
+                                    setmodal(false)
+                                }).catch((error) => { })
+                                // }
                             }}
-                            disabled={!carModal || !carMake}
+                            disabled={!carModal || !carMake || !numberPlate}
                             width={'47%'}
                             title='Continue' />
                     </View>

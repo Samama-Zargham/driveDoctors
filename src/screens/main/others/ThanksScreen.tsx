@@ -10,9 +10,12 @@ import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import FastImage from 'react-native-fast-image'
 import { IMAGES } from '../../../assets/images'
 import { CommonActions, useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
 
 
 const ThanksScreen = () => {
+    const selectedServices = useSelector((state: any) => state?.user?.selectedServices)
+    console.log({ selectedServices })
     const navigation = useNavigation()
     const [services, setservices] = useState([
         {

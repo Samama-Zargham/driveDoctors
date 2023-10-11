@@ -30,13 +30,12 @@ import AppText from '../components/AppText';
 import ThanksScreen from '../screens/main/others/ThanksScreen';
 import CustomSnackBar from '../components/Snakbar/SnackBar';
 import { useSelector } from 'react-redux';
-import { RootState } from '../others/redux/store';
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 function MainNav() {
-    const isLogedIn = useSelector((state: RootState) => state.user.loggedInUser)
+    const isLogedIn = useSelector((state: any) => state.user.loggedInUser)
     console.log({ isLogedIn })
     return (
         <>

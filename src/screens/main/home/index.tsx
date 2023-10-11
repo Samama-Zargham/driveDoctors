@@ -18,8 +18,8 @@ import SelectCarModal from './SelectCarModal'
 import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 import { useSelector, useDispatch } from 'react-redux'
-import store, { RootState } from '../../../others/redux/store'
-import { setBookings, setVehicles } from '../../../others/redux/reducers/userReducer'
+import store from '../../../others/redux/store'
+import { setBookings, setSelectedServices, setVehicles } from '../../../others/redux/reducers/userReducer'
 import { BUCKET_URL } from '../../../others/utils/serviceConfig'
 const Home = () => {
     const [selectedServices, setselectedServices] = useState([])
@@ -27,42 +27,9 @@ const Home = () => {
     const [selectCar, setselectCar] = useState('')
     const [state, setState] = useState('')
     const [selectedItem, setselectedItem] = useState({});
-    const servicesData = useSelector((state: RootState) => state.user.services.filter(e => !e.category));
-
+    const servicesData1 = useSelector((state: any) => state.user?.services);
+    const servicesData = servicesData1?.filter(e => !e.category)
     const [services, setservices] = useState([...servicesData,
-    // {
-    //     id: 1,
-    //     name: 'Car Diagnostic',
-    //     icon: IMAGES['Layer7'],
-    //     onPress: (item: any) => setmodal(item?.name)
-    // },
-    // {
-    //     id: 2,
-    //     name: 'Change Oil',
-    //     icon: IMAGES['Layer8']
-    // },
-    // {
-    //     id: 3,
-    //     name: 'Suspension',
-    //     icon: IMAGES['Layer13copy']
-    // },
-    // {
-    //     id: 4,
-    //     name: 'AC Repair',
-    //     icon: IMAGES['Layer10'],
-    //     onPress: (item: any) => setmodal(item?.name)
-    // },
-    // {
-    //     id: 5,
-    //     name: 'Tranmission',
-    //     icon: IMAGES['Layer13copy']
-    // },
-    // {
-    //     id: 7,
-    //     name: 'Electrical work',
-    //     icon: IMAGES['Layer7'],
-    //     onPress: (item: any) => setmodal(item?.name)
-    // },
     {
         id: 123456789,
         name: 'Other Car Repair',
@@ -75,13 +42,13 @@ const Home = () => {
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(-100)).current;
-    const { user } = useSelector((state: RootState) => state.user)
+    const { user } = useSelector((state: any) => state.user)
     const myvehicles = useApi(APIService.myvehicles)
     const dispatch = useDispatch()
     useEffect(() => {
         myvehicles.requestCall(user?.id)
             .then((response) => {
-                // console.log(response)
+                console.log(response)
                 dispatch(setVehicles(response.vehicles))
             })
             .catch(() => { });
@@ -141,6 +108,10 @@ const Home = () => {
             />)
         } else null
     }, [modal])
+    useEffect(() => {
+        store.dispatch(setSelectedServices({ customer_id: user?.id, selectedServices, state }))
+    }, [selectCar])
+
     return (
         <BaseScreen>
             <View style={styles.backDark} >
@@ -205,8 +176,7 @@ const Home = () => {
                                 })
                             }
                         </View>
-                        {/* {console.log(JSON.stringify({selectedServices, state}))} */}
-                        {/* <PrimaryButton disabled={!selectedServices[0]?.id} onPress={() => navServices.navigate('CarDetails')} title='Continue' /> */}
+                        {/* {console.log(JSON.stringify({ selectedServices, state }))} */}
                         <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >
                             <PrimaryButton
                                 disabled={!selectedServices[0]?.id}

@@ -3,7 +3,7 @@ import { Animated, StyleSheet, View } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
 import { useSelector } from 'react-redux';
 import { updateSnackBar } from '../../others/redux/reducers/userReducer';
-import store, { RootState } from '../../others/redux/store';
+import store from '../../others/redux/store';
 import { colors } from '../../others/utils/colors';
 import { COMMON_STYLES } from '../../others/utils/commonStyles';
 import { mvs } from '../../others/utils/responsive';
@@ -11,7 +11,7 @@ import AppText from '../AppText';
 
 const CustomSnackBar = () => {
 
-    const { snackBar } = useSelector((state:RootState) => state.user)
+    const { snackBar } = useSelector((state: any) => state.user)
     const { message, duration, onClose = () => { }, type } = snackBar
     // let svgName = type == 'success' ? 'greenTick' : type == 'info' ? 'info' : Icons.
 

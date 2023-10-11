@@ -13,8 +13,16 @@ import DatePicker from '../../../components/datePicker'
 import LottieView from 'lottie-react-native'
 import navServices from '../../../others/utils/navServices'
 import DeviceInfo from 'react-native-device-info'
+import { useSelector } from 'react-redux'
+import store from '../../../others/redux/store'
+import { setSelectedServices } from '../../../others/redux/reducers/userReducer'
+import moment from 'moment'
+import { useApi } from '../../../others/services/useApi'
+import { APIService } from '../../../others/services/APIServices'
 
 const PickUp = () => {
+    const selectedServices = useSelector((state: any) => state.user?.selectedServices);
+    console.log({ selectedServices: JSON.stringify(selectedServices) })
     const [pickUpType, setpickUpType] = useState()
     const [date, setdate] = useState('')
     const [time, settime] = useState('')
@@ -85,7 +93,65 @@ const PickUp = () => {
         opacity: animation,
     }
     const isTablet = DeviceInfo.isTablet();
+    const addBooking = useApi(APIService.addBooking)
+    const handleConfirm = () => {
+        let dateTimeStr = date + " " + time;
+        const parsedDate = moment(dateTimeStr, "YYYY-MM-DD h:mm A");
+        let time1: any = parsedDate?.toISOString();
+        store.dispatch(setSelectedServices({ ...selectedServices, time: time1 }))
+        let arr1: any = [];
+        let messages = selectedServices?.state
+        delete messages[123456789]
+        let price = 0;
+        if (selectedServices?.selectedServices?.length) {
+            selectedServices?.selectedServices?.forEach((element: any) => {
+                if (element?.id !== 123456789) {
+                    arr1?.push(element?.id)
+                    price += element?.charges
+                }
+            });
+        }
+        if (Object.keys(selectedServices?.state).length !== 0) {
+            Object.keys(selectedServices?.state).forEach(function (key, index) {
+                let noKey = 123456789
+                if (key?.toString() == noKey?.toString()) {
+                    selectedServices?.state[123456789]?.forEach((element: any) => {
+                        if (element?.id !== 123456789) {
+                            arr1?.push(element?.id)
+                            price += element?.charges
+                        }
+                    });
+                } else arr1.push(key)
+            });
+        }
+        addBooking.requestCall({
 
+            customer_id: selectedServices?.customer_id,
+
+            vehicle_id: selectedServices?.vehicle_id,
+
+
+            services: arr1?.join(','),
+
+            service_messages: messages,
+
+            price,
+
+            time: selectedServices?.time1,
+
+            is_pickup: selectedServices?.is_pickup,
+        }).then((res: any) => {
+
+            setmodal(true)
+            setTimeout(() => {
+                navServices.navigate('ThanksScreen')
+            }, 3000);
+        }).catch((err) => {
+            console.log({ err })
+        })
+
+
+    }
     return (
         <BaseScreen>
             <View style={styles.backDark} >
@@ -99,6 +165,7 @@ const PickUp = () => {
                                     <TouchableOpacity
                                         onPress={() => {
                                             setpickUpType(_?.id)
+                                            store.dispatch(setSelectedServices({ ...selectedServices, is_pickup: _?.id == 1 ? 1 : 0 }))
                                         }}
                                         activeOpacity={0.9}
                                         style={[styles.carcare, { backgroundColor: pickUpType == _.id ? colors.parrot : colors.WHITE }]} >
@@ -139,20 +206,15 @@ const PickUp = () => {
                         }
                         {
                             time &&
-                            <PrimaryButton onPress={() => {
-                                setmodal(true)
-                                setTimeout(() => {
-                                    navServices.navigate('ThanksScreen'),
-                                        setmodal(false)
-                                }, 3000);
-                            }} title='Continue' />
+                            <PrimaryButton loading={addBooking.loading} onPress={handleConfirm} title='Confirm' />
                         }
 
                     </ScrollView>
                 </View>
             </View>
 
-            {modal &&
+            {
+                modal &&
                 <View
                     style={styles.loader}>
                     <LottieView
@@ -270,7 +332,7 @@ const PickUp = () => {
                     />
                 </View>
             }
-        </BaseScreen>
+        </BaseScreen >
     )
 }
 
@@ -330,3 +392,8 @@ const styles = StyleSheet.create({
         marginRight: 5
     },
 })
+
+
+
+
+

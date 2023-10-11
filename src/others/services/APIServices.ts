@@ -44,9 +44,9 @@ export const APIService = {
         return data
     },
     myvehicles: async (customerId: string | number) => {
+        console.log(customerId)
         const url = API_CONFIG.vehicles + "/" + customerId;
-        const { data } = await HTTP_CLIENT.get(url);
-        return data
+        return HTTP_CLIENT.get(url);
     },
 
     mainServices: async () => {
@@ -56,7 +56,11 @@ export const APIService = {
     },
     addVehicle: async (payload: VehiclePayload) => {
         const url = API_CONFIG.addVehicle
-        const { data } = await HTTP_CLIENT.post(url, payload);
-        return data
+        return HTTP_CLIENT.post(url, payload);
+    },
+    addBooking: async (payload: any) => {
+        console.log({ payload })
+        const url = API_CONFIG.addBooking
+        return HTTP_CLIENT.post(url, payload);
     }
 };

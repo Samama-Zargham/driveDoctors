@@ -10,7 +10,7 @@ import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
-import store, { RootState } from '../../../others/redux/store'
+import store from '../../../others/redux/store'
 import { setBookings } from '../../../others/redux/reducers/userReducer'
 import { useSelector } from 'react-redux'
 import { extractNamesByKey } from '../../../others/utils/helpers'
@@ -45,17 +45,17 @@ const Bookings = () => {
 
     // ])
 
-    const { user, bookings, servicesObject, vehicles } = useSelector((state: RootState) => state.user)
+    const { user, bookings, servicesObject, vehicles } = useSelector((state: any) => state.user)
     const animatedValues = useRef(bookings.map(() => new Animated.Value(0))).current;
     const myBookingsService = useApi(APIService.myBookings)
     console.log({ bookings })
     useLayoutEffect(() => {
         myBookingsService.requestCall(user.id)
             .then((response) => {
-               
+
                 store.dispatch(setBookings(response.booking.map((book: any) => ({
                     ...book,
-                    carName: vehicles.some((e:any)=>e.id === book.vehicle_id) ? `${vehicles.find((e:any)=>e.id === book.vehicle_id)?.make} ${vehicles.find((e:any)=>e.id === book.vehicle_id)?.model}`: "" ,
+                    carName: vehicles.some((e: any) => e.id === book.vehicle_id) ? `${vehicles.find((e: any) => e.id === book.vehicle_id)?.make} ${vehicles.find((e: any) => e.id === book.vehicle_id)?.model}` : "",
                     service: extractNamesByKey(servicesObject, book?.services).join(', '),
                     date: book?.time,
                     status: 'Our clinic waiting for your car',
@@ -68,16 +68,16 @@ const Bookings = () => {
     useEffect(() => {
 
         // if (bookings.length > 0) {
-            const animations = bookings.map((item, index) =>
-                Animated.timing(animatedValues[index], {
-                    toValue: 1, // Fade-in to full opacity
-                    duration: 1000, // Animation duration in milliseconds
-                    useNativeDriver: true, // For performance, use native driver
-                    delay: index * 200, // Delay each animation
-                })
-            );
+        const animations = bookings.map((item, index) =>
+            Animated.timing(animatedValues[index], {
+                toValue: 1, // Fade-in to full opacity
+                duration: 1000, // Animation duration in milliseconds
+                useNativeDriver: true, // For performance, use native driver
+                delay: index * 200, // Delay each animation
+            })
+        );
 
-            Animated.stagger(200, animations).start(); // Start animations in sequence with a stagger
+        Animated.stagger(200, animations).start(); // Start animations in sequence with a stagger
         // }
 
     }, []);
@@ -109,7 +109,7 @@ const Bookings = () => {
                                                 if ('date' == key || 'status' == key || 'payment' == key || 'service' == key) {
                                                     return (
                                                         <View key={index} style={styles.rowText} >
-                                                            <AppText children={key} style={{textTransform:'capitalize'}} />
+                                                            <AppText children={key} style={{ textTransform: 'capitalize' }} />
                                                             <AppText style={styles.sText} children={val} />
 
                                                         </View>
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     sText: {
         position: "absolute",
         left: mvs(78),
-        textTransform:'capitalize'
+        textTransform: 'capitalize'
     },
     backDark: { flex: 1, backgroundColor: colors.darkGreen },
     car: {

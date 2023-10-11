@@ -30,20 +30,20 @@ const Login = () => {
         //     return showError('Please write phone number in correct format')
         // }
         // else {
-            loginService.requestCall({ phone }).then((response) => {
-                console.log({ response: response.data })
-                // store.dispatch(setUser(response.data));
-                if (response?.data?.error == 'Invalid customer phone.') {
-                    showError('Phone number not registered')
-                }
-                else {
-                    mainCategoryServices.requestCall().then((response) => {
-                        console.log({ services: response.services })
-                        store.dispatch(setServices(response.services));
-                        navServices.navigate('VerifyCode', { phone })
-                    }).catch((error) => { })
-                }
-            }).catch((error) => console.log(error))
+        loginService.requestCall({ phone }).then((response) => {
+            console.log({ response: response.data })
+            // store.dispatch(setUser(response.data));
+            if (response?.data?.error == 'Invalid customer phone.') {
+                showError('Phone number not registered')
+            }
+            else {
+                mainCategoryServices.requestCall().then((response) => {
+                    console.log({ services: response.services })
+                    store.dispatch(setServices(response.services));
+                    navServices.navigate('VerifyCode', { phone })
+                }).catch((error) => { })
+            }
+        }).catch((error) => console.log(_returnError(error)))
         // }
 
     };
