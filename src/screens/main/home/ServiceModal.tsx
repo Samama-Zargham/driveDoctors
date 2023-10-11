@@ -9,8 +9,11 @@ import AnyIcon, { Icons } from '../../../components/reusables/AnyIcon'
 import { SelectUnSelectItems } from '../../../others/utils/helpers'
 import BaseModal from '../../../components/reusables/BaseModal'
 import { fontFamily } from '../../../others/utils/fonts'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../others/redux/store'
 
 const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }: any) => {
+    const servicesData =  useSelector((state:RootState)=>state.user.services.filter(e=>e.category === 'other'));
     const handleToggle = (val: any) => {
         if (val) {
             setmodal(false)
@@ -18,33 +21,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
     }
     const SubServiceModal = React.memo(() => {
         const [selectedServices, setselectedServices] = useState(state[modal] || [])
-        const [data, setdata] = useState([
-            {
-                id: 1,
-                name: 'Car Repair',
-            },
-            {
-                id: 2,
-                name: 'Car Oil Change',
-            },
-            {
-                id: 3,
-                name: 'Battery Replace',
-            },
-            {
-                id: 4,
-                name: 'AC Repair',
-            },
-            {
-                id: 5,
-                name: 'Try Change',
-            },
-            {
-                id: 6,
-                name: 'Car Diagnostics',
-            },
-
-        ])
+        const [data, setdata] = useState(servicesData)
         const animatedValues = useRef(data.map(() => new Animated.Value(0))).current;
 
         useEffect(() => {
