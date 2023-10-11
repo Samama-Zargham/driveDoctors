@@ -20,55 +20,56 @@ import { APIService } from '../../../others/services/APIServices'
 import { useSelector, useDispatch } from 'react-redux'
 import store, { RootState } from '../../../others/redux/store'
 import { setBookings, setVehicles } from '../../../others/redux/reducers/userReducer'
+import { BUCKET_URL } from '../../../others/utils/serviceConfig'
 const Home = () => {
     const [selectedServices, setselectedServices] = useState([])
     const [modal, setmodal] = useState('')
     const [selectCar, setselectCar] = useState('')
     const [state, setState] = useState('')
     const [selectedItem, setselectedItem] = useState({});
+    const servicesData = useSelector((state: RootState) => state.user.services.filter(e => !e.category));
 
-
-    const [services, setservices] = useState([
-        {
-            id: 1,
-            name: 'Car Diagnostic',
-            icon: IMAGES['Layer7'],
-            onPress: (item: any) => setmodal(item?.name)
-        },
-        {
-            id: 2,
-            name: 'Change Oil',
-            icon: IMAGES['Layer8']
-        },
-        {
-            id: 3,
-            name: 'Suspension',
-            icon: IMAGES['Layer13copy']
-        },
-        {
-            id: 4,
-            name: 'AC Repair',
-            icon: IMAGES['Layer10'],
-            onPress: (item: any) => setmodal(item?.name)
-        },
-        {
-            id: 5,
-            name: 'Tranmission',
-            icon: IMAGES['Layer13copy']
-        },
-        {
-            id: 7,
-            name: 'Electrical work',
-            icon: IMAGES['Layer7'],
-            onPress: (item: any) => setmodal(item?.name)
-        },
-        {
-            id: 6,
-            name: 'Other Car Repair',
-            icon: IMAGES['Layer14'],
-            onPress: (item: any) => setmodal(item?.name),
-            isSubService: true
-        }
+    const [services, setservices] = useState([...servicesData,
+    // {
+    //     id: 1,
+    //     name: 'Car Diagnostic',
+    //     icon: IMAGES['Layer7'],
+    //     onPress: (item: any) => setmodal(item?.name)
+    // },
+    // {
+    //     id: 2,
+    //     name: 'Change Oil',
+    //     icon: IMAGES['Layer8']
+    // },
+    // {
+    //     id: 3,
+    //     name: 'Suspension',
+    //     icon: IMAGES['Layer13copy']
+    // },
+    // {
+    //     id: 4,
+    //     name: 'AC Repair',
+    //     icon: IMAGES['Layer10'],
+    //     onPress: (item: any) => setmodal(item?.name)
+    // },
+    // {
+    //     id: 5,
+    //     name: 'Tranmission',
+    //     icon: IMAGES['Layer13copy']
+    // },
+    // {
+    //     id: 7,
+    //     name: 'Electrical work',
+    //     icon: IMAGES['Layer7'],
+    //     onPress: (item: any) => setmodal(item?.name)
+    // },
+    {
+        id: 123456789,
+        name: 'Other Car Repair',
+        icon: IMAGES['Layer14'],
+        category: 'EXTRAT_ITEM',
+        isSubService: true
+    }
     ])
 
 
@@ -80,7 +81,7 @@ const Home = () => {
     useEffect(() => {
         myvehicles.requestCall(user?.id)
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 dispatch(setVehicles(response.vehicles))
             })
             .catch(() => { });
@@ -117,6 +118,7 @@ const Home = () => {
         Animated.stagger(200, animations).start(); // Start animations in sequence with a stagger
 
     }, [animatedValues, services]);
+    // console.log({state})
     const handleReset = () => {
         delete state[modal]
         SelectUnSelectItems(selectedItem, selectedServices, setselectedServices)
@@ -172,11 +174,17 @@ const Home = () => {
                                                 activeOpacity={0.7}
                                                 onPress={() => {
                                                     setselectedItem(item)
-                                                    if (state[item?.name] && item?.isSubService) {
-                                                        item?.onPress(item)
+                                                    console.log({ item })
+                                                    if (state[item?.id] && item?.isSubService) {
+                                                        setmodal(item?.id)
                                                     }
                                                     else {
-                                                        item?.onPress && !foundElement?.id && item?.onPress(item)
+                                                        // item?.onPress && !foundElement?.id && item?.onPress(item)
+                                                        if (item?.ask_description === "1" && !foundElement?.id) {
+                                                            setmodal(item?.id)
+                                                        } else if (item?.category === "EXTRAT_ITEM" && !foundElement?.id) {
+                                                            setmodal(item?.id)
+                                                        }
                                                         SelectUnSelectItems(item, selectedServices, setselectedServices)
                                                     }
                                                 }} >
@@ -186,7 +194,7 @@ const Home = () => {
                                                     colors={foundElement?.id ? [colors.parrot, colors.parrot] : [colors.parrot, colors.parrot2, colors.parrot2]} >
                                                     <AppText Medium children={item.name} />
                                                     <FastImage
-                                                        source={item.icon}
+                                                        source={{ uri: `${BUCKET_URL}/${item.icon}` }}
                                                         resizeMode='contain'
                                                         style={styles.icon}
                                                     />
@@ -197,6 +205,7 @@ const Home = () => {
                                 })
                             }
                         </View>
+                        {/* {console.log(JSON.stringify({selectedServices, state}))} */}
                         {/* <PrimaryButton disabled={!selectedServices[0]?.id} onPress={() => navServices.navigate('CarDetails')} title='Continue' /> */}
                         <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >
                             <PrimaryButton
@@ -211,15 +220,16 @@ const Home = () => {
                                 title='Add New Car' />
                         </View>
                     </ScrollView>
-                    {Modal}
-                    {
-                        selectCar == 'addCar' && <AddCar isNavigate={true} setmodal={setselectCar} />
-                    }
-                    {
-                        selectCar == 'SelectCarModal' && <SelectCarModal setmodal={setselectCar} />
-                    }
+
                 </View>
             </View>
+            {Modal}
+            {
+                selectCar == 'addCar' && <AddCar isNavigate={true} setmodal={setselectCar} />
+            }
+            {
+                selectCar == 'SelectCarModal' && <SelectCarModal setmodal={setselectCar} />
+            }
         </BaseScreen>
     )
 }
