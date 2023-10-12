@@ -99,7 +99,7 @@ const CarDetails = () => {
                                         {
                                             index == 2 &&
                                             isTab &&
-                                            <PrimaryButton disabled={selectedCar == ''} onPress={() => { navServices.navigate('PickUp', {vehicle_id:selectedCar}) }} title='Continue' />
+                                            <PrimaryButton disabled={selectedCar == ''} onPress={() => { navServices.navigate('PickUp', { vehicle_id: selectedCar }) }} title='Continue' />
                                         }
                                     </Animated.View>
                                 )
@@ -215,11 +215,11 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                                     plate: numberPlate
                                 }).then((response) => {// RESPONSE MN VEHICLE_ID NHI AA RHI
                                     //Zohaib bhai idhr jo vehicle id aye gi wo store me dispatch kerwadey selectedServices ki state me
-                                    //  store.dispatch(setSelectedServices({ ...selectedServices, vehicle_id: response?.vehicle_id }))
-                                     setIsAdded(Math.random())
+                                    store.dispatch(setSelectedServices({ ...selectedServices, vehicle_id: response?.id }))
+                                    setIsAdded(Math.random())
                                     console.log(response)
                                     setmodal(false)
-                                    // navServices.navigate('PickUp')
+                                    navServices.navigate('PickUp', { vehicle_id: response.id })
                                 }).catch((error) => { })
                                 // }
                             }}
