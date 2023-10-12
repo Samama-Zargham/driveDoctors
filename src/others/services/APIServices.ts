@@ -44,9 +44,9 @@ export const APIService = {
         return data
     },
     myvehicles: async (customerId: string | number) => {
-        console.log(customerId)
         const url = API_CONFIG.vehicles + "/" + customerId;
-        return HTTP_CLIENT.get(url);
+        const {data} = await HTTP_CLIENT.get(url);
+        return data
     },
 
     mainServices: async () => {

@@ -83,9 +83,9 @@ const CarDetails = () => {
                                     <Animated.View style={animatedStyles} key={index}>
                                         <TouchableOpacity
                                             disabled={!isTab}
-                                            onPress={() => setselectedCar(item)}
+                                            onPress={() => setselectedCar(item.id)}
                                             activeOpacity={0.9}
-                                            style={[styles.booking, { backgroundColor: selectedCar == item ? colors.parrot : colors.WHITE }]} key={index} >
+                                            style={[styles.booking, { backgroundColor: selectedCar == item.id ? colors.parrot : colors.WHITE }]} key={index} >
 
                                             <View style={COMMON_STYLES.rowDirection} >
                                                 <FastImage style={styles.car}
@@ -99,7 +99,7 @@ const CarDetails = () => {
                                         {
                                             index == 2 &&
                                             isTab &&
-                                            <PrimaryButton disabled={selectedCar == ''} onPress={() => { navServices.navigate('PickUp') }} title='Continue' />
+                                            <PrimaryButton disabled={selectedCar == ''} onPress={() => { navServices.navigate('PickUp', {vehicle_id:selectedCar}) }} title='Continue' />
                                         }
                                     </Animated.View>
                                 )

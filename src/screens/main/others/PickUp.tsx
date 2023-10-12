@@ -20,7 +20,8 @@ import moment from 'moment'
 import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 
-const PickUp = () => {
+const PickUp = (props) => {
+    const {vehicle_id} = props.route.params
     const selectedServices = useSelector((state: any) => state.user?.selectedServices);
     // console.log({ selectedServices: JSON.stringify(selectedServices) })
     const [pickUpType, setpickUpType] = useState()
@@ -98,7 +99,8 @@ const PickUp = () => {
         let dateTimeStr = date + " " + time;
         const parsedDate = moment(dateTimeStr, "YYYY-MM-DD h:mm A");
         let time1: any = parsedDate?.toISOString();
-        store.dispatch(setSelectedServices({ ...selectedServices, time: time1 }))
+        // store.dispatch(setSelectedServices({ ...selectedServices, time: time1 })) //PREV
+        store.dispatch(setSelectedServices({ ...selectedServices, time: dateTimeStr })) //NOW
         let arr1: any = [];
         let messages = selectedServices?.state
         delete messages[123456789]
@@ -124,6 +126,16 @@ const PickUp = () => {
                 } else arr1.push(key)
             });
         }
+
+        console.log({
+            customer_id: selectedServices?.customer_id,
+            vehicle_id: vehicle_id ,//selectedServices?.vehicle_id,
+            services: arr1?.join(','),
+            service_messages: messages,
+            price,
+            time: dateTimeStr ,//selectedServices?.time1,
+            is_pickup: selectedServices?.is_pickup,
+        })
         addBooking.requestCall({
             customer_id: selectedServices?.customer_id,
             vehicle_id: selectedServices?.vehicle_id,
