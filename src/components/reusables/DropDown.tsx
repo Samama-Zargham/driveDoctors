@@ -28,6 +28,11 @@ export default function DropDown({
         { label: 'Hyundai', value: 'Hyundai' },
     ]);
 
+
+    React.useEffect(()=>{
+        setItems(itemsArray)
+    },[itemsArray])
+
     return (
         <View style={{ flex: 1, zIndex, marginTop: mvs(20) }}>
             {header && <AppText FONT_18 semiBold children={header} />}

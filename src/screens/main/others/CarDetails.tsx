@@ -178,6 +178,8 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                 }
             }}>
             <AppText FONT_24 bold children={'Add Car Details'} />
+
+            {console.log(carMake)}
             <ScrollView
                 onStartShouldSetResponder={() => true}
                 style={[styles.backWhite]}
@@ -187,9 +189,8 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                         label: 'key',
                         value: 'value'
                     }} setValue={setcarMake}
-
-
                         header='Car Make' />
+                        {console.log(getCarModels(carMake))}
                     <DropDown value={carModal} setValue={setcarModal}
 
                         itemsArray={getCarModels(carMake)}
@@ -216,7 +217,7 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                                 }).then((response) => {// RESPONSE MN VEHICLE_ID NHI AA RHI
                                     //Zohaib bhai idhr jo vehicle id aye gi wo store me dispatch kerwadey selectedServices ki state me
                                     store.dispatch(setSelectedServices({ ...selectedServices, vehicle_id: response?.id }))
-                                    setIsAdded(Math.random())
+                                    setIsAdded&&  setIsAdded(Math.random())
                                     console.log(response)
                                     setmodal(false)
                                     navServices.navigate('PickUp', { vehicle_id: response.id })

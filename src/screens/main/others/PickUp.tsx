@@ -21,7 +21,7 @@ import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 
 const PickUp = (props) => {
-    const {vehicle_id} = props.route.params
+    const { vehicle_id } = props.route.params
     const selectedServices = useSelector((state: any) => state.user?.selectedServices);
     // console.log({ selectedServices: JSON.stringify(selectedServices) })
     const [pickUpType, setpickUpType] = useState()
@@ -102,49 +102,57 @@ const PickUp = (props) => {
         // store.dispatch(setSelectedServices({ ...selectedServices, time: time1 })) //PREV
         store.dispatch(setSelectedServices({ ...selectedServices, time: dateTimeStr })) //NOW
         let arr1: any = [];
-        let messages = selectedServices?.state
+        let messages = {...selectedServices?.state}
         delete messages[123456789]
+        console.log(messages)
         let price = 0;
         if (selectedServices?.selectedServices?.length) {
             selectedServices?.selectedServices?.forEach((element: any) => {
-                if (element?.id !== 123456789) {
+                if (element?.id != '123456789') {
                     arr1?.push(element?.id)
-                    price += element?.charges
+                    price += +element?.charges
                 }
             });
         }
         if (Object.keys(selectedServices?.state).length !== 0) {
             Object.keys(selectedServices?.state).forEach(function (key, index) {
-                let noKey = 123456789
+                let noKey = '123456789'
                 if (key?.toString() == noKey?.toString()) {
-                    selectedServices?.state[123456789]?.forEach((element: any) => {
-                        if (element?.id !== 123456789) {
+                    selectedServices?.state['123456789']?.forEach((element: any) => {
+                        if (element?.id != '123456789') {
                             arr1?.push(element?.id)
-                            price += element?.charges
+                            price += +element?.charges
                         }
                     });
                 } else arr1.push(key)
             });
         }
 
-        console.log({
+        let payload :{
+            customer_id: number;
+            vehicle_id: number;
+            services: string;
+            price: number;
+            time: string;
+            is_pickup: number |  string;
+            service_messages?: any
+        }  = {
             customer_id: selectedServices?.customer_id,
-            vehicle_id: vehicle_id ,//selectedServices?.vehicle_id,
-            services: arr1?.join(','),
-            service_messages: messages,
+            vehicle_id: vehicle_id,//selectedServices?.vehicle_id,
+            services: [...new Set(arr1)].join(','),
             price,
-            time: dateTimeStr ,//selectedServices?.time1,
+            time: dateTimeStr,//selectedServices?.time1,
             is_pickup: selectedServices?.is_pickup,
-        })
-        addBooking.requestCall({
-            customer_id: selectedServices?.customer_id,
-            vehicle_id: selectedServices?.vehicle_id,
-            services: arr1?.join(','),
-            service_messages: messages,
-            price,
-            time: selectedServices?.time1,
-            is_pickup: selectedServices?.is_pickup,
-        }).then((res: any) => {
+        } 
+        if (messages) {
+
+            payload.service_messages = [messages]
+        }
+        console.log(JSON.stringify(payload))
+
+        // const formData = new FormData(); // @ts-ignore
+        // Object.keys(payload).forEach(key => formData.append(key, payload));
+        addBooking.requestCall(payload).then((res: any) => {
 
             setmodal(true)
             setTimeout(() => {
