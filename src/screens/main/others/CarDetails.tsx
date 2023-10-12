@@ -213,13 +213,13 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                                     make: carMake,
                                     model: carModal,
                                     plate: numberPlate
-                                }).then((response) => {
+                                }).then((response) => {// RESPONSE MN VEHICLE_ID NHI AA RHI
                                     //Zohaib bhai idhr jo vehicle id aye gi wo store me dispatch kerwadey selectedServices ki state me
-                                    // store.dispatch(setSelectedServices({ ...selectedServices, vehicle_id: response?.vehicle_id }))
-                                    // setIsAdded(Math.random())
+                                    //  store.dispatch(setSelectedServices({ ...selectedServices, vehicle_id: response?.vehicle_id }))
+                                     setIsAdded(Math.random())
                                     console.log(response)
                                     setmodal(false)
-                                    navServices.navigate('PickUp')
+                                    // navServices.navigate('PickUp')
                                 }).catch((error) => { })
                                 // }
                             }}
