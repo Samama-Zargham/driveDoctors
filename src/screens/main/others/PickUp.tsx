@@ -146,7 +146,7 @@ const PickUp = (props) => {
         } 
         if (messages) {
 
-            payload.service_messages = [messages]
+            payload.service_messages = messages
         }
         console.log(JSON.stringify(payload))
 
