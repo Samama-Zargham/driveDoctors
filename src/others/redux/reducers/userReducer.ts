@@ -58,6 +58,9 @@ export const userReducer = createSlice({
       state.authToken = action.payload.access_token;
       state.loggedInUser = action.payload.loggedInUser
     },
+    updateUser: (state, action) => {
+      state.user = action.payload;
+    },
     setAuthToken: (state, action) => {
       state.authToken = action.payload;
     },
@@ -99,6 +102,6 @@ export const getUserRoles = (state: any) => state.entities.user.userRole;
 //will give the only LogedInuser Roles Redux data from store
 export const getLoggedInUser = (state: any) => state.entities.user.loggedInUser;
 
-export const { resetUserReducer, setSettings, setSelectedServices, setUser, setAuthToken, updateSnackBar, setLoggedInUser, setNotifications, setBookings, setVehicles, setServices } = userReducer.actions;
+export const { resetUserReducer, updateUser, setSettings, setSelectedServices, setUser, setAuthToken, updateSnackBar, setLoggedInUser, setNotifications, setBookings, setVehicles, setServices } = userReducer.actions;
 
 export default userReducer.reducer;

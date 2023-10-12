@@ -14,8 +14,9 @@ import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 import { useSelector } from 'react-redux'
 import store from '../../../others/redux/store'
-import { setUser } from '../../../others/redux/reducers/userReducer'
+import { setUser, updateUser } from '../../../others/redux/reducers/userReducer'
 import { showError } from '../../../others/utils/helpers'
+import navServices from '../../../others/utils/navServices'
 
 const Profile = () => {
     const [modal, setmodal] = useState(false)
@@ -44,6 +45,8 @@ const Profile = () => {
             }
             updateProfile.requestCall(user?.id, body).then((res) => {
                 console.log({ res })
+                store.dispatch(updateUser({ ...user, name }))
+                navServices.navigate('Home')
             }).catch((err) => console.log({ err }))
         }
     }
