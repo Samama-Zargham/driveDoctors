@@ -96,7 +96,7 @@ const PickUp = (props) => {
     const isTablet = DeviceInfo.isTablet();
     const addBooking = useApi(APIService.addBooking)
     const handleConfirm = () => {
-        let dateTimeStr = date + " " + time;
+        let dateTimeStr = moment(date, "DD-MM-YYYY") + " " + time;
         const parsedDate = moment(dateTimeStr, "YYYY-MM-DD h:mm A");
         let time1: any = parsedDate?.toISOString();
         // store.dispatch(setSelectedServices({ ...selectedServices, time: time1 })) //PREV
