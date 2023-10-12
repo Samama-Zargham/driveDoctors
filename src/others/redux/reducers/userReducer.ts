@@ -20,6 +20,8 @@ interface State {
   servicesObject: ServicesObject;
   loggedInUser: boolean;
   selectedServices: any;
+  Notifications: any;
+  Settings: any;
   snackBar: {
     duration: 3000,
     message: '',
@@ -33,7 +35,9 @@ const initialState: State = {
   selectedServices: {},
   bookings: [],
   vehicles: [],
+  Notifications: [],
   services: [],
+  Settings: [],
   servicesObject: {},
   loggedInUser: false,
   snackBar: {
@@ -63,6 +67,12 @@ export const userReducer = createSlice({
     setBookings: (state, action) => {
       state.bookings = action.payload;
     },
+    setSettings: (state, action) => {
+      state.Settings = action.payload;
+    },
+    setNotifications: (state, action) => {
+      state.Notifications = action.payload;
+    },
     setVehicles: (state, action) => {
       state.vehicles = action.payload;
     },
@@ -89,6 +99,6 @@ export const getUserRoles = (state: any) => state.entities.user.userRole;
 //will give the only LogedInuser Roles Redux data from store
 export const getLoggedInUser = (state: any) => state.entities.user.loggedInUser;
 
-export const { resetUserReducer, setSelectedServices, setUser, setAuthToken, updateSnackBar, setLoggedInUser, setBookings, setVehicles, setServices } = userReducer.actions;
+export const { resetUserReducer, setSettings, setSelectedServices, setUser, setAuthToken, updateSnackBar, setLoggedInUser, setNotifications, setBookings, setVehicles, setServices } = userReducer.actions;
 
 export default userReducer.reducer;

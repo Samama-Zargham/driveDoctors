@@ -42,7 +42,12 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                 containerStyle={{ maxHeight: height - 200, paddingBottom: 0 }}
                 isBottomSheet
                 modalvisible={true}
-                toggleModal={() => handleToggle(selectedServices?.length)}>
+                toggleModal={() => {
+                    if (selectedServices?.length) {
+                        handleSumit(selectedServices)
+                    }
+                    handleToggle(selectedServices?.length)
+                }}>
                 <AppText FONT_24 bold children={'Add Sub Services'} />
                 <ScrollView
                     onStartShouldSetResponder={() => true}
@@ -79,15 +84,16 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                             )
                         })
                     }
-                    <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 30 }]} >
-                        <PrimaryButton onPress={handleReset} isBorder width={'47%'} title='Reset' />
-                        <PrimaryButton
-                            onPress={() => handleSumit(selectedServices)}
-                            disabled={selectedServices?.length < 1}
-                            width={'47%'}
-                            title='Continue' />
-                    </View>
                 </ScrollView>
+
+                <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 30 }]} >
+                    <PrimaryButton onPress={handleReset} isBorder width={'47%'} title='Reset' />
+                    <PrimaryButton
+                        onPress={() => handleSumit(selectedServices)}
+                        disabled={selectedServices?.length < 1}
+                        width={'47%'}
+                        title='Continue' />
+                </View>
             </BaseModal>
         )
     })

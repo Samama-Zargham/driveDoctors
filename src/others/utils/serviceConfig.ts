@@ -14,5 +14,9 @@ export const API_CONFIG = {
     services: '/services',
     addVehicle: '/vehicles/add',
     addBooking: '/bookings/add',
+    notifications: '/notifications',
+    deleteAccount: '/delete',
+    updateProfile: '/update',
+    settings: "/settings"
 
 }

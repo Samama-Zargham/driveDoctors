@@ -1,20 +1,23 @@
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import { mvs } from '../../../others/utils/responsive'
 import { colors } from '../../../others/utils/colors'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
+import { useSelector } from 'react-redux'
+import AppText from '../../../components/AppText'
 
 const Disclaimer = () => {
+    const { Settings } = useSelector((state: any) => state.user)
 
 
     return (
         <BaseScreen>
             <View style={styles.backDark} >
                 <PrimaryHeader title='Disclaimer' />
-                <View style={styles.backWhite} >
-
-                </View>
+                <ScrollView style={styles.backWhite} >
+                    <AppText FONT_26 children={Settings[1]?.value} />
+                </ScrollView>
             </View>
         </BaseScreen>
     )

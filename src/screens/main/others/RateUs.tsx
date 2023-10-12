@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import { mvs } from '../../../others/utils/responsive'
@@ -40,7 +40,12 @@ const RateUs = () => {
 
                         <PrimaryInput multiLine placeholder='Write Feedback...' header='FeedBack' />
                         <View style={{ marginTop: isTablet ? '60%' : '70%' }} />
-                        <PrimaryButton onPress={() => navServices.navigate('Home')} title='Submit' />
+                        <PrimaryButton onPress={() => {
+                            if (Platform.OS == 'android') {
+                                Linking.openURL('https://play.google.com/store/')
+                            } else Linking.openURL('https://www.apple.com/app-store/')
+                            navServices.navigate('Home')
+                        }} title='Submit' />
                     </KeyboardAwareScrollView>
                 </View>
             </View>

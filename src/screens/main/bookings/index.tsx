@@ -14,61 +14,47 @@ import store from '../../../others/redux/store'
 import { setBookings } from '../../../others/redux/reducers/userReducer'
 import { useSelector } from 'react-redux'
 import { extractNamesByKey } from '../../../others/utils/helpers'
+import moment from 'moment'
+import { useIsFocused } from '@react-navigation/native'
 const Bookings = () => {
-    // const [services, setservices] = useState([
-    //     {
-    //         carName: 'KIA telluride',
-    //         service: 'Filter Change, Oil Change',
-    //         date: '17 Septemper 2023',
-    //         status: 'Our clinic waiting for your car',
-    //         payment: '250 QAR'
-    //     },
-    //     {
-    //         carName: 'KIA telluride',
-    //         service: 'Filter Change, Oil Change',
-    //         date: '17 Septemper 2023',
-    //         status: 'Our clinic waiting for your car',
-    //         payment: '250 QAR'
-    //     }, {
-    //         carName: 'KIA telluride',
-    //         service: 'Filter Change, Oil Change',
-    //         date: '17 Septemper 2023',
-    //         status: 'Our clinic waiting for your car',
-    //         payment: '250 QAR'
-    //     }, {
-    //         carName: 'KIA telluride',
-    //         service: 'Filter Change, Oil Change',
-    //         date: '17 Septemper 2023',
-    //         status: 'Our clinic waiting for your car',
-    //         payment: '250 QAR'
-    //     },
-
-    // ])
+    const isFocused = useIsFocused()
 
     const { user, bookings, servicesObject, vehicles } = useSelector((state: any) => state.user)
-    const animatedValues = useRef(bookings.map(() => new Animated.Value(0))).current;
+    const cloneBooking = Object.assign([], bookings)
+    const BOOKINGS = cloneBooking?.reverse()
+    const animatedValues = useRef(BOOKINGS.map(() => new Animated.Value(0))).current;
     const myBookingsService = useApi(APIService.myBookings)
-    console.log({ bookings })
-    useLayoutEffect(() => {
+
+    useEffect(() => {
         myBookingsService.requestCall(user.id)
             .then((response) => {
 
-                store.dispatch(setBookings(response.booking.map((book: any) => ({
-                    ...book,
-                    carName: vehicles.some((e: any) => e.id === book.vehicle_id) ? `${vehicles.find((e: any) => e.id === book.vehicle_id)?.make} ${vehicles.find((e: any) => e.id === book.vehicle_id)?.model}` : "",
-                    service: extractNamesByKey(servicesObject, book?.services).join(', '),
-                    date: book?.time,
-                    status: 'Our clinic waiting for your car',
-                    payment: `${book?.price | 0} QAR`
-                }))))
+                store.dispatch(setBookings(response.booking.map((book: any) => {
+                    console.log({ book })
+                    const servicesArray = book?.services?.split(',');
+                    const parts = book?.time?.split(' ');
+                    const timestamp = parts[0];
+
+                    return ({
+                        ...book,
+                        carName: vehicles.some((e: any) => e.id === book.vehicle_id) ? `${vehicles.find((e: any) => e.id === book.vehicle_id)?.make} ${vehicles.find((e: any) => e.id === book.vehicle_id)?.model}` : "",
+                        serviceId: book?.id,
+                        services: extractNamesByKey(servicesObject, servicesArray).join(', '),
+                        date: timestamp,
+                        time: parts[1] + " " + parts[2],
+                        status: book?.status == 'PROCESSING' ? 'Our clinic waiting for your car' : book?.status,
+                        payment: `${book?.price | 0} QAR`,
+                    })
+                }
+                )))
             })
             .catch(() => { });
-    }, [])
+    }, [isFocused])
 
     useEffect(() => {
 
         // if (bookings.length > 0) {
-        const animations = bookings.map((item, index) =>
+        const animations = BOOKINGS.map((item, index) =>
             Animated.timing(animatedValues[index], {
                 toValue: 1, // Fade-in to full opacity
                 duration: 1000, // Animation duration in milliseconds
@@ -90,7 +76,7 @@ const Bookings = () => {
                 <View style={styles.backWhite} >
                     <ScrollView contentContainerStyle={{ paddingTop: mvs(20) }} showsVerticalScrollIndicator={false}>
                         {
-                            bookings.map((item: booking, idx: number) => {
+                            BOOKINGS.map((item: booking, idx: number) => {
                                 return (
                                     <Animated.View
                                         key={idx}
@@ -106,7 +92,7 @@ const Bookings = () => {
                                         </View>
                                         {
                                             Object.entries(item).map(([key, val], index) => {
-                                                if ('date' == key || 'status' == key || 'payment' == key || 'service' == key) {
+                                                if ('time' == key || 'date' == key || 'status' == key || 'serviceId' == key || 'payment' == key || 'services' == key) {
                                                     return (
                                                         <View key={index} style={styles.rowText} >
                                                             <AppText children={key} style={{ textTransform: 'capitalize' }} />

@@ -1,5 +1,5 @@
 import { ImageBackground, StyleSheet, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IMAGES } from '../../assets/images'
 import AppText from '../../components/AppText'
 import { colors } from '../../others/utils/colors'
@@ -10,7 +10,7 @@ import navServices from '../../others/utils/navServices'
 import { APIService } from '../../others/services/APIServices'
 import { useApi } from '../../others/services/useApi'
 import store from '../../others/redux/store'
-import { setServices, setUser } from '../../others/redux/reducers/userReducer'
+import { setServices, setSettings, setUser } from '../../others/redux/reducers/userReducer'
 import { _returnError, convertArrayToObject, showError } from '../../others/utils/helpers'
 
 const Login = () => {
@@ -20,6 +20,14 @@ const Login = () => {
 
     const loginService = useApi(APIService.login)
     const mainCategoryServices = useApi(APIService.mainServices)
+    const getSettings = useApi(APIService.getSettings)
+    useEffect(() => {
+        getSettings.requestCall().then((res: any) => {
+            console.log({ settings: res?.settings })
+            store.dispatch(setSettings(res?.settings))
+        }).catch((err) => console.log({ err }))
+    }, [])
+
     const handleSignIn = () => {
         const regex = /^[0-9]+$/;
 

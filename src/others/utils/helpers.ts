@@ -423,21 +423,21 @@ function convertArrayToObject(inputArray: Service[]): Record<string, Service> {
 
 type MyObject = {
     [key: string]: {
-      name: string;
+        name: string;
     };
-  };
-  
-  function extractNamesByKey(obj: MyObject, keysToExtract: string[]): string[] {
+};
+
+function extractNamesByKey(obj: MyObject, keysToExtract: string[]): string[] {
     const extractedNames: string[] = [];
-  
     for (const key of keysToExtract) {
-      if (obj[key] && obj[key].name) {
-        extractedNames.push(obj[key].name);
-      }
+        if (obj[key] && obj[key].name) {
+            extractedNames.push(obj[key].name);
+        }
     }
-  
+    console.log({ extractedNames, keysToExtract, obj })
+
     return extractedNames
-  }
+}
 
 export {
     extractNamesByKey,

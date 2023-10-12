@@ -30,6 +30,7 @@ const Register = () => {
             return showError('Please write phone number in correct format')
         } else {
             registerService.requestCall({ phone, name, password }).then((response) => {
+                console.log({ response: response.data })
                 navServices.navigate('VerifyCode', { phone })
             }).catch((error) => console.log(error))
         }

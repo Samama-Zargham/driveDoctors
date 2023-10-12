@@ -23,7 +23,7 @@ import { APIService } from '../../../others/services/APIServices'
 const PickUp = (props) => {
     const { vehicle_id } = props.route.params
     const selectedServices = useSelector((state: any) => state.user?.selectedServices);
-    // console.log({ selectedServices: JSON.stringify(selectedServices) })
+    console.log({ selectedServices: JSON.stringify(selectedServices) })
     const [pickUpType, setpickUpType] = useState()
     const [date, setdate] = useState('')
     const [time, settime] = useState('')
@@ -96,20 +96,24 @@ const PickUp = (props) => {
     const isTablet = DeviceInfo.isTablet();
     const addBooking = useApi(APIService.addBooking)
     const handleConfirm = () => {
-        let dateTimeStr = moment(date, "DD-MM-YYYY") + " " + time;
+        let dateTimeStr = date + " " + time;
         const parsedDate = moment(dateTimeStr, "YYYY-MM-DD h:mm A");
         let time1: any = parsedDate?.toISOString();
         // store.dispatch(setSelectedServices({ ...selectedServices, time: time1 })) //PREV
         store.dispatch(setSelectedServices({ ...selectedServices, time: dateTimeStr })) //NOW
-        let arr1: any = [];
-        let messages = {...selectedServices?.state}
+        let serviceIds: any = [];
+        let serviceNames: any = [];
+
+        let messages = { ...selectedServices?.state }
         delete messages[123456789]
         console.log(messages)
         let price = 0;
         if (selectedServices?.selectedServices?.length) {
             selectedServices?.selectedServices?.forEach((element: any) => {
                 if (element?.id != '123456789') {
-                    arr1?.push(element?.id)
+                    serviceIds?.push(element?.id)
+                    serviceNames?.push(element?.name)
+
                     price += +element?.charges
                 }
             });
@@ -120,42 +124,53 @@ const PickUp = (props) => {
                 if (key?.toString() == noKey?.toString()) {
                     selectedServices?.state['123456789']?.forEach((element: any) => {
                         if (element?.id != '123456789') {
-                            arr1?.push(element?.id)
+                            serviceIds?.push(element?.id)
+                            serviceNames?.push(element?.name)
                             price += +element?.charges
                         }
                     });
-                } else arr1.push(key)
+                } else {
+                    serviceIds.push(key)
+                }
             });
         }
 
-        let payload :{
+        let payload: {
             customer_id: number;
             vehicle_id: number;
             services: string;
             price: number;
             time: string;
-            is_pickup: number |  string;
+            is_pickup: number | string;
             service_messages?: any
-        }  = {
+        } = {
             customer_id: selectedServices?.customer_id,
             vehicle_id: vehicle_id,//selectedServices?.vehicle_id,
-            services: [...new Set(arr1)].join(','),
+            services: [...new Set(serviceIds)].join(','),
             price,
             time: dateTimeStr,//selectedServices?.time1,
             is_pickup: selectedServices?.is_pickup,
-        } 
+        }
         if (messages) {
 
             payload.service_messages = messages
         }
-        console.log(JSON.stringify(payload))
 
         // const formData = new FormData(); // @ts-ignore
         // Object.keys(payload).forEach(key => formData.append(key, payload));
         addBooking.requestCall(payload).then((res: any) => {
+            store.dispatch(setSelectedServices({
+                ...selectedServices,
+                serviceId: res?.data?.id,
+                price,
+                date,
+                time,
+                serviceNames: [...new Set(serviceNames)].join(','),
+            })) //PREV
 
             setmodal(true)
             setTimeout(() => {
+                setmodal(false)
                 navServices.navigate('ThanksScreen')
             }, 3000);
         }).catch((err) => {

@@ -5,47 +5,42 @@ import AppText from '../../../components/AppText'
 import { mvs } from '../../../others/utils/responsive'
 import { colors } from '../../../others/utils/colors'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
+import { useIsFocused } from '@react-navigation/native'
+import { useApi } from '../../../others/services/useApi'
+import { APIService } from '../../../others/services/APIServices'
+import { useSelector } from 'react-redux'
+import store from '../../../others/redux/store'
+import { setNotifications } from '../../../others/redux/reducers/userReducer'
 
 const Notifications = () => {
-    const [services, setservices] = useState([
-        {
-            carName: 'Your KIA vehicle 3214 is now in maintainance phase and will be ready on Wednesday',
-        },
-        {
-            carName: 'Your KIA vehicle 3214 is now in maintainance phase and will be ready on Wednesday',
-        },
-        {
-            carName: 'Your KIA vehicle 3214 is now in maintainance phase and will be ready on Wednesday',
-        },
-        {
-            carName: 'Your KIA vehicle 3214 is now in maintainance phase and will be ready on Wednesday',
-        },
-        {
-            carName: 'Your KIA vehicle 3214 is now in maintainance phase and will be ready on Wednesday',
-        },
-        {
-            carName: 'Your KIA vehicle 3214 is now in maintainance phase and will be ready on Wednesday',
-        },
-        {
-            carName: 'Your KIA vehicle 3214 is now in maintainance phase and will be ready on Wednesday',
-        },
+    const isFocused = useIsFocused()
+    const { requestCall, loading } = useApi(APIService.getNotify)
+    const { user, Notifications, vehicles } = useSelector((state: any) => state.user)
 
-    ])
-    const animatedValues = useRef(services.map(() => new Animated.Value(0))).current;
+    const animatedValues = useRef(Notifications?.map(() => new Animated.Value(0))).current;
 
     useEffect(() => {
-        const animations = services.map((item, index) =>
-            Animated.timing(animatedValues[index], {
-                toValue: 1, // Fade-in to full opacity
-                duration: 1000, // Animation duration in milliseconds
-                useNativeDriver: true, // For performance, use native driver
-                delay: index * 200, // Delay each animation
+        requestCall(user.id)
+            .then((response) => {
+                store.dispatch(setNotifications(response?.notifications))
             })
-        );
+            .catch((err) => { console.log({ err }) });
+    }, [isFocused])
 
-        Animated.stagger(200, animations).start(); // Start animations in sequence with a stagger
+    useEffect(() => {
+        if (Notifications?.length > 0) {
+            const animations = Notifications?.map((item: any, index: number) =>
+                Animated.timing(animatedValues[index], {
+                    toValue: 1, // Fade-in to full opacity
+                    duration: 1000, // Animation duration in milliseconds
+                    useNativeDriver: true, // For performance, use native driver
+                    delay: index * 200, // Delay each animation
+                })
+            );
 
-    }, [animatedValues, services]);
+            Animated.stagger(200, animations).start();
+        }// Start animations in sequence with a stagger
+    }, []);
 
     return (
         <BaseScreen>
@@ -53,19 +48,30 @@ const Notifications = () => {
                 <PrimaryHeader title='Notifications' />
 
                 <View style={styles.backWhite} >
-                    {services?.length > 0 && <AppText onPress={() => { setservices([]) }} FONT_18 style={{ right: 10, alignSelf: 'flex-end' }} bold color={colors.darkGreen} children='Clear All' />}
+                    {Notifications?.length > 0 && <AppText
+                        onPress={() => { store.dispatch(setNotifications([])) }}
+                        FONT_18 style={{ right: 10, alignSelf: 'flex-end' }}
+                        bold color={colors.darkGreen} children='Clear All' />}
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {
-                            services?.length > 0 ?
-                                services.map((item: any, idx: number) => {
+                            Notifications?.length > 0 ?
+                                Notifications.map((item: any, idx: number) => {
+                                    let vehicle = vehicles?.filter((i: any) => i?.id == item?.vehicle_id)
                                     return (
                                         <Animated.View
                                             key={idx}
                                             style={[styles.notifi,
                                             { opacity: animatedValues[idx] },
                                             ]}>
-                                            <AppText Medium children={'17 September 2023\n'} />
-                                            <AppText children={item.carName} />
+                                            {vehicle[0]?.plate &&
+                                                <View>
+                                                    <AppText children={'Car Info: ' + vehicle[0]?.make + " " + vehicle[0]?.model} />
+                                                    <AppText children={'Number Plate: ' + vehicle[0]?.plate + '\n'} />
+                                                </View>
+                                            }
+                                            <AppText children={item?.message} />
+
+
 
                                         </Animated.View>
                                     )
