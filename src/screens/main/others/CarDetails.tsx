@@ -205,9 +205,9 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                             loading={addVehicle.loading}
                             onPress={() => {
 
-                                // if (isNavigate) {
-                                //     navServices.navigate('PickUp')
-                                // } else {
+                                if (!isNavigate) {
+                                    // navServices.navigate('PickUp')
+                                } else {
                                 addVehicle.requestCall({
                                     customer_id: user.id,
                                     make: carMake,
@@ -221,7 +221,7 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                                     setmodal(false)
                                     navServices.navigate('PickUp', { vehicle_id: response.id })
                                 }).catch((error) => { })
-                                // }
+                                }
                             }}
                             disabled={!carModal || !carMake || !numberPlate}
                             width={'47%'}
