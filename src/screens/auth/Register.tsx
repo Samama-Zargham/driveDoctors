@@ -44,7 +44,7 @@ const Register = () => {
                 <PrimaryInput top={10} placeholder='Full Name' onChangeText={setname} />
                 {/* <PrimaryInput top={10} placeholder='Phone' /> */}
                 <PrimaryInput top={10} placeholder='Phone Number' onChangeText={setphone} />
-                <PrimaryInput top={10} placeholder='Password' onChangeText={setpassword} />
+                <PrimaryInput top={10} isEye placeholder='Password' onChangeText={setpassword} />
                 <PrimaryButton loading={registerService.loading} onPress={handleRegister} title='Register' />
                 <TouchableOpacity onPress={() => navServices.navigate('Login')} style={{ padding: 5 }} >
                     <AppText Medium center children={`Already have a account? Sign In`} color={colors.WHITE} />

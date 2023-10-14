@@ -28,7 +28,6 @@ import PrivacyPolicy from '../screens/main/others/PrivacyPolicy';
 import RateUs from '../screens/main/others/RateUs';
 import AppText from '../components/AppText';
 import ThanksScreen from '../screens/main/others/ThanksScreen';
-import CustomSnackBar from '../components/Snakbar/SnackBar';
 import { useSelector } from 'react-redux';
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -39,7 +38,6 @@ function MainNav() {
     console.log({ isLogedIn })
     return (
         <>
-            <CustomSnackBar />
             {isLogedIn ? <MainStack /> : <AuthStack />}
         </>
     );
@@ -254,10 +252,10 @@ const DrawerItems = [
         route: 'Disclaimer',
         component: Disclaimer,
     },
-    {
-        label: "Rate us",
-        icon: "Layer24",
-        route: 'RateUs',
-        component: RateUs,
-    },
+    // {
+    //     label: "Rate us",
+    //     icon: "Layer24",
+    //     route: 'RateUs',
+    //     component: RateUs,
+    // },
 ];

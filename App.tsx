@@ -6,6 +6,8 @@ import Splash from './src/screens/auth/Splash';
 import store, { persistor } from "./src/others/redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import CustomSnackBar from './src/components/Snakbar/SnackBar';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 const App = () => {
   const [splash, setsplash] = useState(true)
   useEffect(() => {
@@ -15,13 +17,16 @@ const App = () => {
   }, [])
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <NavigationContainer ref={navServices.setTopLevelNavigator}>
-          {splash ? <Splash /> : <MainStack />}
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <CustomSnackBar />
+        <PersistGate persistor={persistor}>
+          <NavigationContainer ref={navServices.setTopLevelNavigator}>
+            {splash ? <Splash /> : <MainStack />}
+          </NavigationContainer>
+        </PersistGate>
+      </Provider>
+    </GestureHandlerRootView>
   );
 };
 

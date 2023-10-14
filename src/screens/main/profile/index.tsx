@@ -66,8 +66,8 @@ const Profile = () => {
                         <PrimaryInput value={name} placeholder='' header='Name' onChangeText={setname} />
                         {/* <PrimaryInput placeholder='dummy@gmail.com' header='Email' /> */}
                         <PrimaryInput editable={false} value={phone} placeholder='ex: +947 3030392388' header='Phone' onChangeText={setphone} />
-                        <PrimaryInput placeholder='New Password' onChangeText={setpassword} header='Password' />
-                        <PrimaryInput placeholder='Confirm New Password' onChangeText={setpassword} header='Confirm Password' />
+                        <PrimaryInput isEye placeholder='New Password' onChangeText={setpassword} header='Password' />
+                        <PrimaryInput isEye placeholder='Confirm New Password' onChangeText={setpassword} header='Confirm Password' />
 
                         <PrimaryButton loading={updateProfile.loading} onPress={profileUpdate} title='Save' />
                         <PrimaryButton loading={loading} onPress={handleDelete} containerStyle={{ marginTop: 2 }} title='Delete Account' />

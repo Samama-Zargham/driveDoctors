@@ -36,5 +36,7 @@ export const IMAGES: any = {
     "login": require("./login.png"),
     "login1": require("./login1.png"),
     "login2": require("./login2.png"),
-    "splash": require("./splash.png")
+    "splash": require("./splash.png"),
+    "cross": require("./cross.png"),
+    "tick": require("./tick.png")
 }

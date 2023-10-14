@@ -1,5 +1,5 @@
 import { Animated, Platform, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import AppText from '../../../components/AppText'
 import { mvs } from '../../../others/utils/responsive'
@@ -19,7 +19,7 @@ import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 import { useSelector, useDispatch } from 'react-redux'
 import store from '../../../others/redux/store'
-import { setBookings, setSelectedServices, setVehicles } from '../../../others/redux/reducers/userReducer'
+import { setBookings, setSelectedServices, setServices, setVehicles } from '../../../others/redux/reducers/userReducer'
 import { BUCKET_URL } from '../../../others/utils/serviceConfig'
 const Home = () => {
     const [selectedServices, setselectedServices] = useState([])
@@ -45,7 +45,13 @@ const Home = () => {
     const { user } = useSelector((state: any) => state.user)
     const myvehicles = useApi(APIService.myvehicles)
     const dispatch = useDispatch()
-    useEffect(() => {
+    const mainCategoryServices = useApi(APIService.mainServices)
+
+    useLayoutEffect(() => {
+        mainCategoryServices.requestCall().then((response) => {
+            console.log({ services: response.services })
+            store.dispatch(setServices(response.services));
+        }).catch((error) => { })
         myvehicles.requestCall(user?.id)
             .then((response) => {
                 console.log(response)

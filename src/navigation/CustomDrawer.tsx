@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Linking, Platform, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import AppText from '../components/AppText'
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer'
@@ -74,6 +74,29 @@ const CustomDrawer = (props: any) => {
                                 />
                             )} />)
                     })} */}
+                    <DrawerItem
+                        labelStyle={{
+                            height: mvs(48),
+                            paddingVertical: 0,
+                            marginVertical: 0,
+                        }}
+                        onPress={() => {
+                            if (Platform.OS == 'android') {
+                                Linking.openURL('https://play.google.com/store/')
+                            } else Linking.openURL('https://www.apple.com/app-store/')
+                            navServices.navigate('Home')
+                        }}
+                        label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={"Rate Us"} />)}
+                        icon={({ focused, color, size }) => (
+                            <FastImage
+                                source={IMAGES['Layer24']}
+                                style={{
+                                    width: mvs(20),
+                                    height: mvs(20)
+                                }}
+                                resizeMode='contain'
+                            />
+                        )} />
                     <DrawerItem
                         labelStyle={{
                             height: mvs(48),

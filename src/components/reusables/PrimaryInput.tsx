@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import AppText from '../AppText'
 import { colors } from '../../others/utils/colors'
 import { mvs } from '../../others/utils/responsive'
@@ -10,7 +10,8 @@ interface Props extends TextInputProps {
     multiLine?: boolean
     location?: boolean
     placeholder: string,
-    top?: number
+    top?: number,
+    isEye?: boolean;
 }
 const PrimaryInput: React.FC<Props> = ({
     header,
@@ -18,8 +19,10 @@ const PrimaryInput: React.FC<Props> = ({
     top = 20,
     location = false,
     placeholder,
+    isEye = false,
     ...props
 }) => {
+    const [eye, seteye] = useState(true)
     const multiinput = {
         maxHeight: mvs(150),
         minHeight: mvs(130),
@@ -37,10 +40,12 @@ const PrimaryInput: React.FC<Props> = ({
                         flex: 1,
                         height: mvs(multiLine ? 150 : 60),
                     }}
+                    secureTextEntry={eye && isEye}
                     multiline={multiLine}
                     placeholder={placeholder}
                     {...props}
                 />
+                {isEye && <AnyIcon onPress={() => seteye(!eye)} containerStyle={{ padding: 2, paddingRight: mvs(10) }} size={30} color={colors.BLACK} type={Icons.Ionicons} name={!eye ? 'eye' : 'eye-off'} />}
             </View>
         </View>
     )
