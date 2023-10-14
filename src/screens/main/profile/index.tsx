@@ -36,6 +36,9 @@ const Profile = () => {
         if (!name) {
             return showError('Name field should not be empty')
         }
+        if (name?.length > 25) {
+            return showError('Name should not be greater than 25 characters')
+        }
         if (password !== password_Confirm) {
             return showError(`Password does'nt match`)
         } else {

@@ -76,36 +76,39 @@ const Bookings = () => {
                 <View style={styles.backWhite} >
                     <ScrollView contentContainerStyle={{ paddingTop: mvs(20) }} showsVerticalScrollIndicator={false}>
                         {
-                            BOOKINGS.map((item: booking, idx: number) => {
-                                return (
-                                    <Animated.View
-                                        key={idx}
-                                        style={[styles.booking,
-                                        { opacity: animatedValues[idx] },
-                                        ]}>
-                                        <View style={COMMON_STYLES.rowDirection} >
-                                            <FastImage style={styles.car}
-                                                source={IMAGES['car']}
-                                                resizeMode='contain'
-                                            />
-                                            <AppText Medium children={"      " + item.carName} />
-                                        </View>
-                                        {
-                                            Object.entries(item).map(([key, val], index) => {
-                                                if ('time' == key || 'date' == key || 'status' == key || 'serviceId' == key || 'payment' == key || 'services' == key) {
-                                                    return (
-                                                        <View key={index} style={styles.rowText} >
-                                                            <AppText children={key} style={{ textTransform: 'capitalize' }} />
-                                                            <AppText style={styles.sText} children={val} />
+                            BOOKINGS?.length ?
+                                BOOKINGS.map((item: booking, idx: number) => {
+                                    return (
+                                        <Animated.View
+                                            key={idx}
+                                            style={[styles.booking,
+                                            { opacity: animatedValues[idx] },
+                                            ]}>
+                                            <View style={COMMON_STYLES.rowDirection} >
+                                                <FastImage style={styles.car}
+                                                    source={IMAGES['car']}
+                                                    resizeMode='contain'
+                                                />
+                                                <AppText Medium children={"      " + item.carName} />
+                                            </View>
+                                            {
+                                                Object.entries(item).map(([key, val], index) => {
+                                                    if ('time' == key || 'date' == key || 'status' == key || 'serviceId' == key || 'payment' == key || 'services' == key) {
+                                                        return (
+                                                            <View key={index} style={styles.rowText} >
+                                                                <AppText children={key} style={{ textTransform: 'capitalize' }} />
+                                                                <AppText style={styles.sText} children={val} />
 
-                                                        </View>
-                                                    )
-                                                }
-                                            })
-                                        }
-                                    </Animated.View>
-                                )
-                            })
+                                                            </View>
+                                                        )
+                                                    }
+                                                })
+                                            }
+                                        </Animated.View>
+                                    )
+                                })
+                                :
+                                <AppText center FONT_16 children='No data found' />
                         }
                     </ScrollView>
                 </View>

@@ -32,7 +32,7 @@ const PrimaryHeader: React.FC<Props> = ({
                     size={notDrawer ? 30 : 40}
                     color='white'
                 />}
-                <AppText FONT_22 bold color={colors.WHITE} children={(rightIcon ? "    " : '') + title} />
+                <AppText style={{ width: 180 }} numberOfLines={1} FONT_22 bold color={colors.WHITE} children={(rightIcon ? "    " : '') + title} />
             </View>
             {
                 !rightIcon && <AnyIcon size={mvs(30)} disabled type={Icons.AntDesign} name='close' color={colors.WHITE} />

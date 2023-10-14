@@ -19,58 +19,16 @@ import { setSelectedServices } from '../../../others/redux/reducers/userReducer'
 import moment from 'moment'
 import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
+import BaseModal from '../../../components/reusables/BaseModal'
 
 const PickUp = (props) => {
     const { vehicle_id } = props.route.params
     const selectedServices = useSelector((state: any) => state.user?.selectedServices);
-    console.log({ selectedServices: JSON.stringify(selectedServices) })
     const [pickUpType, setpickUpType] = useState()
     const [date, setdate] = useState('')
     const [time, settime] = useState('')
-    const data = [
-        {
-            id: 1,
-            title: 'Pick From Location',
-            icon: 'truk'
-        },
-        {
-            id: 2,
-            title: 'Drop to Work Shop',
-            icon: 'home'
-        },
 
-    ]
-    const timeArray = [
-        // "9:00 AM",
-        // "9:30 AM",
-        "10:00 AM",
-        "10:30 AM",
-        "11:00 AM",
-        "11:30 AM",
-        "12:00 PM",
-        "12:30 PM",
-        "1:00 PM",
-        "1:30 PM",
-        "2:00 PM",
-        "2:30 PM",
-        "3:00 PM",
-        "3:30 PM",
-        "4:00 PM",
-        "4:30 PM",
-        "5:00 PM",
-        "5:30 PM",
-        "6:00 PM",
-        "6:30 PM",
-        "7:00 PM",
-        "7:30 PM",
-        "8:00 PM",
-        "8:30 PM",
-        "9:00 PM",
-        "9:30 PM",
-        // "10:00 PM",
-        // "10:30 PM"
-    ];
-    const [modal, setmodal] = useState(false)
+    const [modal, setmodal] = useState('')
     const [animation] = useState(new Animated.Value(0));
 
     useEffect(() => {
@@ -168,9 +126,9 @@ const PickUp = (props) => {
                 serviceNames: [...new Set(serviceNames)].join(','),
             })) //PREV
 
-            setmodal(true)
+            setmodal('LottieView')
             setTimeout(() => {
-                setmodal(false)
+                setmodal('')
                 navServices.navigate('ThanksScreen')
             }, 3000);
         }).catch((err) => {
@@ -212,23 +170,22 @@ const PickUp = (props) => {
                                 <DatePicker date={date} setDate={setdate} />
                             </>
                         }
+
                         {date &&
                             <>
-                                <AppText style={{ marginTop: 18 }} FONT_18 bold color={colors.darkGreen2} children={'Select time slot'} />
-                                <View style={styles.scrollContent}>
-                                    {
-                                        timeArray?.map((_: any, i: number) => {
-                                            return (
-                                                <TouchableOpacity
-                                                    activeOpacity={0.9}
-                                                    onPress={() => settime(_)}
-                                                    key={i} style={[styles.time, { backgroundColor: time == _ ? colors.parrot : colors.WHITE }]} >
-                                                    <AppText Medium style={{ padding: 2 }} children={_} />
-                                                </TouchableOpacity>
-                                            )
-                                        })
-                                    }
-                                </View>
+                                <TouchableOpacity
+                                    activeOpacity={0.9}
+                                    onPress={() => setmodal('time')}
+                                    style={styles.inputView} >
+                                    <AppText FONT_18 children={time || 'Select Time Slot'} />
+                                    <FastImage source={IMAGES['date']}
+                                        style={{
+                                            width: 30,
+                                            height: 30
+                                        }}
+                                    />
+                                </TouchableOpacity>
+
                             </>
                         }
                         {
@@ -241,116 +198,14 @@ const PickUp = (props) => {
             </View>
 
             {
-                modal &&
+                modal == 'LottieView' &&
                 <View
                     style={styles.loader}>
                     <LottieView
                         source={require('../../../assets/gif/booked.json')}
                         autoPlay
                         loop={false}
-                        colorFilters={[
-                            {
-                                keypath: 'Shape Layer 9', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Layer 2/confirmation Outlines', // Replace with the name of the layer or path you want to target
-                                color: colors.WHITE, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Shape Layer 6', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Shape Layer 7', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Shape Layer 8', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Shape Layer 3', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Shape Layer 4', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Shape Layer 2', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Shape Layer 1', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Shape Layer 5', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'ADBE Vector Graphic - Fill', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Comp 1', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Fill 1', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Ellipse 1', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'ADBE Vector Group', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Trim Paths 1', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Transform', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Transform', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Transform', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Capa 1/confirmation Outlines', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Group 1', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'Path 1', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'ADBE Vector Shape - Group', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'ADBE Vector Graphic - Fill', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-                            {
-                                keypath: 'ADBE Vector Group', // Replace with the name of the layer or path you want to target
-                                color: colors.darkGreen, // Replace with the desired color
-                            },
-
-                        ]}
+                        colorFilters={ColorFilter}
                         style={{
                             position: "absolute",
                             width: '100%',
@@ -358,6 +213,35 @@ const PickUp = (props) => {
                         }}
                     />
                 </View>
+            }
+            {
+                modal == 'time' &&
+                <BaseModal
+                    containerStyle={{ width: '85%', maxHeight: 350, overflow: "hidden" }}
+                    modalvisible={true}
+                    toggleModal={() => setmodal('')}>
+                    <AppText FONT_18 bold color={colors.darkGreen2} children={'Select Time'} />
+                    <ScrollView>
+                        <View style={styles.scrollContent}>
+
+                            {
+                                timeArray?.map((_: any, i: number) => {
+                                    return (
+                                        <TouchableOpacity
+                                            activeOpacity={0.9}
+                                            onPress={() => {
+                                                settime(_)
+                                                setmodal('')
+                                            }}
+                                            key={i} style={[styles.time, { backgroundColor: time == _ ? colors.parrot : colors.WHITE }]} >
+                                            <AppText Medium style={{ padding: 2 }} children={_} />
+                                        </TouchableOpacity>
+                                    )
+                                })
+                            }
+                        </View>
+                    </ScrollView>
+                </BaseModal>
             }
         </BaseScreen >
     )
@@ -390,11 +274,24 @@ const styles = StyleSheet.create({
         paddingHorizontal: mvs(14),
         flex: 1
     },
+    inputView: {
+        backgroundColor: colors.WHITE,
+        height: mvs(60),
+        borderRadius: mvs(10),
+        paddingLeft: 10,
+        marginTop: mvs(18),
+        borderWidth: 0.9,
+        borderColor: colors.GRAY,
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexDirection: "row",
+        paddingHorizontal: mvs(20)
+    },
     scrollContent: {
         flexDirection: "row",
         alignItems: "center",
         flexWrap: "wrap",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         width: "100%",
         marginTop: 10
     },
@@ -421,6 +318,151 @@ const styles = StyleSheet.create({
 })
 
 
+const ColorFilter = [
+    {
+        keypath: 'Shape Layer 9', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Layer 2/confirmation Outlines', // Replace with the name of the layer or path you want to target
+        color: colors.WHITE, // Replace with the desired color
+    },
+    {
+        keypath: 'Shape Layer 6', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Shape Layer 7', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Shape Layer 8', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Shape Layer 3', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Shape Layer 4', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Shape Layer 2', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Shape Layer 1', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Shape Layer 5', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'ADBE Vector Graphic - Fill', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Comp 1', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Fill 1', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Ellipse 1', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'ADBE Vector Group', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Trim Paths 1', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Transform', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Transform', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Transform', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Capa 1/confirmation Outlines', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Group 1', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'Path 1', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'ADBE Vector Shape - Group', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'ADBE Vector Graphic - Fill', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+    {
+        keypath: 'ADBE Vector Group', // Replace with the name of the layer or path you want to target
+        color: colors.darkGreen, // Replace with the desired color
+    },
+
+]
 
 
+const data = [
+    {
+        id: 1,
+        title: 'Pick From Location',
+        icon: 'truk'
+    },
+    {
+        id: 2,
+        title: 'Drop to Work Shop',
+        icon: 'home'
+    },
 
+]
+const timeArray = [
+    // "9:00 AM",
+    // "9:30 AM",
+    "10:00 AM",
+    "10:30 AM",
+    "11:00 AM",
+    "11:30 AM",
+    "12:00 PM",
+    "12:30 PM",
+    "1:00 PM",
+    "1:30 PM",
+    "2:00 PM",
+    "2:30 PM",
+    "3:00 PM",
+    "3:30 PM",
+    "4:00 PM",
+    "4:30 PM",
+    "5:00 PM",
+    "5:30 PM",
+    "6:00 PM",
+    "6:30 PM",
+    "7:00 PM",
+    "7:30 PM",
+    "8:00 PM",
+    "8:30 PM",
+    "9:00 PM",
+    "9:30 PM",
+    // "10:00 PM",
+    // "10:30 PM"
+];

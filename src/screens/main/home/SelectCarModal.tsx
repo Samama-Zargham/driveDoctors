@@ -54,27 +54,30 @@ const SelectCarModal = ({ setmodal }: any) => {
 
                 <AppText style={{ marginTop: mvs(20) }} FONT_18 semiBold children={'Listed Cars'} />
                 {
-                    vehicles?.map((item: any, index: number) => {
-                        return (
-                            <Animated.View style={animatedStyles} key={index}>
-                                <TouchableOpacity
-                                    onPress={() => setselectedCar(item.id)}
-                                    activeOpacity={0.9}
-                                    style={[styles.booking, { backgroundColor: selectedCar == item.id ? colors.parrot : colors.WHITE }]} key={index} >
+                    vehicles?.length ?
+                        vehicles?.map((item: any, index: number) => {
+                            return (
+                                <Animated.View style={animatedStyles} key={index}>
+                                    <TouchableOpacity
+                                        onPress={() => setselectedCar(item.id)}
+                                        activeOpacity={0.9}
+                                        style={[styles.booking, { backgroundColor: selectedCar == item.id ? colors.parrot : colors.WHITE }]} key={index} >
 
-                                    <View style={COMMON_STYLES.rowDirection} >
-                                        <FastImage style={styles.car}
-                                            source={IMAGES['car']}
-                                            resizeMode='contain'
-                                        />
-                                        <AppText Medium children={`   ${item.make} |  ${item.model} | ${item.plate}`} />
-                                    </View>
+                                        <View style={COMMON_STYLES.rowDirection} >
+                                            <FastImage style={styles.car}
+                                                source={IMAGES['car']}
+                                                resizeMode='contain'
+                                            />
+                                            <AppText Medium children={`   ${item.make} |  ${item.model} | ${item.plate}`} />
+                                        </View>
 
-                                </TouchableOpacity>
+                                    </TouchableOpacity>
 
-                            </Animated.View>
-                        )
-                    })
+                                </Animated.View>
+                            )
+                        })
+                        :
+                        <AppText center children="car not found" />
                 }
             </ScrollView>
 

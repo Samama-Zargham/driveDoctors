@@ -393,6 +393,15 @@ const showError = (message: string | undefined) => {
         })
     );
 };
+export function processArray(arr) {
+    if (arr.length <= 5) {
+        // If the array length is less than or equal to 5, pass the entire array
+        return arr;
+    } else {
+        // If the array length is greater than 5, pass the first 5 elements
+        return arr.slice(0, 5);
+    }
+}
 const showSuccess = (message: string | undefined) => {
     store.dispatch(
         updateSnackBar({

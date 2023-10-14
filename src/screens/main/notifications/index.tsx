@@ -55,13 +55,13 @@ const Notifications = () => {
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {
                             Notifications?.length > 0 ?
-                                Notifications.map((item: any, idx: number) => {
+                                Notifications?.map((item: any, idx: number) => {
                                     let vehicle = vehicles?.filter((i: any) => i?.id == item?.vehicle_id)
                                     return (
                                         <Animated.View
                                             key={idx}
                                             style={[styles.notifi,
-                                            { opacity: animatedValues[idx] },
+                                            { opacity: animatedValues[idx || 0] },
                                             ]}>
                                             {vehicle[0]?.plate &&
                                                 <View>
