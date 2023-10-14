@@ -12,7 +12,7 @@ import { setUser } from '../../others/redux/reducers/userReducer'
 import { useRoute } from '@react-navigation/native'
 import { APIService } from '../../others/services/APIServices'
 import { useApi } from '../../others/services/useApi'
-import { showError } from '../../others/utils/helpers'
+import { showError, showSuccess } from '../../others/utils/helpers'
 import { useDispatch } from 'react-redux'
 
 const VerifyCode = () => {
@@ -58,7 +58,10 @@ const VerifyCode = () => {
                 if (res?.data?.error == 'Invalid OTP.') {
                     showError('Invalid OTP')
                 }
-                else dispatch(setUser({ ...res?.data, loggedInUser: true }));
+                else {
+                    showSuccess('Successfully logged In')
+                    dispatch(setUser({ ...res?.data, loggedInUser: true }));
+                }
             }).catch((err) => console.log({ err }))
         }
     }
