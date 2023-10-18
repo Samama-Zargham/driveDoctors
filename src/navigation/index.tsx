@@ -28,15 +28,18 @@ import PrivacyPolicy from '../screens/main/others/PrivacyPolicy';
 import RateUs from '../screens/main/others/RateUs';
 import AppText from '../components/AppText';
 import ThanksScreen from '../screens/main/others/ThanksScreen';
-
+import { useSelector } from 'react-redux';
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 function MainNav() {
-    const [islogged, setislogged] = useState(true)
+    const isLogedIn = useSelector((state: any) => state.user.loggedInUser)
+    console.log({ isLogedIn })
     return (
-        islogged ? <MainStack /> : <AuthStack />
+        <>
+            {isLogedIn ? <MainStack /> : <AuthStack />}
+        </>
     );
 }
 
@@ -44,21 +47,17 @@ function MainStack() {
 
     return (
         <Stack.Navigator
+            initialRouteName='MyDrawer'
             screenOptions={{
                 headerShown: false,
                 cardStyleInterpolator: customTransition
-
             }}>
-            <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="MyDrawer" component={MyDrawer} />
             <Stack.Screen name="PickUp" component={PickUp} />
             <Stack.Screen name="CarDetails" component={CarDetails} />
             <Stack.Screen name="CalculateCharges" component={CalculateCharges} />
             <Stack.Screen name="MachanicContact" component={MachanicContact} />
             <Stack.Screen name="MapScreen" component={MapScreen} />
-            <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="VerifyCode" component={VerifyCode} />
-            <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
             <Stack.Screen name="ThanksScreen" component={ThanksScreen} />
 
         </Stack.Navigator>
@@ -253,10 +252,10 @@ const DrawerItems = [
         route: 'Disclaimer',
         component: Disclaimer,
     },
-    {
-        label: "Rate us",
-        icon: "Layer24",
-        route: 'RateUs',
-        component: RateUs,
-    },
+    // {
+    //     label: "Rate us",
+    //     icon: "Layer24",
+    //     route: 'RateUs',
+    //     component: RateUs,
+    // },
 ];

@@ -10,9 +10,49 @@ import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import PrimaryInput from '../../../components/reusables/PrimaryInput'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import AlertModal from '../../../components/reusables/AlertModal'
+import { useApi } from '../../../others/services/useApi'
+import { APIService } from '../../../others/services/APIServices'
+import { useSelector } from 'react-redux'
+import store from '../../../others/redux/store'
+import { setUser, updateUser } from '../../../others/redux/reducers/userReducer'
+import { showError } from '../../../others/utils/helpers'
+import navServices from '../../../others/utils/navServices'
 
 const Profile = () => {
     const [modal, setmodal] = useState(false)
+    const { requestCall, loading } = useApi(APIService.deleteAccount)
+    const updateProfile = useApi(APIService.updateProfile)
+
+    const { user } = useSelector((state: any) => state.user)
+    const [name, setname] = useState(user?.name || '')
+    const [phone, setphone] = useState(user?.phone || '')
+    const [password, setpassword] = useState('')
+    const [password_Confirm, setpassword_Confirm] = useState('')
+    console.log({ user })
+    const handleDelete = () => {
+        setmodal('delete')
+    }
+    const profileUpdate = () => {
+        if (!name) {
+            return showError('Name field should not be empty')
+        }
+        if (name?.length > 25) {
+            return showError('Name should not be greater than 25 characters')
+        }
+        if (password !== password_Confirm) {
+            return showError(`Password does'nt match`)
+        } else {
+            let body = {
+                name,
+                phone
+            }
+            updateProfile.requestCall(user?.id, body).then((res) => {
+                console.log({ res })
+                store.dispatch(updateUser({ ...user, name }))
+                navServices.navigate('Home')
+            }).catch((err) => console.log({ err }))
+        }
+    }
 
     return (
         <BaseScreen>
@@ -25,15 +65,15 @@ const Profile = () => {
                             style={styles.userImage}
                             resizeMode='contain'
                         />
-                        <AppText center FONT_18 semiBold children='dummy Name' />
-                        <PrimaryInput placeholder='Sam Zar' header='Name' />
+                        <AppText center FONT_18 semiBold children={name} />
+                        <PrimaryInput value={name} placeholder='' header='Name' onChangeText={setname} />
                         {/* <PrimaryInput placeholder='dummy@gmail.com' header='Email' /> */}
-                        <PrimaryInput placeholder='+947 3030392388' header='Phone' />
-                        <PrimaryInput placeholder='New Password' header='Password' />
-                        <PrimaryInput placeholder='Confirm New Password' header='Confirm Password' />
+                        <PrimaryInput editable={false} value={phone} placeholder='ex: +947 3030392388' header='Phone' onChangeText={setphone} />
+                        <PrimaryInput isEye placeholder='New Password' onChangeText={setpassword} header='Password' />
+                        <PrimaryInput isEye placeholder='Confirm New Password' onChangeText={setpassword} header='Confirm Password' />
 
-                        <PrimaryButton title='Save' />
-                        <PrimaryButton onPress={() => setmodal('delete')} containerStyle={{ marginTop: 2 }} title='Delete Account' />
+                        <PrimaryButton loading={updateProfile.loading} onPress={profileUpdate} title='Save' />
+                        <PrimaryButton loading={loading} onPress={handleDelete} containerStyle={{ marginTop: 2 }} title='Delete Account' />
 
                     </ScrollView>
                 </View>
@@ -44,6 +84,18 @@ const Profile = () => {
                     setmodalvisible={setmodal}
                     title='Delete Account'
                     description='Are you sure you want to delete account?'
+                    handleYes={() => {
+                        requestCall(user?.id).then((res) => {
+                            console.log(res)
+                            store?.dispatch(setUser({
+                                loggedInUser: false,
+                                user: null,
+                                access_token: null
+                            }))
+                        }).catch((err) => console.log({ err }))
+
+
+                    }}
                 />
             }
         </BaseScreen>

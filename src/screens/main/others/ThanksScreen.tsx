@@ -10,25 +10,32 @@ import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import FastImage from 'react-native-fast-image'
 import { IMAGES } from '../../../assets/images'
 import { CommonActions, useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
+import store from '../../../others/redux/store'
+import { setSelectedServices } from '../../../others/redux/reducers/userReducer'
 
 
 const ThanksScreen = () => {
+    const selectedServices = useSelector((state: any) => state?.user?.selectedServices)
+    console.log({ selectedServices })
     const navigation = useNavigation()
     const [services, setservices] = useState([
         {
-            carName: 'KIA telluride',
-            serviceId: '22115',
-            service: 'Filter Change, Oil Change',
-            date: '17 Septemper 2023',
-            TimeSlot: '11:00-11:30',
-            status: 'Our clinic waiting for your car',
-            payment: '250 QAR'
+            carName: selectedServices?.carName || '',
+            serviceId: selectedServices?.serviceId?.toString() || '',
+            service: selectedServices?.serviceNames || '',
+            date: selectedServices?.date?.toString() || '',
+            Time: selectedServices?.time?.toString() || '',
+            status: 'Our clinic waiting for your car' || '',
+            payment: (selectedServices?.price?.toString() || '') + ' QAR'
         }
     ])
     const handleOnpress = () => {
         // setmodal(true)
+
         setTimeout(() => {
             // setmodal(false)
+            store.dispatch(setSelectedServices({}))
             navigation.dispatch(
                 CommonActions.reset({
                     index: 0,
@@ -36,7 +43,8 @@ const ThanksScreen = () => {
                         { name: 'Home' }
                     ]
                 }),
-                navigation.navigate('Home')
+                navigation.navigate('Home'),
+
             );
         })
     }
@@ -66,8 +74,8 @@ const ThanksScreen = () => {
                                                 if (index > 0) {
                                                     return (
                                                         <View key={index} style={styles.rowText} >
-                                                            <AppText FONT_16 children={key.charAt(0).toUpperCase() + key.slice(1)} />
-                                                            <AppText FONT_16 children={val.charAt(0).toUpperCase() + val.slice(1)} />
+                                                            <AppText style={{ width: '25%' }} FONT_16 children={key.charAt(0).toUpperCase() + key.slice(1)} />
+                                                            <AppText style={{ width: '75%', textAlign: 'right' }} FONT_16 children={val.charAt(0).toUpperCase() + val.slice(1)} />
                                                         </View>
                                                     )
                                                 }

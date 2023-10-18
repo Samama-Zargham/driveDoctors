@@ -15,15 +15,36 @@ import navServices from '../../../others/utils/navServices'
 import { useRoute } from '@react-navigation/native'
 import BaseModal from '../../../components/reusables/BaseModal'
 import AnyIcon, { Icons } from '../../../components/reusables/AnyIcon'
-
+import { useDispatch, useSelector } from 'react-redux'
+import store from '../../../others/redux/store'
+import { useApi } from '../../../others/services/useApi'
+import { APIService } from '../../../others/services/APIServices'
+import { setSelectedServices, setVehicles } from '../../../others/redux/reducers/userReducer'
+import { carDataFormatted, getCarModels } from '../../../others/utils/carsData'
 const CarDetails = () => {
     const route = useRoute();
     const isTab = route.name === 'CarDetails';
     const [selectedCar, setselectedCar] = useState('')
     const [modal, setmodal] = useState(false)
+    const [isAdded, setIsAdded] = useState(false)
 
 
     const [animation] = useState(new Animated.Value(0));
+    const { user, vehicles, servicesObject } = useSelector((state: any) => state.user)
+
+    console.log({ servicesObject })
+    const myVehicleService = useApi(APIService.myvehicles)
+
+
+    useEffect(() => {
+        myVehicleService.requestCall(user?.id)
+            .then((response) => {
+                store.dispatch(setVehicles(response.vehicles))
+            })
+            .catch(() => { });
+    }, [isAdded])
+
+
 
     useEffect(() => {
         Animated.timing(animation, {
@@ -57,28 +78,28 @@ const CarDetails = () => {
 
                         <AppText style={{ marginTop: mvs(20) }} FONT_18 semiBold children={'Listed Cars'} />
                         {
-                            [1, 2, 3].map((item: any, index: number) => {
+                            vehicles.map((item: any, index: number) => {
                                 return (
                                     <Animated.View style={animatedStyles} key={index}>
                                         <TouchableOpacity
                                             disabled={!isTab}
-                                            onPress={() => setselectedCar(item)}
+                                            onPress={() => setselectedCar(item.id)}
                                             activeOpacity={0.9}
-                                            style={[styles.booking, { backgroundColor: selectedCar == item ? colors.parrot : colors.WHITE }]} key={index} >
+                                            style={[styles.booking, { backgroundColor: selectedCar == item.id ? colors.parrot : colors.WHITE }]} key={index} >
 
                                             <View style={COMMON_STYLES.rowDirection} >
                                                 <FastImage style={styles.car}
                                                     source={IMAGES['car']}
                                                     resizeMode='contain'
                                                 />
-                                                <AppText Medium children={"      " + 'KIA Telluride'} />
+                                                <AppText Medium children={`   ${item.make} |  ${item.model} | ${item.plate}`} />
                                             </View>
 
                                         </TouchableOpacity>
                                         {
                                             index == 2 &&
                                             isTab &&
-                                            <PrimaryButton disabled={selectedCar == ''} onPress={() => { navServices.navigate('PickUp') }} title='Continue' />
+                                            <PrimaryButton disabled={selectedCar == ''} onPress={() => { navServices.navigate('PickUp', { vehicle_id: selectedCar }) }} title='Continue' />
                                         }
                                     </Animated.View>
                                 )
@@ -99,7 +120,7 @@ const CarDetails = () => {
             </View>
             {
                 modal &&
-                <AddCar setmodal={setmodal} />
+                <AddCar isNavigate={isTab} setmodal={setmodal} setIsAdded={setIsAdded} />
             }
         </BaseScreen>
     )
@@ -108,12 +129,14 @@ const CarDetails = () => {
 export default CarDetails
 
 
-export const AddCar = ({ setmodal, isNavigate = false }: any) => {
-    const [carMake, setcarMake] = useState('')
+export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
+    const [carMake, setcarMake] = useState('Acura')
     const [carModal, setcarModal] = useState('')
+    const [numberPlate, setNumberPlate] = useState('')
 
 
     const [animation] = useState(new Animated.Value(0));
+    const { user } = useSelector((state: any) => state.user)
 
     useEffect(() => {
         Animated.timing(animation, {
@@ -123,6 +146,8 @@ export const AddCar = ({ setmodal, isNavigate = false }: any) => {
             useNativeDriver: false,
         }).start();
     }, []);
+
+
 
     const animatedStyles = {
         transform: [
@@ -135,31 +160,71 @@ export const AddCar = ({ setmodal, isNavigate = false }: any) => {
         ],
         opacity: animation,
     }
+    const selectedServices = useSelector((state: any) => state.user?.selectedServices);
+
+    const addVehicle = useApi(APIService.addVehicle)
+
+
     return (
         <BaseModal
             containerStyle={{ maxHeight: '85%', paddingBottom: 0 }}
             isBottomSheet
             modalvisible={true}
-            toggleModal={() => setmodal(false)}>
+            toggleModal={() => {
+                if (addVehicle.loading) {
+
+                } else {
+                    setmodal(false)
+                }
+            }}>
             <AppText FONT_24 bold children={'Add Car Details'} />
+
+            {console.log(carMake)}
             <ScrollView
                 onStartShouldSetResponder={() => true}
                 style={[styles.backWhite]}
                 showsVerticalScrollIndicator={false}>
                 <Animated.View style={animatedStyles}>
-                    <DropDown zIndex={2} value={carMake} setValue={setcarMake} header='Car Make' />
-                    <DropDown value={carModal} setValue={setcarModal} header='Car Modal' />
-                    <PrimaryInput placeholder='ex: ABDC 1234' header='Car Number Plate' />
+                    <DropDown zIndex={2} value={carMake} itemsArray={carDataFormatted} schema={{
+                        label: 'key',
+                        value: 'value'
+                    }} setValue={setcarMake}
+                        header='Car Make' />
+                    {console.log(getCarModels(carMake))}
+                    <DropDown value={carModal} setValue={setcarModal}
+
+                        itemsArray={getCarModels(carMake)}
+                        schema={{
+                            label: 'model',
+                            value: 'model'
+                        }}
+                        header='Car Modal' />
+                    <PrimaryInput placeholder='ex: ABDC 1234' header='Car Number Plate' onChangeText={setNumberPlate} />
                     <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 90 }]} >
-                        <PrimaryButton onPress={() => setmodal(false)} isBorder width={'47%'} title='Cancel' />
+                        <PrimaryButton onPress={() => addVehicle.loading ? {} : setmodal(false)} isBorder width={'47%'} title='Cancel' />
                         <PrimaryButton
+                            loading={addVehicle.loading}
                             onPress={() => {
-                                setmodal(false)
-                                if (isNavigate) {
-                                    navServices.navigate('PickUp')
-                                }
+
+                                // if () {
+                                //     // navServices.navigate('PickUp')
+                                // } else {
+                                addVehicle.requestCall({
+                                    customer_id: user?.id,
+                                    make: carMake,
+                                    model: carModal,
+                                    plate: numberPlate
+                                }).then((response) => {// RESPONSE MN VEHICLE_ID NHI AA RHI
+                                    //Zohaib bhai idhr jo vehicle id aye gi wo store me dispatch kerwadey selectedServices ki state me
+                                    store.dispatch(setSelectedServices({ ...selectedServices, vehicle_id: response?.id, carName: carModal + " " + carMake }))
+                                    setIsAdded && setIsAdded(Math.random())
+                                    console.log(response)
+                                    setmodal(false)
+                                    isNavigate && navServices.navigate('PickUp', { vehicle_id: response.id })
+                                }).catch((error) => { })
+                                // }
                             }}
-                            disabled={!carModal || !carMake}
+                            disabled={!carModal || !carMake || !numberPlate}
                             width={'47%'}
                             title='Continue' />
                     </View>

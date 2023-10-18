@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Linking, Platform, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import AppText from '../components/AppText'
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer'
@@ -13,6 +13,8 @@ import AlertModal from '../components/reusables/AlertModal'
 import DeviceInfo from 'react-native-device-info';
 import ToggleSwitch from 'toggle-switch-react-native'
 import { fontFamily } from '../others/utils/fonts'
+import store from '../others/redux/store'
+import { setUser } from '../others/redux/reducers/userReducer'
 
 
 const CustomDrawer = (props: any) => {
@@ -78,6 +80,29 @@ const CustomDrawer = (props: any) => {
                             paddingVertical: 0,
                             marginVertical: 0,
                         }}
+                        onPress={() => {
+                            if (Platform.OS == 'android') {
+                                Linking.openURL('https://play.google.com/store/')
+                            } else Linking.openURL('https://www.apple.com/app-store/')
+                            navServices.navigate('Home')
+                        }}
+                        label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={"Rate Us"} />)}
+                        icon={({ focused, color, size }) => (
+                            <FastImage
+                                source={IMAGES['Layer24']}
+                                style={{
+                                    width: mvs(20),
+                                    height: mvs(20)
+                                }}
+                                resizeMode='contain'
+                            />
+                        )} />
+                    <DrawerItem
+                        labelStyle={{
+                            height: mvs(48),
+                            paddingVertical: 0,
+                            marginVertical: 0,
+                        }}
                         activeTintColor='red'
                         onPress={() => settoggle(!toggle)}
                         label={({ focused, color }) => (
@@ -137,6 +162,13 @@ const CustomDrawer = (props: any) => {
                     setmodalvisible={() => { setmodal('') }}
                     title='Sign Out'
                     description='Are you sure you want to Sign Out?'
+                    handleYes={() => {
+                        store?.dispatch(setUser({
+                            loggedInUser: false,
+                            user: null,
+                            access_token: null
+                        }))
+                    }}
                 />
             }
         </View>

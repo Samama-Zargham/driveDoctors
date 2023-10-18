@@ -1,24 +1,32 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native'
+import React, { useState } from 'react'
 import AppText from '../AppText'
 import { colors } from '../../others/utils/colors'
 import { mvs } from '../../others/utils/responsive'
 import { COMMON_STYLES } from '../../others/utils/commonStyles'
 import AnyIcon, { Icons } from './AnyIcon'
-type Props = {
+import { countryCode } from '../../others/utils/helpers'
+interface Props extends TextInputProps {
     header?: string,
     multiLine?: boolean
     location?: boolean
     placeholder: string,
-    top?: number
+    top?: number,
+    isEye?: boolean;
+    isPhone?: boolean;
+
 }
 const PrimaryInput: React.FC<Props> = ({
     header,
     multiLine,
     top = 20,
     location = false,
-    placeholder
+    placeholder,
+    isEye = false,
+    isPhone = false,
+    ...props
 }) => {
+    const [eye, seteye] = useState(true)
     const multiinput = {
         maxHeight: mvs(150),
         minHeight: mvs(130),
@@ -31,14 +39,19 @@ const PrimaryInput: React.FC<Props> = ({
             {header && <AppText FONT_18 semiBold children={header} />}
             <View style={[styles.input, { ...(multiLine && multiinput) }]}>
                 {location && <AnyIcon type={Icons.Ionicons} name='location-sharp' size={30} />}
+                {isPhone && <AppText FONT_16 semiBold children={countryCode} />}
+
                 <TextInput
                     style={{
                         flex: 1,
                         height: mvs(multiLine ? 150 : 60),
                     }}
+                    secureTextEntry={eye && isEye}
                     multiline={multiLine}
                     placeholder={placeholder}
+                    {...props}
                 />
+                {isEye && <AnyIcon onPress={() => seteye(!eye)} containerStyle={{ padding: 2, paddingRight: mvs(10) }} size={30} color={colors.BLACK} type={Icons.Ionicons} name={!eye ? 'eye' : 'eye-off'} />}
             </View>
         </View>
     )

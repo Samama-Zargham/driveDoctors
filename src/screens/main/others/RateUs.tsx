@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import { mvs } from '../../../others/utils/responsive'
@@ -13,11 +13,12 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import AppText from '../../../components/AppText'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import DeviceInfo from 'react-native-device-info';
+import { useSelector } from 'react-redux'
 
 const RateUs = () => {
 
     const isTablet = DeviceInfo.isTablet();
-
+    const { Settings } = useSelector((state: any) => state.user)
     return (
         <BaseScreen>
             <View style={styles.backDark} >
@@ -40,7 +41,12 @@ const RateUs = () => {
 
                         <PrimaryInput multiLine placeholder='Write Feedback...' header='FeedBack' />
                         <View style={{ marginTop: isTablet ? '60%' : '70%' }} />
-                        <PrimaryButton onPress={() => navServices.navigate('Home')} title='Submit' />
+                        <PrimaryButton onPress={() => {
+                            if (Platform.OS == 'android') {
+                                Linking.openURL(Settings[3]?.value)
+                            } else Linking.openURL(Settings[4]?.value)
+                            navServices.navigate('Home')
+                        }} title='Submit' />
                     </KeyboardAwareScrollView>
                 </View>
             </View>

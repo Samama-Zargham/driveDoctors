@@ -2,6 +2,8 @@
 import moment from "moment";
 import { Alert, Platform } from "react-native";
 import { openCamera, openPicker } from "react-native-image-crop-picker";
+import store from "../redux/store";
+import { updateSnackBar } from "../redux/reducers/userReducer";
 // import DocumentPicker from "react-native-document-picker";
 
 
@@ -242,7 +244,7 @@ const formatBytes = (bytes, decimals = 2) => {
         return exactMbs;
     }
 };
-const ShowAlert = ({ title, des, onPressYes }: any) => {
+const ShowAlert = (title, des, onPressYes) => {
     Alert.alert(
         title,
         des,
@@ -252,7 +254,7 @@ const ShowAlert = ({ title, des, onPressYes }: any) => {
                 onPress: () => console.log("no Pressed"),
                 style: "cancel"
             },
-            { text: "yes", onPress: onPressYes }
+            { text: "yes", onPress: onPressYes ? onPressYes : () => console.log("no Pressed") }
         ]
     );
 }
@@ -337,7 +339,127 @@ const uploadImageOnS3F = (file: string, uploading: (v: boolean) => void, onSucce
 
 };
 
+export function formatErrorMessages(error: any): string {
+    if (typeof error === "object" && error !== null) {
+        return Object.values(error).join("\n");
+    } else {
+        return String(error);
+    }
+}
+
+
+const _returnError = (error: any): string | undefined => {
+    console.log(error?.response);
+
+
+    if (error?.response?.request) {
+        let { _response } = error?.response?.request;
+        if (Array.isArray(JSON.parse(_response)?.message)) {
+            return JSON.parse(_response)?.message[0];
+        } else if (JSON.parse(_response)?.message) {
+            return JSON.parse(_response)?.message;
+        } else {
+            return formatErrorMessages(JSON.parse(_response)?.error);
+        }
+    } else {
+        //  console.log("error?.message,", error?.message)
+        if (error === "Hi Dude") {
+            return "Dismiss";
+        } else if (error?.message) {
+            if (error?.message === "Network Error") {
+                return "Network Error";
+            } else {
+                if (error === "Hi Dude") {
+                    return "Dismiss";
+                } else if (error?.message) {
+                    if (error?.message === "Network Error") {
+                        return "Network Error";
+                    } else {
+                        return error.message?.toString();
+                    }
+                } else {
+                    return error?.toString();
+                }
+            }
+        }
+    }
+};
+
+const showError = (message: string | undefined) => {
+    store.dispatch(
+        updateSnackBar({
+            type: "error",
+            message,
+        })
+    );
+};
+export function processArray(arr) {
+    if (arr.length <= 5) {
+        // If the array length is less than or equal to 5, pass the entire array
+        return arr;
+    } else {
+        // If the array length is greater than 5, pass the first 5 elements
+        return arr.slice(0, 5);
+    }
+}
+export const countryCode = '+974' //974
+const showSuccess = (message: string | undefined) => {
+    store.dispatch(
+        updateSnackBar({
+            type: "success",
+            message,
+        })
+    );
+};
+export const STATUS: any = {
+    "initial": "Car on the way to the clinic",
+    "processing": "Inside the Clinic with our Doctors",
+    "completed": "Discharged and ready to the way"
+}
+
+interface Service {
+    id: string;
+    name: string;
+    charges: string;
+    icon: string;
+    category: string;
+}
+
+function convertArrayToObject(inputArray: Service[]): Record<string, Service> {
+    const servicesObject: Record<string, Service> = {};
+
+    inputArray.forEach((item) => {
+        servicesObject[item.id] = item;
+    });
+
+    return servicesObject
+}
+
+
+type MyObject = {
+    [key: string]: {
+        name: string;
+    };
+};
+
+function extractNamesByKey(obj: MyObject, keysToExtract: string[]): string[] {
+    const extractedNames: string[] = [];
+    for (const key of keysToExtract) {
+        if (obj[key] && obj[key].name) {
+            extractedNames.push(obj[key].name);
+        }
+    }
+    console.log({ extractedNames, keysToExtract, obj })
+
+    return extractedNames
+}
+
 export {
+    extractNamesByKey,
+    convertArrayToObject,
+    showError,
+    showSuccess,
+    _returnError,
     ShowAlert,
     AddORremoveFromArray,
     AddItemtoArray,

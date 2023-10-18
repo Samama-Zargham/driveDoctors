@@ -4,6 +4,7 @@ import Modal from 'react-native-modal';
 import { mvs } from '../../others/utils/responsive';
 import { colors } from '../../others/utils/colors';
 import { COMMON_STYLES } from '../../others/utils/commonStyles';
+import CustomSnackBar from '../Snakbar/SnackBar';
 
 interface Props {
     width?: any,
@@ -74,6 +75,7 @@ const BaseModal = React.memo(({
                     marginBottom: mvs(16)
                 }]} />}
                 {children}
+                <CustomSnackBar />
             </View>
         </Modal>
     )

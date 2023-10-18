@@ -14,7 +14,7 @@ import AppText from '../../../components/AppText'
 
 const Contact = () => {
     const isTablet = DeviceInfo.isTablet();
-    const phoneNumber = '0097451300087'; // Replace with the recipient's phone number
+    const phoneNumber = '+97451300087'; // Replace with the recipient's phone number
     let whatsapp = `whatsapp://send?phone=${phoneNumber}`;
     let phone = `tel:${phoneNumber}`
     const handlePress = (url: any) => {

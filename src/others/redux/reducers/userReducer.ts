@@ -1,10 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { convertArrayToObject } from '../../utils/helpers';
 
+
+export type Service = {
+  id: string;
+  name: string;
+  charges: string;
+  icon: string;
+  category: string;
+};
+
+export type ServicesObject = Record<string, Service>;
 interface State {
   user: any;
   authToken: any;
-  userRole: string;
-  loggedInUser: string;
+  bookings: any[];
+  vehicles: any[];
+  services: Service[];
+  servicesObject: ServicesObject;
+  loggedInUser: boolean;
+  selectedServices: any;
+  Notifications: any;
+  Settings: any;
   snackBar: {
     duration: 3000,
     message: '',
@@ -15,8 +32,14 @@ interface State {
 const initialState: State = {
   user: null,
   authToken: null,
-  userRole: "",
-  loggedInUser: "",
+  selectedServices: {},
+  bookings: [],
+  vehicles: [],
+  Notifications: [],
+  services: [],
+  Settings: [],
+  servicesObject: {},
+  loggedInUser: false,
   snackBar: {
     duration: 3000,
     message: '',
@@ -28,15 +51,39 @@ export const userReducer = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    resetUserReducer: () => initialState,
     setUser: (state, action) => {
+      console.log({ payload: action.payload })
+      state.user = action.payload.user;
+      state.authToken = action.payload.access_token;
+      state.loggedInUser = action.payload.loggedInUser
+    },
+    updateUser: (state, action) => {
       state.user = action.payload;
     },
     setAuthToken: (state, action) => {
       state.authToken = action.payload;
     },
-    setUserRole: (state, action) => {
-      state.userRole = action.payload;
+    setSelectedServices: (state, action) => {
+      state.selectedServices = action.payload;
     },
+    setBookings: (state, action) => {
+      state.bookings = action.payload;
+    },
+    setSettings: (state, action) => {
+      state.Settings = action.payload;
+    },
+    setNotifications: (state, action) => {
+      state.Notifications = action.payload;
+    },
+    setVehicles: (state, action) => {
+      state.vehicles = action.payload;
+    },
+    setServices: (state, action) => {
+      state.services = action.payload;
+      state.servicesObject = convertArrayToObject(action.payload);
+    },
+
     setLoggedInUser: (state, action) => {
       console.log("payload", action.payload);
       state.loggedInUser = action.payload;
@@ -55,6 +102,6 @@ export const getUserRoles = (state: any) => state.entities.user.userRole;
 //will give the only LogedInuser Roles Redux data from store
 export const getLoggedInUser = (state: any) => state.entities.user.loggedInUser;
 
-export const { setUser, setAuthToken, setUserRole, updateSnackBar, setLoggedInUser } = userReducer.actions;
+export const { resetUserReducer, updateUser, setSettings, setSelectedServices, setUser, setAuthToken, updateSnackBar, setLoggedInUser, setNotifications, setBookings, setVehicles, setServices } = userReducer.actions;
 
 export default userReducer.reducer;

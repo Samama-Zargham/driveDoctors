@@ -9,11 +9,13 @@ import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import { IMAGES } from '../../../assets/images'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import navServices from '../../../others/utils/navServices'
+import { useSelector } from 'react-redux'
 
 const SelectCarModal = ({ setmodal }: any) => {
+    const { user, vehicles, servicesObject } = useSelector((state: any) => state.user)
     const [selectedCar, setselectedCar] = useState('')
 
-
+    console.log({ vehicles })
     const [animation] = useState(new Animated.Value(0));
 
     useEffect(() => {
@@ -52,43 +54,47 @@ const SelectCarModal = ({ setmodal }: any) => {
 
                 <AppText style={{ marginTop: mvs(20) }} FONT_18 semiBold children={'Listed Cars'} />
                 {
-                    [1, 2, 3, 9, 87, 6].map((item: any, index: number) => {
-                        return (
-                            <Animated.View style={animatedStyles} key={index}>
-                                <TouchableOpacity
-                                    onPress={() => setselectedCar(item)}
-                                    activeOpacity={0.9}
-                                    style={[styles.booking, { backgroundColor: selectedCar == item ? colors.parrot : colors.WHITE }]} key={index} >
+                    vehicles?.length ?
+                        vehicles?.map((item: any, index: number) => {
+                            return (
+                                <Animated.View style={animatedStyles} key={index}>
+                                    <TouchableOpacity
+                                        onPress={() => setselectedCar(item.id)}
+                                        activeOpacity={0.9}
+                                        style={[styles.booking, { backgroundColor: selectedCar == item.id ? colors.parrot : colors.WHITE }]} key={index} >
 
-                                    <View style={COMMON_STYLES.rowDirection} >
-                                        <FastImage style={styles.car}
-                                            source={IMAGES['car']}
-                                            resizeMode='contain'
-                                        />
-                                        <AppText Medium children={"      " + 'KIA Telluride'} />
-                                    </View>
+                                        <View style={COMMON_STYLES.rowDirection} >
+                                            <FastImage style={styles.car}
+                                                source={IMAGES['car']}
+                                                resizeMode='contain'
+                                            />
+                                            <AppText Medium children={`   ${item.make} |  ${item.model} | ${item.plate}`} />
+                                        </View>
 
-                                </TouchableOpacity>
+                                    </TouchableOpacity>
 
-                            </Animated.View>
-                        )
-                    })
+                                </Animated.View>
+                            )
+                        })
+                        :
+                        <AppText center children="car not found" />
                 }
-                <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >
-                    <PrimaryButton
-                        onPress={() => setmodal('')}
-                        isBorder width={'47%'}
-                        title='Cancel' />
-                    <PrimaryButton
-                        disabled={selectedCar == ''}
-                        onPress={() => {
-                            setmodal(''),
-                                navServices.navigate('PickUp')
-                        }}
-                        width={'47%'}
-                        title='Select' />
-                </View>
             </ScrollView>
+
+            <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >
+                <PrimaryButton
+                    onPress={() => setmodal('')}
+                    isBorder width={'47%'}
+                    title='Cancel' />
+                <PrimaryButton
+                    disabled={selectedCar == ''}
+                    onPress={() => {
+                        setmodal(''),
+                            navServices.navigate('PickUp', { vehicle_id: selectedCar })
+                    }}
+                    width={'47%'}
+                    title='Select' />
+            </View>
         </BaseModal >
     )
 }

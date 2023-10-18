@@ -10,14 +10,16 @@ type Props = {
     value: string
     setValue: any
     itemsArray?: any
-    zIndex?: number
+    zIndex?: number,
+    schema?:any
 }
 export default function DropDown({
     header,
     value,
     setValue,
     itemsArray,
-    zIndex = 1
+    zIndex = 1,
+    schema
 }: Props) {
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(itemsArray || [
@@ -25,6 +27,11 @@ export default function DropDown({
         { label: 'Kia', value: 'Kia' },
         { label: 'Hyundai', value: 'Hyundai' },
     ]);
+
+
+    React.useEffect(()=>{
+        setItems(itemsArray)
+    },[itemsArray])
 
     return (
         <View style={{ flex: 1, zIndex, marginTop: mvs(20) }}>
@@ -45,10 +52,11 @@ export default function DropDown({
                     value={value}
                     items={items}
                     setOpen={setOpen}
-                    listMode="SCROLLVIEW"
+                    listMode="MODAL"
                     scrollViewProps={{
                         nestedScrollEnabled: true,
                     }}
+                    schema={schema}
                     setValue={setValue}
                     setItems={setItems}
                     placeholder={'Select an Item'}

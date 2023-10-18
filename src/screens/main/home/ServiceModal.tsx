@@ -1,7 +1,7 @@
 import { Animated, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import AppText from '../../../components/AppText'
-import { mvs } from '../../../others/utils/responsive'
+import { height, mvs } from '../../../others/utils/responsive'
 import { colors } from '../../../others/utils/colors'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import { COMMON_STYLES } from '../../../others/utils/commonStyles'
@@ -9,8 +9,10 @@ import AnyIcon, { Icons } from '../../../components/reusables/AnyIcon'
 import { SelectUnSelectItems } from '../../../others/utils/helpers'
 import BaseModal from '../../../components/reusables/BaseModal'
 import { fontFamily } from '../../../others/utils/fonts'
+import { useSelector } from 'react-redux'
 
 const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }: any) => {
+    const servicesData = useSelector((state: any) => state.user.services.filter(e => e.category === 'other'));
     const handleToggle = (val: any) => {
         if (val) {
             setmodal(false)
@@ -18,33 +20,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
     }
     const SubServiceModal = React.memo(() => {
         const [selectedServices, setselectedServices] = useState(state[modal] || [])
-        const [data, setdata] = useState([
-            {
-                id: 1,
-                name: 'Car Repair',
-            },
-            {
-                id: 2,
-                name: 'Car Oil Change',
-            },
-            {
-                id: 3,
-                name: 'Battery Replace',
-            },
-            {
-                id: 4,
-                name: 'AC Repair',
-            },
-            {
-                id: 5,
-                name: 'Try Change',
-            },
-            {
-                id: 6,
-                name: 'Car Diagnostics',
-            },
-
-        ])
+        const [data, setdata] = useState(servicesData)
         const animatedValues = useRef(data.map(() => new Animated.Value(0))).current;
 
         useEffect(() => {
@@ -63,10 +39,15 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
 
         return (
             <BaseModal
-                containerStyle={{ maxHeight: '85%', paddingBottom: 0 }}
+                containerStyle={{ maxHeight: height - 200, paddingBottom: 0 }}
                 isBottomSheet
                 modalvisible={true}
-                toggleModal={() => handleToggle(selectedServices?.length)}>
+                toggleModal={() => {
+                    if (selectedServices?.length) {
+                        handleSumit(selectedServices)
+                    }
+                    handleToggle(selectedServices?.length)
+                }}>
                 <AppText FONT_24 bold children={'Add Sub Services'} />
                 <ScrollView
                     onStartShouldSetResponder={() => true}
@@ -103,19 +84,19 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                             )
                         })
                     }
-                    <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 30 }]} >
-                        <PrimaryButton onPress={handleReset} isBorder width={'47%'} title='Reset' />
-                        <PrimaryButton
-                            onPress={() => handleSumit(selectedServices)}
-                            disabled={selectedServices?.length < 1}
-                            width={'47%'}
-                            title='Continue' />
-                    </View>
                 </ScrollView>
+
+                <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 30 }]} >
+                    <PrimaryButton onPress={handleReset} isBorder width={'47%'} title='Reset' />
+                    <PrimaryButton
+                        onPress={() => handleSumit(selectedServices)}
+                        disabled={selectedServices?.length < 1}
+                        width={'47%'}
+                        title='Continue' />
+                </View>
             </BaseModal>
         )
     })
-
     const InputModal = () => {
         const [txt, settxt] = useState(state[modal] || '')
         return (
@@ -124,7 +105,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                 modalvisible={true}
                 toggleModal={handleToggle}>
 
-                <AppText FONT_18 style={{ marginBottom: mvs(10) }} semiBold children={modal} />
+                <AppText FONT_18 style={{ marginBottom: mvs(10) }} semiBold children={item?.name} />
                 <TextInput
                     style={styles.input}
                     multiline={true}
