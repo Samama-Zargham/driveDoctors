@@ -11,7 +11,7 @@ import { APIService } from '../../others/services/APIServices'
 import { useApi } from '../../others/services/useApi'
 import store from '../../others/redux/store'
 import { setServices, setSettings, setUser } from '../../others/redux/reducers/userReducer'
-import { _returnError, convertArrayToObject, countryCode, showError } from '../../others/utils/helpers'
+import { _returnError, convertArrayToObject, countryCode, showError, showSuccess } from '../../others/utils/helpers'
 
 const Login = () => {
 
@@ -41,13 +41,14 @@ const Login = () => {
         // }
         // else {
         loginService.requestCall({ phone: countryCode + phone }).then((response) => {
-            console.log({ loginService: response.data })
+            // console.log({ loginService: response.data })
             store.dispatch(setUser(response.data));
             if (response?.data?.error == 'Invalid customer phone.') {
                 showError('Phone number not registered')
             }
             else {
                 mainCategoryServices.requestCall().then((response) => {
+                    showSuccess('Otp code send successfully')
                     console.log({ services: response.services })
                     store.dispatch(setServices(response.services));
                     navServices.navigate('VerifyCode', { phone })

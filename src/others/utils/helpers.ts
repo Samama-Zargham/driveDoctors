@@ -402,7 +402,7 @@ export function processArray(arr) {
         return arr.slice(0, 5);
     }
 }
-export const countryCode = '+92'
+export const countryCode = '+974'
 const showSuccess = (message: string | undefined) => {
     store.dispatch(
         updateSnackBar({
@@ -411,6 +411,11 @@ const showSuccess = (message: string | undefined) => {
         })
     );
 };
+export const STATUS: any = {
+    "initial": "Car on the way to the clinic",
+    "processing": "Inside the Clinic with our Doctors",
+    "completed": "Discharged and ready to the way"
+}
 
 interface Service {
     id: string;

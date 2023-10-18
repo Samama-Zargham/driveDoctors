@@ -9,7 +9,7 @@ import PrimaryButton from '../../components/buttons/PrimaryButton'
 import navServices from '../../others/utils/navServices'
 import { useApi } from '../../others/services/useApi'
 import { APIService } from '../../others/services/APIServices'
-import { countryCode, showError } from '../../others/utils/helpers'
+import { countryCode, showError, showSuccess } from '../../others/utils/helpers'
 import { setServices } from '../../others/redux/reducers/userReducer'
 import store from '../../others/redux/store'
 
@@ -35,7 +35,9 @@ const Register = () => {
             registerService.requestCall({ phone: countryCode + phone, name, password }).then((response) => {
                 console.log({ response: response.data })
                 mainCategoryServices.requestCall().then((response) => {
-                    console.log({ services: response.services })
+                    showSuccess('Otp code send successfully')
+
+                    // console.log({ services: response.services })
                     store.dispatch(setServices(response.services));
                     navServices.navigate('VerifyCode', { phone })
                 }).catch((error: any) => { })
@@ -52,7 +54,7 @@ const Register = () => {
                 {/* <PrimaryInput top={10} placeholder='Phone' /> */}
                 <PrimaryInput keyboardType='phone-pad' isPhone top={10} placeholder='Phone Number' onChangeText={setphone} />
                 <PrimaryInput top={10} isEye placeholder='Password' onChangeText={setpassword} />
-                <PrimaryButton loading={registerService.loading} onPress={handleRegister} title='Register' />
+                <PrimaryButton loading={registerService.loading || mainCategoryServices.loading} onPress={handleRegister} title='Register' />
                 <TouchableOpacity onPress={() => navServices.navigate('Login')} style={{ padding: 5 }} >
                     <AppText Medium center children={`Already have a account? Sign In`} color={colors.WHITE} />
                 </TouchableOpacity>

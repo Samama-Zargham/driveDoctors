@@ -1,5 +1,5 @@
 const BASE_URL = "https://cars-doctors.com/api";
-export const BUCKET_URL = "http://cars-doctors.com/public/assets/icon";
+export const BUCKET_URL = "https://cars-doctors.com/public/assets/icon";
 export const API_CONFIG = {
     BASE_URL,
     BUCKET_URL,

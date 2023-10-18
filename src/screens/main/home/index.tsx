@@ -7,7 +7,7 @@ import { colors } from '../../../others/utils/colors'
 import FastImage from 'react-native-fast-image'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import { IMAGES } from '../../../assets/images'
-import { SelectUnSelectItems, extractNamesByKey, processArray } from '../../../others/utils/helpers'
+import { STATUS, SelectUnSelectItems, extractNamesByKey, processArray } from '../../../others/utils/helpers'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import LinearGradient from 'react-native-linear-gradient'
@@ -139,8 +139,8 @@ const Home = () => {
                     style={styles.image}
                 />
                 <AppText FONT_16 bold color='black' children={`Number ${item?.plate} - ServiceId ${item?.serviceId}  (${item?.carName})`} />
-                <AppText FONT_16 style={{ width: '70%' }} bold color={colors.darkGreen2} children={`${item?.date} at ${item?.time} - ${item?.price} QAR\nStatus ${item?.status}`} />
-                <AppText children={`Service ${item?.services}`} />
+                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} at ${item?.time} - ${item?.price} QAR\nStatus: ${STATUS[item?.status?.toLowerCase()]}`} />
+                <AppText style={{ width: '70%' }} children={`Service: ${item?.services}`} />
             </View>
         )
     }
@@ -190,15 +190,6 @@ const Home = () => {
                                     useScrollView={true}
                                     onSnapToItem={(index: number) => setIndex(index)}
                                 />
-                                {BOOKINGS?.length > 1 && <Pagination
-                                    dotsLength={processArray(BOOKINGS).length}
-                                    activeDotIndex={index}
-                                    carouselRef={isCarousel}
-                                    dotStyle={styles?.dotstyle}
-                                    inactiveDotOpacity={0.4}
-                                    inactiveDotScale={0.6}
-                                    tappableDots={true}
-                                />}
                             </View>
                             :
                             <Animated.View
@@ -336,7 +327,7 @@ const styles = StyleSheet.create({
         height: mvs(70),
         position: "absolute",
         alignSelf: "flex-end",
-        top: Platform.OS == 'android' ? 27 : 25,
+        bottom: 0,
         right: mvs(10)
     },
     carcare: {
