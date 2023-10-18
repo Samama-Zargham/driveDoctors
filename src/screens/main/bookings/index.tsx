@@ -15,6 +15,7 @@ import { setBookings } from '../../../others/redux/reducers/userReducer'
 import { useSelector } from 'react-redux'
 import { extractNamesByKey } from '../../../others/utils/helpers'
 import { useIsFocused } from '@react-navigation/native'
+import { BookingStatus } from '../../../others/utils/staticData'
 const Bookings = () => {
     const isFocused = useIsFocused()
 
@@ -41,7 +42,7 @@ const Bookings = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: book?.status,
+                        status: BookingStatus[book?.status],
                         payment: `${book?.price | 0} QAR`,
                     })
                 }
@@ -120,8 +121,10 @@ export default Bookings
 
 const styles = StyleSheet.create({
     sText: {
-        position: "absolute",
-        left: mvs(78),
+        // position: "absolute",
+        // left: mvs(78),
+        textAlign:'right',
+        flex:0.7,
         textTransform: 'capitalize'
     },
     backDark: { flex: 1, backgroundColor: colors.darkGreen },
@@ -134,6 +137,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         backgroundColor: colors.parrot3,
         borderRadius: 4,
+        justifyContent:'space-between',
         padding: 1
     },
     booking: {

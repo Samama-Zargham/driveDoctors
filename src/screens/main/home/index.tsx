@@ -22,6 +22,7 @@ import store from '../../../others/redux/store'
 import { setBookings, setSelectedServices, setServices, setSettings, setVehicles } from '../../../others/redux/reducers/userReducer'
 import { BUCKET_URL } from '../../../others/utils/serviceConfig'
 import { useIsFocused } from '@react-navigation/native'
+import { BookingStatus } from '../../../others/utils/staticData'
 const Home = () => {
     const [selectedServices, setselectedServices] = useState([])
     const [modal, setmodal] = useState('')
@@ -32,7 +33,7 @@ const Home = () => {
     const { vehicles, bookings, servicesObject } = useSelector((state: any) => state.user);
     const getSettings = useApi(APIService.getSettings)
     const cloneBooking = Object.assign([], bookings);
-    const BOOKINGS = cloneBooking?.reverse();
+    const BOOKINGS = cloneBooking?.filter((e: any) => e.status != "COMPLETED")?.reverse();
     const servicesData = servicesData1?.filter(e => !e.category)
     const [services, setservices] = useState([...servicesData,
     {
@@ -139,7 +140,7 @@ const Home = () => {
                     style={styles.image}
                 />
                 <AppText FONT_16 bold color='black' children={`Number ${item?.plate} - ServiceId ${item?.serviceId}  (${item?.carName})`} />
-                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} at ${item?.time} - ${item?.price} QAR\nStatus: ${STATUS[item?.status?.toLowerCase()]}`} />
+                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} at ${item?.time} - ${item?.price} QAR\nStatus: ${BookingStatus[item?.status]}`} />
                 <AppText style={{ width: '70%' }} children={`Service: ${item?.services}`} />
             </View>
         )
@@ -176,8 +177,8 @@ const Home = () => {
                 <PrimaryHeader title={'Hi, ' + user?.name} />
                 <View style={styles.backWhite} >
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        {BOOKINGS?.length ?
-                            <View>
+                        {BOOKINGS?.length > 0 ?
+                            <View >
                                 <Carousel
                                     layout="default"
                                     layoutCardOffset={9}
@@ -207,8 +208,8 @@ const Home = () => {
                                 <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={`Car care at\nat your doorstep`} />
                             </Animated.View>
                         }
-                        <AppText style={{ marginVertical: mvs(14), top: BOOKINGS?.length > 1 ? -70 : 0 }} FONT_18 Medium children='Our Services' />
-                        <View style={[styles.scrollContent, { top: BOOKINGS?.length > 1 ? -75 : 0 }]} >
+                        <AppText style={{ marginVertical: mvs(14), }} FONT_18 Medium children='Our Services' />
+                        <View style={[styles.scrollContent, {}]} >
                             {
                                 services.map((item: any, idx: number) => {
                                     const foundElement: any = selectedServices.find((i: services) => i.id == item.id);
