@@ -12,7 +12,7 @@ import { setUser } from '../../others/redux/reducers/userReducer'
 import { useRoute } from '@react-navigation/native'
 import { APIService } from '../../others/services/APIServices'
 import { useApi } from '../../others/services/useApi'
-import { showError, showSuccess } from '../../others/utils/helpers'
+import { countryCode, showError, showSuccess } from '../../others/utils/helpers'
 import { useDispatch } from 'react-redux'
 
 const VerifyCode = () => {
@@ -52,9 +52,10 @@ const VerifyCode = () => {
             return alert('Please enter correct OTP')
         } else {
             verifyOtp.requestCall({
-                phone,
+                phone: countryCode + phone,
                 otp
             }).then((res) => {
+                console.log({ loginService: res.data })
                 if (res?.data?.error == 'Invalid OTP.') {
                     showError('Invalid OTP')
                 }
@@ -67,7 +68,7 @@ const VerifyCode = () => {
     }
     const handleResend = () => {
         if (counter == 0) { setCounter(60) }
-        loginService.requestCall({ phone }).then((response) => {
+        loginService.requestCall({ phone: countryCode + phone }).then((response) => {
             console.log({ response: response.data })
         }).catch((error) => console.log(error))
     }

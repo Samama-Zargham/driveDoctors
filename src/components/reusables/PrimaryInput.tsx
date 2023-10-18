@@ -5,6 +5,7 @@ import { colors } from '../../others/utils/colors'
 import { mvs } from '../../others/utils/responsive'
 import { COMMON_STYLES } from '../../others/utils/commonStyles'
 import AnyIcon, { Icons } from './AnyIcon'
+import { countryCode } from '../../others/utils/helpers'
 interface Props extends TextInputProps {
     header?: string,
     multiLine?: boolean
@@ -12,6 +13,8 @@ interface Props extends TextInputProps {
     placeholder: string,
     top?: number,
     isEye?: boolean;
+    isPhone?: boolean;
+
 }
 const PrimaryInput: React.FC<Props> = ({
     header,
@@ -20,6 +23,7 @@ const PrimaryInput: React.FC<Props> = ({
     location = false,
     placeholder,
     isEye = false,
+    isPhone = false,
     ...props
 }) => {
     const [eye, seteye] = useState(true)
@@ -35,6 +39,8 @@ const PrimaryInput: React.FC<Props> = ({
             {header && <AppText FONT_18 semiBold children={header} />}
             <View style={[styles.input, { ...(multiLine && multiinput) }]}>
                 {location && <AnyIcon type={Icons.Ionicons} name='location-sharp' size={30} />}
+                {isPhone && <AppText FONT_16 semiBold children={countryCode} />}
+
                 <TextInput
                     style={{
                         flex: 1,

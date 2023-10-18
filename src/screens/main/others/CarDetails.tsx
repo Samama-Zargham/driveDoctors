@@ -37,7 +37,7 @@ const CarDetails = () => {
 
 
     useEffect(() => {
-        myVehicleService.requestCall(user.id)
+        myVehicleService.requestCall(user?.id)
             .then((response) => {
                 store.dispatch(setVehicles(response.vehicles))
             })
@@ -210,7 +210,7 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                                 //     // navServices.navigate('PickUp')
                                 // } else {
                                 addVehicle.requestCall({
-                                    customer_id: user.id,
+                                    customer_id: user?.id,
                                     make: carMake,
                                     model: carModal,
                                     plate: numberPlate

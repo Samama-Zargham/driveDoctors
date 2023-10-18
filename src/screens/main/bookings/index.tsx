@@ -14,7 +14,6 @@ import store from '../../../others/redux/store'
 import { setBookings } from '../../../others/redux/reducers/userReducer'
 import { useSelector } from 'react-redux'
 import { extractNamesByKey } from '../../../others/utils/helpers'
-import moment from 'moment'
 import { useIsFocused } from '@react-navigation/native'
 const Bookings = () => {
     const isFocused = useIsFocused()
@@ -26,7 +25,7 @@ const Bookings = () => {
     const myBookingsService = useApi(APIService.myBookings)
 
     useEffect(() => {
-        myBookingsService.requestCall(user.id)
+        myBookingsService.requestCall(user?.id)
             .then((response) => {
 
                 store.dispatch(setBookings(response.booking.map((book: any) => {

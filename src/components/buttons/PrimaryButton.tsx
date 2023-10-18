@@ -39,13 +39,13 @@ const PrimaryButton: React.FC<Props> = ({
             width ? { width } : {},
             isBorder ? { borderColor: colors.darkGreen, borderWidth: 1 } : {},
             { backgroundColor: backgroundColor ? backgroundColor : disabled ? '#cecece' : colors[isBorder ? 'parrot2' : 'parrot'] }]}>
-           {loading ?
-           <ActivityIndicator />:
-            <View style={COMMON_STYLES.rowDirection}>
-                {rightIcon && <AnyIcon style={{ marginRight: 10 }} size={25} type={Icons.MaterialCommunityIcons} name={rightIcon} />}
-                <AppText color={txtColor ? txtColor : colors.BLACK} FONT_18 Medium children={title} />
-            </View>
-}
+            {loading ?
+                <ActivityIndicator size={26} /> :
+                <View style={COMMON_STYLES.rowDirection}>
+                    {rightIcon && <AnyIcon style={{ marginRight: 10 }} size={25} type={Icons.MaterialCommunityIcons} name={rightIcon} />}
+                    <AppText color={txtColor ? txtColor : colors.BLACK} FONT_18 Medium children={title} />
+                </View>
+            }
         </TouchableOpacity>
     )
 }

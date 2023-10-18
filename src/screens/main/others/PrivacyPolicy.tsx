@@ -1,22 +1,27 @@
 import { ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
-import { mvs } from '../../../others/utils/responsive'
+import { mvs, width } from '../../../others/utils/responsive'
 import { colors } from '../../../others/utils/colors'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import AppText from '../../../components/AppText'
 import { useSelector } from 'react-redux'
+import RenderHTML from 'react-native-render-html'
 
 const PrivacyPolicy = () => {
 
     const { Settings } = useSelector((state: any) => state.user)
-
+    console.log({ Settings: Settings[1]?.value })
     return (
         <BaseScreen>
             <View style={styles.backDark} >
                 <PrimaryHeader title='Privacy Policy' />
                 <ScrollView style={styles.backWhite} >
-                    <AppText FONT_26 children={Settings[2]?.value} />
+                    <RenderHTML
+                        contentWidth={width}
+                        source={{ html: Settings[2]?.value }}
+                    />
+                    <AppText children={`\n`} />
                 </ScrollView>
             </View>
         </BaseScreen>

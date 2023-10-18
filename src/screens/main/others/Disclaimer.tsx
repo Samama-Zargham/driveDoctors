@@ -1,11 +1,12 @@
 import { ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
-import { mvs } from '../../../others/utils/responsive'
+import { mvs, width } from '../../../others/utils/responsive'
 import { colors } from '../../../others/utils/colors'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import { useSelector } from 'react-redux'
 import AppText from '../../../components/AppText'
+import RenderHTML from 'react-native-render-html'
 
 const Disclaimer = () => {
     const { Settings } = useSelector((state: any) => state.user)
@@ -16,7 +17,11 @@ const Disclaimer = () => {
             <View style={styles.backDark} >
                 <PrimaryHeader title='Disclaimer' />
                 <ScrollView style={styles.backWhite} >
-                    <AppText FONT_26 children={Settings[1]?.value} />
+                    <RenderHTML
+                        contentWidth={width}
+                        source={{ html: Settings[1]?.value }}
+                    />
+                    <AppText children={`\n`} />
                 </ScrollView>
             </View>
         </BaseScreen>

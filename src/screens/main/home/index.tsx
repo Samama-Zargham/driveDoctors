@@ -19,7 +19,7 @@ import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 import { useSelector, useDispatch } from 'react-redux'
 import store from '../../../others/redux/store'
-import { setBookings, setSelectedServices, setServices, setVehicles } from '../../../others/redux/reducers/userReducer'
+import { setBookings, setSelectedServices, setServices, setSettings, setVehicles } from '../../../others/redux/reducers/userReducer'
 import { BUCKET_URL } from '../../../others/utils/serviceConfig'
 import { useIsFocused } from '@react-navigation/native'
 const Home = () => {
@@ -30,6 +30,7 @@ const Home = () => {
     const [selectedItem, setselectedItem] = useState({});
     const servicesData1 = useSelector((state: any) => state.user?.services);
     const { vehicles, bookings, servicesObject } = useSelector((state: any) => state.user);
+    const getSettings = useApi(APIService.getSettings)
     const cloneBooking = Object.assign([], bookings);
     const BOOKINGS = cloneBooking?.reverse();
     const servicesData = servicesData1?.filter(e => !e.category)
@@ -51,9 +52,9 @@ const Home = () => {
     const mainCategoryServices = useApi(APIService.mainServices)
     const myBookingsService = useApi(APIService.myBookings)
     const isFocused = useIsFocused()
-
+    console.log({ user })
     useEffect(() => {
-        myBookingsService.requestCall(user.id)
+        myBookingsService.requestCall(user?.id)
             .then((response) => {
 
                 store.dispatch(setBookings(response.booking.map((book: any) => {
@@ -163,7 +164,12 @@ const Home = () => {
     useEffect(() => {
         store.dispatch(setSelectedServices({ customer_id: user?.id, selectedServices, state }))
     }, [selectCar])
-
+    useEffect(() => {
+        getSettings.requestCall().then((res: any) => {
+            console.log({ settingssettingssettingssettings: res?.settings })
+            store.dispatch(setSettings(res?.settings))
+        }).catch((err) => console.log({ err }))
+    }, [])
     return (
         <BaseScreen>
             <View style={styles.backDark} >

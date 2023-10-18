@@ -20,7 +20,7 @@ const Notifications = () => {
     const animatedValues = useRef(Notifications?.map(() => new Animated.Value(0))).current;
 
     useEffect(() => {
-        requestCall(user.id)
+        requestCall(user?.id)
             .then((response) => {
                 store.dispatch(setNotifications(response?.notifications))
             })

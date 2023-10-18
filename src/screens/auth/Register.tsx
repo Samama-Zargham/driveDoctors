@@ -9,7 +9,7 @@ import PrimaryButton from '../../components/buttons/PrimaryButton'
 import navServices from '../../others/utils/navServices'
 import { useApi } from '../../others/services/useApi'
 import { APIService } from '../../others/services/APIServices'
-import { showError } from '../../others/utils/helpers'
+import { countryCode, showError } from '../../others/utils/helpers'
 
 const Register = () => {
     const registerService = useApi(APIService.signUp)
@@ -29,7 +29,7 @@ const Register = () => {
         else if (!regex.test(phone)) {
             return showError('Please write phone number in correct format')
         } else {
-            registerService.requestCall({ phone, name, password }).then((response) => {
+            registerService.requestCall({ phone: countryCode + phone, name, password }).then((response) => {
                 console.log({ response: response.data })
                 navServices.navigate('VerifyCode', { phone })
             }).catch((error) => console.log(error))
@@ -43,7 +43,7 @@ const Register = () => {
                 <AppText bold FONT_22 children='Register' color={colors.WHITE} />
                 <PrimaryInput top={10} placeholder='Full Name' onChangeText={setname} />
                 {/* <PrimaryInput top={10} placeholder='Phone' /> */}
-                <PrimaryInput top={10} placeholder='Phone Number' onChangeText={setphone} />
+                <PrimaryInput keyboardType='phone-pad' isPhone top={10} placeholder='Phone Number' onChangeText={setphone} />
                 <PrimaryInput top={10} isEye placeholder='Password' onChangeText={setpassword} />
                 <PrimaryButton loading={registerService.loading} onPress={handleRegister} title='Register' />
                 <TouchableOpacity onPress={() => navServices.navigate('Login')} style={{ padding: 5 }} >

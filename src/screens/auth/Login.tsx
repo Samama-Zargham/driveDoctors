@@ -11,11 +11,11 @@ import { APIService } from '../../others/services/APIServices'
 import { useApi } from '../../others/services/useApi'
 import store from '../../others/redux/store'
 import { setServices, setSettings, setUser } from '../../others/redux/reducers/userReducer'
-import { _returnError, convertArrayToObject, showError } from '../../others/utils/helpers'
+import { _returnError, convertArrayToObject, countryCode, showError } from '../../others/utils/helpers'
 
 const Login = () => {
 
-    const [phone, setPhone] = useState<any>('123456');
+    const [phone, setPhone] = useState<any>('');
     // const [password, setPassword] = useState<string>("123456");
 
     const loginService = useApi(APIService.login)
@@ -30,17 +30,19 @@ const Login = () => {
 
     const handleSignIn = () => {
         const regex = /^[0-9]+$/;
-
-        // if (phone?.length > 15 || phone?.length < 7) {
-        //     return showError('Please write correct phone number')
-        // }
+        if (!phone) {
+            return showError('Input Field is empty')
+        }
+        if (phone?.length > 15 || phone?.length < 7) {
+            return showError('Please write correct phone number')
+        }
         // if (!regex.test(phone)) {
         //     return showError('Please write phone number in correct format')
         // }
         // else {
-        loginService.requestCall({ phone }).then((response) => {
-            console.log({ response: response.data })
-            // store.dispatch(setUser(response.data));
+        loginService.requestCall({ phone: countryCode + phone }).then((response) => {
+            console.log({ loginService: response.data })
+            store.dispatch(setUser(response.data));
             if (response?.data?.error == 'Invalid customer phone.') {
                 showError('Phone number not registered')
             }
@@ -61,7 +63,7 @@ const Login = () => {
             style={{ flex: 1 }} source={IMAGES['login2']}>
             <View style={styles.login}>
                 <AppText bold FONT_22 children='Sign In' color={colors.WHITE} />
-                <PrimaryInput top={10} value={phone} placeholder='Phone Number' onChangeText={setPhone} />
+                <PrimaryInput keyboardType='phone-pad' isPhone top={10} value={phone} placeholder='Phone Number' onChangeText={setPhone} />
                 {/* <PrimaryInput top={10} value={password} placeholder='Password' onChangeText={setPassword} /> */}
                 {/* <TouchableOpacity onPress={() => navServices.navigate('ForgetPassword')} style={{ padding: 5 }} >
                     <AppText style={{ alignSelf: "flex-end", top: 7 }} Medium center children={`Forget Password? `} color={colors.WHITE} />
