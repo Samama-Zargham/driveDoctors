@@ -41,7 +41,7 @@ const Bookings = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: book?.status == 'PROCESSING' ? 'Our clinic waiting for your car' : book?.status,
+                        status: book?.status,
                         payment: `${book?.price | 0} QAR`,
                     })
                 }

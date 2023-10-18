@@ -10,9 +10,12 @@ import navServices from '../../others/utils/navServices'
 import { useApi } from '../../others/services/useApi'
 import { APIService } from '../../others/services/APIServices'
 import { countryCode, showError } from '../../others/utils/helpers'
+import { setServices } from '../../others/redux/reducers/userReducer'
+import store from '../../others/redux/store'
 
 const Register = () => {
     const registerService = useApi(APIService.signUp)
+    const mainCategoryServices = useApi(APIService.mainServices)
 
     const [phone, setphone] = useState<any>();
     const [password, setpassword] = useState<any>();
@@ -31,7 +34,11 @@ const Register = () => {
         } else {
             registerService.requestCall({ phone: countryCode + phone, name, password }).then((response) => {
                 console.log({ response: response.data })
-                navServices.navigate('VerifyCode', { phone })
+                mainCategoryServices.requestCall().then((response) => {
+                    console.log({ services: response.services })
+                    store.dispatch(setServices(response.services));
+                    navServices.navigate('VerifyCode', { phone })
+                }).catch((error: any) => { })
             }).catch((error) => console.log(error))
         }
     }

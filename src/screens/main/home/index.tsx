@@ -70,7 +70,7 @@ const Home = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: book?.status == 'PROCESSING' ? 'Our clinic waiting for your car' : book?.status,
+                        status: book?.status,
                         payment: `${book?.price | 0} QAR`,
                     })
                 }
@@ -78,7 +78,7 @@ const Home = () => {
             })
             .catch(() => { });
     }, [isFocused])
-    useLayoutEffect(() => {
+    useEffect(() => {
         mainCategoryServices.requestCall().then((response) => {
             console.log({ services: response.services })
             store.dispatch(setServices(response.services));
@@ -89,7 +89,7 @@ const Home = () => {
                 dispatch(setVehicles(response.vehicles))
             })
             .catch(() => { });
-    }, [])
+    }, [isFocused])
     const isCarousel = React.useRef(null)
 
     useEffect(() => {
@@ -138,8 +138,8 @@ const Home = () => {
                     resizeMode='contain'
                     style={styles.image}
                 />
-                <AppText FONT_16 bold color='black' children={`Number ${item?.plate} - ServiceId ${item?.serviceId}`} />
-                <AppText FONT_16 style={{ width: '70%' }} bold color={colors.darkGreen2} children={`${item?.date} at ${item?.time} - ${item?.price} QAR\n${item?.status + " " + item?.carName}`} />
+                <AppText FONT_16 bold color='black' children={`Number ${item?.plate} - ServiceId ${item?.serviceId}  (${item?.carName})`} />
+                <AppText FONT_16 style={{ width: '70%' }} bold color={colors.darkGreen2} children={`${item?.date} at ${item?.time} - ${item?.price} QAR\nStatus ${item?.status}`} />
                 <AppText children={`Service ${item?.services}`} />
             </View>
         )
