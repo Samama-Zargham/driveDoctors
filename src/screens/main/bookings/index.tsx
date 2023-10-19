@@ -42,7 +42,7 @@ const Bookings = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: BookingStatus[book?.status],
+                        status: BookingStatus[book?.status?.toLowerCase()],
                         payment: `${book?.price | 0} QAR`,
                     })
                 }
@@ -123,8 +123,8 @@ const styles = StyleSheet.create({
     sText: {
         // position: "absolute",
         // left: mvs(78),
-        textAlign:'right',
-        flex:0.7,
+        textAlign: 'right',
+        flex: 0.7,
         textTransform: 'capitalize'
     },
     backDark: { flex: 1, backgroundColor: colors.darkGreen },
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         backgroundColor: colors.parrot3,
         borderRadius: 4,
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
         padding: 1
     },
     booking: {
