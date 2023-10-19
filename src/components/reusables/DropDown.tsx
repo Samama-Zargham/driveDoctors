@@ -51,6 +51,7 @@ export default function DropDown({
                     open={open}
                     value={value}
                     items={items}
+                    searchable
                     setOpen={setOpen}
                     listMode="MODAL"
                     scrollViewProps={{
