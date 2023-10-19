@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.drivedoctors"
+    namespace "com.carsdoctors"
     defaultConfig {
-        applicationId "com.drivedoctors"
+        applicationId "com.carsdoctors"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
