@@ -20,6 +20,7 @@ export const IMAGES: any = {
     "Layer27": require("./Layer27.png"),
     "Layer27copy": require("./Layer27copy.png"),
     "Layer3": require("./Layer3.png"),
+    "Layer55": require("./Layer55.png"),
     "Layer5": require("./Layer5.png"),
     "Layer7": require("./Layer7.png"),
     "Layer8": require("./Layer8.png"),

@@ -1,6 +1,6 @@
 
 import { StyleSheet, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BaseScreen from '../../../components/reusables/BaseScreen'
 import AppText from '../../../components/AppText'
 import { mvs } from '../../../others/utils/responsive'
@@ -12,7 +12,11 @@ import { IMAGES } from '../../../assets/images'
 import { CommonActions, useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import store from '../../../others/redux/store'
-import { setSelectedServices } from '../../../others/redux/reducers/userReducer'
+import { setBookings, setSelectedServices } from '../../../others/redux/reducers/userReducer'
+import { APIService } from '../../../others/services/APIServices'
+import { useApi } from '../../../others/services/useApi'
+import { extractNamesByKey } from '../../../others/utils/helpers'
+import { BookingStatus } from '../../../others/utils/staticData'
 
 
 const ThanksScreen = () => {
@@ -48,6 +52,34 @@ const ThanksScreen = () => {
             );
         })
     }
+
+    const myBookingsService = useApi(APIService.myBookings)
+    const { user,vehicles, servicesObject } = useSelector((state: any) => state.user);
+
+    useEffect(() => {
+        myBookingsService.requestCall(user?.id)
+            .then((response) => {
+
+                store.dispatch(setBookings(response.booking.map((book: any) => {
+                    const servicesArray = book?.services?.split(',');
+                    const parts = book?.time?.split(' ');
+                    const timestamp = parts[0];
+
+                    return ({
+                        ...book,
+                        carName: vehicles.some((e: any) => e.id === book.vehicle_id) ? `${vehicles.find((e: any) => e.id === book.vehicle_id)?.make} ${vehicles.find((e: any) => e.id === book.vehicle_id)?.model}` : "",
+                        serviceId: book?.id,
+                        services: extractNamesByKey(servicesObject, servicesArray).join(', '),
+                        date: timestamp,
+                        time: parts[1] + " " + parts[2],
+                        status: BookingStatus[book?.status?.toLowerCase()],
+                        payment: `${book?.price | 0} QAR`,
+                    })
+                }
+                )))
+            })
+            .catch(() => { });
+        },[]);
     return (
         <BaseScreen>
             <View style={styles.backDark} >

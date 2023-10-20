@@ -133,7 +133,7 @@ const Home = () => {
             <View
                 style={styles.carcare1}>
                 <FastImage
-                    source={IMAGES['Layer5']}
+                    source={IMAGES['Layer55']}
                     resizeMode='contain'
                     style={styles.image}
                 />
@@ -175,7 +175,7 @@ const Home = () => {
                 <PrimaryHeader title={'Hi, ' + user?.name} />
                 <View style={styles.backWhite} >
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        {false ?
+                        {BOOKINGS?.length>0 ?
                             <View >
                                 <Carousel
                                     layout="default"
@@ -199,11 +199,11 @@ const Home = () => {
                                 },
                                 ]}>
                                 <FastImage
-                                    source={IMAGES['Layer5']}
+                                    source={IMAGES['Layer55']}
                                     resizeMode='contain'
                                     style={styles.image}
                                 />
-                                <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={`Car care at\nat your doorstep`} />
+                                <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={`Welcome\nto our clinic`} />
                             </Animated.View>
                         }
                         <AppText style={{ marginBottom: mvs(14) }} FONT_18 Medium children='Our Services' />

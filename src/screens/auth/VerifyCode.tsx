@@ -60,7 +60,7 @@ const VerifyCode = () => {
                     showError('Invalid OTP')
                 }
                 else {
-                    showSuccess('Successfully logged In')
+                    // showSuccess('Successfully logged In')
                     dispatch(setUser({ ...res?.data, loggedInUser: true }));
                 }
             }).catch((err) => console.log({ err }))
