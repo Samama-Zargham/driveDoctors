@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.drivedoctors",
+  "applicationId": "com.carsdoctors",
   "variantName": "release",
   "elements": [
     {

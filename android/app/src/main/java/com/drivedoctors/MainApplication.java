@@ -1,4 +1,4 @@
-package com.drivedoctors;
+package com.carsdoctors;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

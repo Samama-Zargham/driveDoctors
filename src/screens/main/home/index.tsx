@@ -53,13 +53,11 @@ const Home = () => {
     const mainCategoryServices = useApi(APIService.mainServices)
     const myBookingsService = useApi(APIService.myBookings)
     const isFocused = useIsFocused()
-    console.log({ user })
     useEffect(() => {
         myBookingsService.requestCall(user?.id)
             .then((response) => {
 
                 store.dispatch(setBookings(response.booking.map((book: any) => {
-                    console.log({ book })
                     const servicesArray = book?.services?.split(',');
                     const parts = book?.time?.split(' ');
                     const timestamp = parts[0];
@@ -71,7 +69,7 @@ const Home = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: book?.status,
+                        status: BookingStatus[book?.status?.toLowerCase()],
                         payment: `${book?.price | 0} QAR`,
                     })
                 }
@@ -140,7 +138,7 @@ const Home = () => {
                     style={styles.image}
                 />
                 <AppText FONT_16 bold color='black' children={`Number ${item?.plate} - ServiceId ${item?.serviceId}  (${item?.carName})`} />
-                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} at ${item?.time} - ${item?.price} QAR\nStatus: ${BookingStatus[item?.status]}`} />
+                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} at ${item?.time} - ${item?.price} QAR\nStatus: ${item?.status}`} />
                 <AppText style={{ width: '70%' }} children={`Service: ${item?.services}`} />
             </View>
         )
@@ -177,7 +175,7 @@ const Home = () => {
                 <PrimaryHeader title={'Hi, ' + user?.name} />
                 <View style={styles.backWhite} >
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        {BOOKINGS?.length > 0 ?
+                        {false ?
                             <View >
                                 <Carousel
                                     layout="default"
@@ -208,7 +206,7 @@ const Home = () => {
                                 <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={`Car care at\nat your doorstep`} />
                             </Animated.View>
                         }
-                        <AppText style={{ marginVertical: mvs(14), }} FONT_18 Medium children='Our Services' />
+                        <AppText style={{ marginBottom: mvs(14) }} FONT_18 Medium children='Our Services' />
                         <View style={[styles.scrollContent, {}]} >
                             {
                                 services.map((item: any, idx: number) => {
@@ -284,14 +282,6 @@ export default Home
 
 const styles = StyleSheet.create({
     backDark: { flex: 1, backgroundColor: colors.darkGreen },
-    dotstyle: {
-        width: 10,
-        height: 10,
-        borderRadius: 5,
-        marginHorizontal: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.92)',
-        top: -50
-    },
     icon: {
         width: mvs(90),
         height: mvs(65),
@@ -336,7 +326,8 @@ const styles = StyleSheet.create({
         borderRadius: mvs(18),
         padding: mvs(20),
         width: width - 34,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        marginBottom: mvs(13)
     },
     carcare1: {
         backgroundColor: colors.parrot1,

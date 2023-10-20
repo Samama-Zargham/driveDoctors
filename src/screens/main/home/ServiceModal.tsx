@@ -57,7 +57,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                         <AnyIcon name='check' color='white' type={Icons.Entypo} disabled size={26} containerStyle={styles.tick} />
                         <AppText FONT_16 Medium children={'     ' + item?.name} />
                     </View>
-                    <AppText FONT_18 Medium style={{ marginVertical: 10 }} children='People also add this service' />
+                    {/* <AppText FONT_18 Medium style={{ marginVertical: 10 }} children='People also add this service' /> */}
                     {
                         data.map((item: any, idx: number) => {
                             const foundElement: any = selectedServices.find((i: any) => i.id == item.id);
@@ -90,7 +90,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                     <PrimaryButton onPress={handleReset} isBorder width={'47%'} title='Reset' />
                     <PrimaryButton
                         onPress={() => handleSumit(selectedServices)}
-                        disabled={selectedServices?.length < 1}
+                        // disabled={selectedServices?.length < 1}
                         width={'47%'}
                         title='Continue' />
                 </View>
@@ -117,7 +117,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                     <PrimaryButton onPress={handleToggle} isBorder width={'47%'} title='Cancel' />
                     <PrimaryButton
                         onPress={() => handleSumit(txt)}
-                        disabled={!txt}
+                        // disabled={!txt}
                         width={'47%'}
                         title='Submit' />
                 </View>

@@ -15,6 +15,7 @@ import ToggleSwitch from 'toggle-switch-react-native'
 import { fontFamily } from '../others/utils/fonts'
 import store from '../others/redux/store'
 import { setUser } from '../others/redux/reducers/userReducer'
+import { useSelector } from 'react-redux'
 
 
 const CustomDrawer = (props: any) => {
@@ -22,6 +23,9 @@ const CustomDrawer = (props: any) => {
     const [modal, setmodal] = useState('')
     const isTablet = DeviceInfo.isTablet();
     const [toggle, settoggle] = useState(false)
+    const { Settings } = useSelector((state: any) => state.user)
+    const androidLink = Settings?.find(setting => setting?.name === 'androidStore')?.value
+    const iphoneLink = Settings?.find(setting => setting?.name === 'iPhoneStore')?.value
 
     return (
         <View style={styles.backDark} >
@@ -82,8 +86,8 @@ const CustomDrawer = (props: any) => {
                         }}
                         onPress={() => {
                             if (Platform.OS == 'android') {
-                                Linking.openURL('https://play.google.com/store/')
-                            } else Linking.openURL('https://www.apple.com/app-store/')
+                                Linking.openURL(androidLink)
+                            } else Linking.openURL(iphoneLink)
                             navServices.navigate('Home')
                         }}
                         label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={"Rate Us"} />)}
