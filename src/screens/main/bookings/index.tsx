@@ -11,7 +11,7 @@ import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 import store from '../../../others/redux/store'
-import { setBookings } from '../../../others/redux/reducers/userReducer'
+import { setBookingStatus, setBookings } from '../../../others/redux/reducers/userReducer'
 import { useSelector } from 'react-redux'
 import { extractNamesByKey } from '../../../others/utils/helpers'
 import { useIsFocused } from '@react-navigation/native'
@@ -19,7 +19,7 @@ import { BookingStatus } from '../../../others/utils/staticData'
 const Bookings = () => {
     const isFocused = useIsFocused()
 
-    const { user, bookings, servicesObject, vehicles } = useSelector((state: any) => state.user)
+    const { user, bookings, servicesObject, vehicles,bookingStatus } = useSelector((state: any) => state.user)
     const cloneBooking = Object.assign([], bookings)
     const BOOKINGS = cloneBooking?.reverse()
     const animatedValues = useRef(BOOKINGS.map(() => new Animated.Value(0))).current;
@@ -28,7 +28,7 @@ const Bookings = () => {
     useEffect(() => {
         myBookingsService.requestCall(user?.id)
             .then((response) => {
-
+                store.dispatch(setBookingStatus(response.statuses))
                 store.dispatch(setBookings(response.booking.map((book: any) => {
                     console.log({ book })
                     const servicesArray = book?.services?.split(',');
@@ -42,7 +42,7 @@ const Bookings = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: BookingStatus[book?.status?.toLowerCase()],
+                        status: bookingStatus[book?.status],
                         payment: `${book?.price | 0} QAR`,
                     })
                 }

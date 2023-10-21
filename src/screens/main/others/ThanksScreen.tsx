@@ -12,7 +12,7 @@ import { IMAGES } from '../../../assets/images'
 import { CommonActions, useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import store from '../../../others/redux/store'
-import { setBookings, setSelectedServices } from '../../../others/redux/reducers/userReducer'
+import { setBookingStatus, setBookings, setSelectedServices } from '../../../others/redux/reducers/userReducer'
 import { APIService } from '../../../others/services/APIServices'
 import { useApi } from '../../../others/services/useApi'
 import { extractNamesByKey } from '../../../others/utils/helpers'
@@ -21,6 +21,7 @@ import { BookingStatus } from '../../../others/utils/staticData'
 
 const ThanksScreen = () => {
     const selectedServices = useSelector((state: any) => state?.user?.selectedServices)
+    const { user,vehicles, servicesObject, bookingStatus } = useSelector((state: any) => state.user);
     console.log({ selectedServices })
     const navigation = useNavigation()
     const [services, setservices] = useState([
@@ -30,7 +31,7 @@ const ThanksScreen = () => {
             service: selectedServices?.serviceNames || '',
             date: selectedServices?.date?.toString() || '',
             Time: selectedServices?.time?.toString() || '',
-            status: 'Our clinic waiting for your car' || '',
+            status: bookingStatus["INITIALA"] || '',
             payment: (selectedServices?.price?.toString() || '') + ' QAR'
         }
     ])
@@ -54,12 +55,11 @@ const ThanksScreen = () => {
     }
 
     const myBookingsService = useApi(APIService.myBookings)
-    const { user,vehicles, servicesObject } = useSelector((state: any) => state.user);
 
     useEffect(() => {
         myBookingsService.requestCall(user?.id)
             .then((response) => {
-
+                store.dispatch(setBookingStatus(response.statuses))
                 store.dispatch(setBookings(response.booking.map((book: any) => {
                     const servicesArray = book?.services?.split(',');
                     const parts = book?.time?.split(' ');
@@ -72,7 +72,7 @@ const ThanksScreen = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: BookingStatus[book?.status?.toLowerCase()],
+                        status: bookingStatus[book?.status],
                         payment: `${book?.price | 0} QAR`,
                     })
                 }

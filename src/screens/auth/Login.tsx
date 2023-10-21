@@ -23,7 +23,7 @@ const Login = () => {
     const getSettings = useApi(APIService.getSettings)
     useEffect(() => {
         getSettings.requestCall().then((res: any) => {
-            console.log({ settings: res?.settings })
+            // console.log({ settings: res?.settings })
             store.dispatch(setSettings(res?.settings))
         }).catch((err) => console.log({ err }))
     }, [])

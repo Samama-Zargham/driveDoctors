@@ -19,7 +19,7 @@ import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 import { useSelector, useDispatch } from 'react-redux'
 import store from '../../../others/redux/store'
-import { setBookings, setSelectedServices, setServices, setSettings, setVehicles } from '../../../others/redux/reducers/userReducer'
+import { setBookingStatus, setBookings, setSelectedServices, setServices, setSettings, setVehicles } from '../../../others/redux/reducers/userReducer'
 import { BUCKET_URL } from '../../../others/utils/serviceConfig'
 import { useIsFocused } from '@react-navigation/native'
 import { BookingStatus } from '../../../others/utils/staticData'
@@ -30,7 +30,7 @@ const Home = () => {
     const [state, setState] = useState('')
     const [selectedItem, setselectedItem] = useState({});
     const servicesData1 = useSelector((state: any) => state.user?.services);
-    const { vehicles, bookings, servicesObject } = useSelector((state: any) => state.user);
+    const { vehicles, bookings, servicesObject, bookingStatus } = useSelector((state: any) => state.user);
     const getSettings = useApi(APIService.getSettings)
     const cloneBooking = Object.assign([], bookings);
     const BOOKINGS = cloneBooking?.filter((e: any) => e.status != "COMPLETED")?.reverse();
@@ -56,6 +56,7 @@ const Home = () => {
     useEffect(() => {
         myBookingsService.requestCall(user?.id)
             .then((response) => {
+                store.dispatch(setBookingStatus(response.statuses))
 
                 store.dispatch(setBookings(response.booking.map((book: any) => {
                     const servicesArray = book?.services?.split(',');
@@ -69,7 +70,7 @@ const Home = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: BookingStatus[book?.status?.toLowerCase()],
+                        status: bookingStatus[book?.status],
                         payment: `${book?.price | 0} QAR`,
                     })
                 }
@@ -169,6 +170,7 @@ const Home = () => {
             store.dispatch(setSettings(res?.settings))
         }).catch((err) => console.log({ err }))
     }, [])
+    console.log({BOOKINGS})
     return (
         <BaseScreen>
             <View style={styles.backDark} >
