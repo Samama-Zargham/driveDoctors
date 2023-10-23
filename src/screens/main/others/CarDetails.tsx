@@ -67,17 +67,17 @@ const CarDetails = () => {
         ],
         opacity: animation,
     };
-
+    const { t } = useTranslation()
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader notDrawer={isTab} title='Car Details' />
+                <PrimaryHeader notDrawer={isTab} title={t('Car Details')} />
                 <View style={styles.backWhite} >
                     <ScrollView contentContainerStyle={{ flex: 1 }} style={{ flex: 1 }}
                         nestedScrollEnabled={true}
                         showsVerticalScrollIndicator={false}>
 
-                        <AppText style={{ marginTop: mvs(20) }} FONT_18 semiBold children={'Listed Cars'} />
+                        <AppText style={{ marginTop: mvs(20) }} FONT_18 semiBold children={t('Listed Cars')} />
                         {
                             vehicles.map((item: any, index: number) => {
                                 return (
@@ -100,7 +100,7 @@ const CarDetails = () => {
                                         {
                                             index == 2 &&
                                             isTab &&
-                                            <PrimaryButton disabled={selectedCar == ''} onPress={() => { navServices.navigate('PickUp', { vehicle_id: selectedCar }) }} title='Continue' />
+                                            <PrimaryButton disabled={selectedCar == ''} onPress={() => { navServices.navigate('PickUp', { vehicle_id: selectedCar }) }} title={t('Continue')} />
                                         }
                                     </Animated.View>
                                 )
@@ -112,7 +112,7 @@ const CarDetails = () => {
                             txtColor={colors.WHITE}
                             backgroundColor={colors.darkGreen}
                             onPress={() => setmodal(true)}
-                            title='Add New Car' />
+                            title={t('Add New Car')} />
 
 
 
