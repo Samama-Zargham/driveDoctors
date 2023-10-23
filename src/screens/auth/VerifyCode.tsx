@@ -61,11 +61,7 @@ const VerifyCode = () => {
                     showError(t('Invalid OTP'))
                 }
                 else {
-<<<<<<< Updated upstream
                     // showSuccess('Successfully logged In')
-=======
-                    showSuccess(t('Successfully logged In'))
->>>>>>> Stashed changes
                     dispatch(setUser({ ...res?.data, loggedInUser: true }));
                 }
             }).catch((err) => console.log({ err }))

@@ -26,7 +26,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
         const animatedValues = useRef(data.map(() => new Animated.Value(0))).current;
 
         useEffect(() => {
-            const animations = data.map((item, index) =>
+            const animations = data.map((item: any, index: any) =>
                 Animated.timing(animatedValues[index], {
                     toValue: 1, // Fade-in to full opacity
                     duration: 1000, // Animation duration in milliseconds
@@ -59,11 +59,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                         <AnyIcon name='check' color='white' type={Icons.Entypo} disabled size={26} containerStyle={styles.tick} />
                         <AppText FONT_16 Medium children={'     ' + item?.name} />
                     </View>
-<<<<<<< Updated upstream
-                    {/* <AppText FONT_18 Medium style={{ marginVertical: 10 }} children='People also add this service' /> */}
-=======
-                    <AppText FONT_18 Medium style={{ marginVertical: 10 }} children={t('People also add this service')} />
->>>>>>> Stashed changes
+                    {/* <AppText FONT_18 Medium style={{ marginVertical: 10 }} children={t('People also add this service')} /> */}
                     {
                         data.map((item: any, idx: number) => {
                             const foundElement: any = selectedServices.find((i: any) => i.id == item.id);

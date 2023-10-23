@@ -73,7 +73,7 @@ const Home = () => {
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
                         status: bookingStatus[book?.status],
-                        orignalStatus:book?.status,
+                        orignalStatus: book?.status,
                         payment: `${book?.price | 0} QAR`,
                     })
                 }
@@ -173,14 +173,14 @@ const Home = () => {
             store.dispatch(setSettings(res?.settings))
         }).catch((err) => console.log({ err }))
     }, [])
-    console.log({BOOKINGS})
+    console.log({ BOOKINGS })
     return (
         <BaseScreen>
             <View style={styles.backDark} >
                 <PrimaryHeader title={t('Hi, ') + user?.name} />
                 <View style={styles.backWhite} >
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        {BOOKINGS?.length>0 ?
+                        {BOOKINGS?.length > 0 ?
                             <View >
                                 <Carousel
                                     layout="default"
@@ -208,11 +208,7 @@ const Home = () => {
                                     resizeMode='contain'
                                     style={styles.image}
                                 />
-<<<<<<< Updated upstream
-                                <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={`Welcome\nto our clinic`} />
-=======
-                                <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={t("Car care at\nat your doorstep")} />
->>>>>>> Stashed changes
+                                <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={t(`Welcome\nto our clinic`)} />
                             </Animated.View>
                         }
                         <AppText style={{ marginBottom: mvs(14) }} FONT_18 Medium children={t('Our Services')} />

@@ -15,15 +15,12 @@ import ToggleSwitch from 'toggle-switch-react-native'
 import { fontFamily } from '../others/utils/fonts'
 import store from '../others/redux/store'
 import { setUser } from '../others/redux/reducers/userReducer'
-<<<<<<< Updated upstream
 import { useSelector } from 'react-redux'
-=======
 import i18next from 'i18next'
 import { setAsyncStorageValue } from '../others/utils/helpers'
 import i18n from '../others/utils/i18n'
 import RNRestart from 'react-native-restart';
 import { useTranslation } from 'react-i18next'
->>>>>>> Stashed changes
 
 
 const CustomDrawer = (props: any) => {
@@ -31,20 +28,16 @@ const CustomDrawer = (props: any) => {
 
     const [modal, setmodal] = useState('')
     const isTablet = DeviceInfo.isTablet();
-<<<<<<< Updated upstream
-    const [toggle, settoggle] = useState(false)
     const { Settings } = useSelector((state: any) => state.user)
-    const androidLink = Settings?.find(setting => setting?.name === 'androidStore')?.value
-    const iphoneLink = Settings?.find(setting => setting?.name === 'iPhoneStore')?.value
+    const androidLink = Settings?.find((setting: any) => setting?.name === 'androidStore')?.value
+    const iphoneLink = Settings?.find((setting: any) => setting?.name === 'iPhoneStore')?.value
 
-=======
     const [toggle, settoggle] = useState(i18next.language === 'ar' ? true : false)
     const languageChange = async () => {
         I18nManager.forceRTL(i18n.language !== 'ar');
         await setAsyncStorageValue('lang', i18next.language === 'ar' ? 'en' : 'ar');
         RNRestart.Restart();
     }
->>>>>>> Stashed changes
     return (
         <View style={styles.backDark} >
             {/* header */}
@@ -135,15 +128,10 @@ const CustomDrawer = (props: any) => {
                 </DrawerContentScrollView>
                 {/* footer */}
                 <View >
-<<<<<<< Updated upstream
-                    <AppText color={colors.GRAY} center children={'Developed by Selida Interactive'} />
-                    <AppText color={colors.GRAY} style={{ marginBottom: 10 }} center children={'Version 1.0.1'} />
-=======
                     <AppText color={colors.GRAY} center children={t('Developed by Selida Interactive')} />
                     <AppText color={colors.GRAY} style={{ marginBottom: 10 }} center children={t('Version ') + "1.0.0"} />
->>>>>>> Stashed changes
-                </View>
-            </View>
+                </View >
+            </View >
 
             {
                 modal == 'signout' &&
@@ -160,7 +148,7 @@ const CustomDrawer = (props: any) => {
                     }}
                 />
             }
-        </View>
+        </View >
     )
 }
 

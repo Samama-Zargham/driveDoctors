@@ -12,26 +12,19 @@ import { IMAGES } from '../../../assets/images'
 import { CommonActions, useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import store from '../../../others/redux/store'
-<<<<<<< Updated upstream
 import { setBookingStatus, setBookings, setSelectedServices } from '../../../others/redux/reducers/userReducer'
 import { APIService } from '../../../others/services/APIServices'
 import { useApi } from '../../../others/services/useApi'
 import { extractNamesByKey } from '../../../others/utils/helpers'
 import { BookingStatus } from '../../../others/utils/staticData'
-=======
-import { setSelectedServices } from '../../../others/redux/reducers/userReducer'
 import { useTranslation } from 'react-i18next'
->>>>>>> Stashed changes
 
 
 const ThanksScreen = () => {
     const selectedServices = useSelector((state: any) => state?.user?.selectedServices)
-<<<<<<< Updated upstream
-    const { user,vehicles, servicesObject, bookingStatus } = useSelector((state: any) => state.user);
+    const { user, vehicles, servicesObject, bookingStatus } = useSelector((state: any) => state.user);
     console.log({ selectedServices })
-=======
     const { t } = useTranslation()
->>>>>>> Stashed changes
     const navigation = useNavigation()
     const [services, setservices] = useState([
         {
@@ -40,11 +33,7 @@ const ThanksScreen = () => {
             service: selectedServices?.serviceNames || '',
             date: selectedServices?.date?.toString() || '',
             Time: selectedServices?.time?.toString() || '',
-<<<<<<< Updated upstream
             status: bookingStatus["INITIALA"] || '',
-=======
-            status: t('Our clinic waiting for your car') || '',
->>>>>>> Stashed changes
             payment: (selectedServices?.price?.toString() || '') + ' QAR'
         }
     ])
@@ -92,7 +81,7 @@ const ThanksScreen = () => {
                 )))
             })
             .catch(() => { });
-        },[]);
+    }, []);
     return (
         <BaseScreen>
             <View style={styles.backDark} >
