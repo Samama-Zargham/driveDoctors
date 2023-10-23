@@ -33,7 +33,7 @@ const Home = () => {
     const { vehicles, bookings, servicesObject, bookingStatus } = useSelector((state: any) => state.user);
     const getSettings = useApi(APIService.getSettings)
     const cloneBooking = Object.assign([], bookings);
-    const BOOKINGS = cloneBooking?.filter((e: any) => (e.status != "COMPLETED" || e.status != "CANCELLED"))?.reverse();
+    const BOOKINGS = cloneBooking?.filter((e: any) => (e.status != "COMPLETED" && e.status != "CANCELLED"))?.reverse();
     const servicesData = servicesData1?.filter(e => !e.category)
     const [services, setservices] = useState([...servicesData,
     {
