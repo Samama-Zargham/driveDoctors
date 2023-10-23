@@ -1,4 +1,4 @@
-import { Linking, Platform, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { I18nManager, Linking, Platform, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import AppText from '../components/AppText'
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer'
@@ -15,22 +15,40 @@ import ToggleSwitch from 'toggle-switch-react-native'
 import { fontFamily } from '../others/utils/fonts'
 import store from '../others/redux/store'
 import { setUser } from '../others/redux/reducers/userReducer'
+<<<<<<< Updated upstream
 import { useSelector } from 'react-redux'
+=======
+import i18next from 'i18next'
+import { setAsyncStorageValue } from '../others/utils/helpers'
+import i18n from '../others/utils/i18n'
+import RNRestart from 'react-native-restart';
+import { useTranslation } from 'react-i18next'
+>>>>>>> Stashed changes
 
 
 const CustomDrawer = (props: any) => {
-    const [routeName, setrouteName] = useState('Hometab')
+    const { t } = useTranslation()
+
     const [modal, setmodal] = useState('')
     const isTablet = DeviceInfo.isTablet();
+<<<<<<< Updated upstream
     const [toggle, settoggle] = useState(false)
     const { Settings } = useSelector((state: any) => state.user)
     const androidLink = Settings?.find(setting => setting?.name === 'androidStore')?.value
     const iphoneLink = Settings?.find(setting => setting?.name === 'iPhoneStore')?.value
 
+=======
+    const [toggle, settoggle] = useState(i18next.language === 'ar' ? true : false)
+    const languageChange = async () => {
+        I18nManager.forceRTL(i18n.language !== 'ar');
+        await setAsyncStorageValue('lang', i18next.language === 'ar' ? 'en' : 'ar');
+        RNRestart.Restart();
+    }
+>>>>>>> Stashed changes
     return (
         <View style={styles.backDark} >
             {/* header */}
-            <PrimaryHeader rightIcon={false} containerStyle={{ marginTop: mvs(10) }} title='Menu' />
+            <PrimaryHeader rightIcon={false} containerStyle={{ marginTop: mvs(10) }} title={t('Menu')} />
             <View style={styles.backWhite} >
 
                 {/* Drawer List Item */}
@@ -40,44 +58,6 @@ const CustomDrawer = (props: any) => {
                     contentContainerStyle={{ position: 'absolute', top: 0, left: 0, right: 0, }}
                     bounces={false}>
                     <DrawerItemList {...props} />
-                    {/* {props.data?.map((item, index) => {
-                        let isFocus = routeName == item.label
-
-                        return (<DrawerItem
-                            style={[{
-                                backgroundColor: isFocus ?
-                                    colors.darkGreen1 : 'transparent',
-                                width: isTablet ? width * 0.4 : width * 0.5
-                            }]}
-                            key={index}
-                            onPress={() => {
-                                if (item.route == 'Hometab') {
-                                    navServices.navigate('BottomTab', { screen: 'Home' });
-                                }
-                                else {
-                                    navServices.navigate(item.route)
-                                }
-                                setrouteName(item?.label)
-
-                            }}
-                            labelStyle={{
-                                height: mvs(48),
-                                paddingVertical: 0,
-                                marginVertical: 0,
-                            }}
-                            label={({ focused, color }) => (<AppText bold color={isFocus ? colors.WHITE : colors.BLACK} children={item?.label} />)}
-                            icon={({ focused, color, size }) => (
-                                <FastImage
-                                    source={IMAGES[item?.icon]}
-                                    style={{
-                                        width: mvs(18),
-                                        height: mvs(18)
-                                    }}
-                                    resizeMode='contain'
-                                    tintColor={isFocus ? colors.WHITE : colors.BLACK}
-                                />
-                            )} />)
-                    })} */}
                     <DrawerItem
                         labelStyle={{
                             height: mvs(48),
@@ -90,7 +70,7 @@ const CustomDrawer = (props: any) => {
                             } else Linking.openURL(iphoneLink)
                             navServices.navigate('Home')
                         }}
-                        label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={"Rate Us"} />)}
+                        label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={t("Rate Us")} />)}
                         icon={({ focused, color, size }) => (
                             <FastImage
                                 source={IMAGES['Layer24']}
@@ -108,10 +88,10 @@ const CustomDrawer = (props: any) => {
                             marginVertical: 0,
                         }}
                         activeTintColor='red'
-                        onPress={() => settoggle(!toggle)}
+                        onPress={languageChange}
                         label={({ focused, color }) => (
                             <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { width: width - 115 }]}>
-                                <AppText FONT_16 bold color={colors.darkGreen} children={"Language"} />
+                                <AppText FONT_16 bold color={colors.darkGreen} children={t("Language")} />
                                 <ToggleSwitch
                                     isOn={toggle}
                                     onColor={'#4bb04f'}
@@ -119,7 +99,7 @@ const CustomDrawer = (props: any) => {
                                     label={toggle ? 'AR' : 'EN'}
                                     labelStyle={{ color: "black", fontFamily: fontFamily[600] }}
                                     size="small"
-                                    onToggle={settoggle}
+                                    onToggle={languageChange}
                                 />
                             </View>
                         )}
@@ -140,7 +120,7 @@ const CustomDrawer = (props: any) => {
                             marginVertical: 0,
                         }}
                         onPress={() => setmodal('signout')}
-                        label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={"Logout"} />)}
+                        label={({ focused, color }) => (<AppText FONT_16 bold color={colors.darkGreen} children={t("Logout")} />)}
                         icon={({ focused, color, size }) => (
                             <FastImage
                                 source={IMAGES['logoutIcon']}
@@ -155,8 +135,13 @@ const CustomDrawer = (props: any) => {
                 </DrawerContentScrollView>
                 {/* footer */}
                 <View >
+<<<<<<< Updated upstream
                     <AppText color={colors.GRAY} center children={'Developed by Selida Interactive'} />
                     <AppText color={colors.GRAY} style={{ marginBottom: 10 }} center children={'Version 1.0.1'} />
+=======
+                    <AppText color={colors.GRAY} center children={t('Developed by Selida Interactive')} />
+                    <AppText color={colors.GRAY} style={{ marginBottom: 10 }} center children={t('Version ') + "1.0.0"} />
+>>>>>>> Stashed changes
                 </View>
             </View>
 
@@ -164,8 +149,8 @@ const CustomDrawer = (props: any) => {
                 modal == 'signout' &&
                 <AlertModal
                     setmodalvisible={() => { setmodal('') }}
-                    title='Sign Out'
-                    description='Are you sure you want to Sign Out?'
+                    title={t('Sign Out')}
+                    description={t('Are you sure you want to Sign Out?')}
                     handleYes={() => {
                         store?.dispatch(setUser({
                             loggedInUser: false,

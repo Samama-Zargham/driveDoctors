@@ -10,6 +10,7 @@ import AppText from "../AppText";
 import FastImage from "react-native-fast-image";
 import { IMAGES } from "../../assets/images";
 import { formatDate } from "../../others/utils/helpers";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     mode?: "date" | "time" | "datetime"; // Adjust modes as needed
@@ -24,7 +25,7 @@ const AppDateTimePickerField = ({
     date,
     setDate
 }: Props) => {
-
+    const { t } = useTranslation();
     const [open, setopen] = useState(false);
     const [DATE, setDATE] = useState(new Date())
     return (
@@ -33,7 +34,7 @@ const AppDateTimePickerField = ({
             activeOpacity={0.9}
             onPress={() => setopen(!open)}
             style={styles.inputView} >
-            <AppText FONT_18 children={date || 'Select Date'} />
+            <AppText FONT_18 children={date || t('Select Date')} />
             <DatePicker
                 modal
                 mode={mode}

@@ -8,6 +8,8 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import CustomSnackBar from './src/components/Snakbar/SnackBar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { getAsyncStorageValue } from './src/others/utils/helpers';
+import i18next from 'i18next';
 const App = () => {
   const [splash, setsplash] = useState(true)
   useEffect(() => {
@@ -15,7 +17,15 @@ const App = () => {
       setsplash(false)
     }, 2200);
   }, [])
-
+  async function getLanguage() {
+    const lang = await getAsyncStorageValue('lang');
+    i18next.changeLanguage(lang)
+  }
+  useEffect(
+    React.useCallback(() => {
+      getLanguage()
+    }, []) // Include any dependencies that should trigger the effect
+  );
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>

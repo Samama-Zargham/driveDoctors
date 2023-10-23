@@ -11,12 +11,13 @@ import { APIService } from '../../../others/services/APIServices'
 import { useSelector } from 'react-redux'
 import store from '../../../others/redux/store'
 import { setNotifications } from '../../../others/redux/reducers/userReducer'
+import { useTranslation } from 'react-i18next'
 
 const Notifications = () => {
     const isFocused = useIsFocused()
     const { requestCall, loading } = useApi(APIService.getNotify)
     const { user, Notifications, vehicles } = useSelector((state: any) => state.user)
-
+    const { t } = useTranslation()
     const animatedValues = useRef(Notifications?.map(() => new Animated.Value(0))).current;
 
     useEffect(() => {
@@ -45,13 +46,13 @@ const Notifications = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader title='Notifications' />
+                <PrimaryHeader title={t('Notifications')} />
 
                 <View style={styles.backWhite} >
                     {Notifications?.length > 0 && <AppText
                         onPress={() => { store.dispatch(setNotifications([])) }}
                         FONT_18 style={{ right: 10, alignSelf: 'flex-end' }}
-                        bold color={colors.darkGreen} children='Clear All' />}
+                        bold color={colors.darkGreen} children={t('Clear All')} />}
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {
                             Notifications?.length > 0 ?
@@ -65,8 +66,8 @@ const Notifications = () => {
                                             ]}>
                                             {vehicle[0]?.plate &&
                                                 <View>
-                                                    <AppText children={'Car Info: ' + vehicle[0]?.make + " " + vehicle[0]?.model} />
-                                                    <AppText children={'Number Plate: ' + vehicle[0]?.plate + '\n'} />
+                                                    <AppText children={t('Car Info: ') + vehicle[0]?.make + " " + vehicle[0]?.model} />
+                                                    <AppText children={t('Number Plate: ') + vehicle[0]?.plate + '\n'} />
                                                 </View>
                                             }
                                             <AppText children={item?.message} />
@@ -77,7 +78,7 @@ const Notifications = () => {
                                     )
                                 })
                                 :
-                                <AppText center FONT_16 children='No data found' />
+                                <AppText center FONT_16 children={t('No data found')} />
                         }
                     </ScrollView>
                 </View>

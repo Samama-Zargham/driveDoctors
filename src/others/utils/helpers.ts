@@ -5,6 +5,7 @@ import { openCamera, openPicker } from "react-native-image-crop-picker";
 import store from "../redux/store";
 import { updateSnackBar } from "../redux/reducers/userReducer";
 // import DocumentPicker from "react-native-document-picker";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export function removeSpaceAndLowerCase(inputString: string) {
@@ -402,7 +403,7 @@ export function processArray(arr) {
         return arr.slice(0, 5);
     }
 }
-export const countryCode = '+974' //974
+export const countryCode = '+92'  //'+974'
 const showSuccess = (message: string | undefined) => {
     store.dispatch(
         updateSnackBar({
@@ -468,4 +469,44 @@ export {
     formatBytes,
     changeFlag,
     SelectUnSelectItems,
+};
+
+
+
+// Function to set a value in AsyncStorage
+export const setAsyncStorageValue = async (key, value) => {
+    try {
+        await AsyncStorage.setItem(key, JSON.stringify(value));
+        return true; // Return true on success
+    } catch (error) {
+        console.error('Error setting AsyncStorage value:', error);
+        return false; // Return false on failure
+    }
+};
+
+// Function to get a value from AsyncStorage
+export const getAsyncStorageValue = async (key) => {
+    try {
+        const value = await AsyncStorage.getItem(key);
+        if (value !== null) {
+            // Parse the retrieved JSON string to an object
+            return JSON.parse(value);
+        } else {
+            return null; // Key not found in AsyncStorage
+        }
+    } catch (error) {
+        console.error('Error getting AsyncStorage value:', error);
+        return null; // Return null on error
+    }
+};
+
+// Function to remove a value from AsyncStorage
+export const removeAsyncStorageValue = async (key) => {
+    try {
+        await AsyncStorage.removeItem(key);
+        return true; // Return true on success
+    } catch (error) {
+        console.error('Error removing AsyncStorage value:', error);
+        return false; // Return false on failure
+    }
 };

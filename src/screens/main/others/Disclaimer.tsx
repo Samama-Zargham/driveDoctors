@@ -7,15 +7,16 @@ import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import { useSelector } from 'react-redux'
 import AppText from '../../../components/AppText'
 import RenderHTML from 'react-native-render-html'
+import { useTranslation } from 'react-i18next'
 
 const Disclaimer = () => {
     const { Settings } = useSelector((state: any) => state.user)
-
+    const { t } = useTranslation()
 
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader title='Disclaimer' />
+                <PrimaryHeader title={t('Disclaimer')} />
                 <ScrollView style={styles.backWhite} >
                     <RenderHTML
                         contentWidth={width}

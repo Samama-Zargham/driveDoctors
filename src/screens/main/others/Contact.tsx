@@ -11,15 +11,19 @@ import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import navServices from '../../../others/utils/navServices'
 import DeviceInfo from 'react-native-device-info';
 import AppText from '../../../components/AppText'
+import { showError } from '../../../others/utils/helpers'
+import { useTranslation } from 'react-i18next'
 
 const Contact = () => {
+    const { t } = useTranslation()
+
     const isTablet = DeviceInfo.isTablet();
     const phoneNumber = '+97451300087'; // Replace with the recipient's phone number
     let whatsapp = `whatsapp://send?phone=${phoneNumber}`;
     let phone = `tel:${phoneNumber}`
     const handlePress = (url: any) => {
         if (phoneNumber.length < 10) {
-            alert('Please insert correct WhatsApp number');
+            showError(t('Please insert correct WhatsApp number'));
             return;
         }
         Linking.openURL(url)
@@ -27,14 +31,14 @@ const Contact = () => {
                 console.log('WhatsApp Opened', { data });
             })
             .catch(() => {
-                alert('Make sure Whatsapp installed on your device');
+                showError(t('Make sure Whatsapp installed on your device'));
             })
     };
 
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader title='Contact Us' />
+                <PrimaryHeader title={t('Contact Us')} />
                 <View style={styles.backWhite} >
                     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
                         <FastImage
@@ -42,26 +46,26 @@ const Contact = () => {
                             style={styles.userImage}
                             resizeMode='contain'
                         />
-                        <PrimaryInput placeholder='ex: 303024802348' header='Phone' />
-                        <PrimaryInput multiLine placeholder='Write a note...' header='Note' />
+                        <PrimaryInput placeholder='ex: 303024802348' header={t('Phone')} />
+                        <PrimaryInput multiLine placeholder={t('Write a note...')} header={t('Note')} />
                         <View style={{ marginTop: '20%' }} />
                         <PrimaryButton
                             txtColor={colors.WHITE}
                             backgroundColor={colors.darkGreen}
                             // onPress={() => handlePress(phone)}
-                            title='Submit Note' />
+                            title={t('Submit Note')} />
                         <View>
-                            <AppText FONT_18 semiBold center children='or' />
+                            <AppText FONT_18 semiBold center children={t('or')} />
                         </View>
                         <PrimaryButton
                             rightIcon='phone-classic'
                             onPress={() => handlePress(phone)}
-                            title='Phone Call' />
+                            title={t('Phone Call')} />
                         <PrimaryButton
                             rightIcon='whatsapp'
                             containerStyle={{ marginTop: 0 }}
                             isBorder onPress={() => handlePress(whatsapp)}
-                            title='Contact on WhatsApp' />
+                            title={t('Contact on WhatsApp')} />
 
                     </ScrollView>
                 </View>

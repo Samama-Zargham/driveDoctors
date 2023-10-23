@@ -7,15 +7,15 @@ import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import AppText from '../../../components/AppText'
 import { useSelector } from 'react-redux'
 import RenderHTML from 'react-native-render-html'
+import { useTranslation } from 'react-i18next'
 
 const PrivacyPolicy = () => {
-
+    const { t } = useTranslation()
     const { Settings } = useSelector((state: any) => state.user)
-    console.log({ Settings: Settings[1]?.value })
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader title='Privacy Policy' />
+                <PrimaryHeader title={t('Privacy Policy')} />
                 <ScrollView style={styles.backWhite} >
                     <RenderHTML
                         contentWidth={width}

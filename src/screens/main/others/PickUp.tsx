@@ -20,6 +20,7 @@ import moment from 'moment'
 import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 import BaseModal from '../../../components/reusables/BaseModal'
+import { useTranslation } from 'react-i18next'
 
 const PickUp = (props) => {
     const { vehicle_id } = props.route.params
@@ -27,7 +28,7 @@ const PickUp = (props) => {
     const [pickUpType, setpickUpType] = useState()
     const [date, setdate] = useState('')
     const [time, settime] = useState('')
-
+    const { t } = useTranslation()
     const [modal, setmodal] = useState('')
     const [animation] = useState(new Animated.Value(0));
 
@@ -137,10 +138,26 @@ const PickUp = (props) => {
 
 
     }
+
+    const data = [
+        {
+            id: 1,
+            title: t('Pick From Location'),
+            icon: 'truk'
+        },
+        {
+            id: 2,
+            title: t('Drop to Work Shop'),
+            icon: 'home'
+        },
+
+    ]
+
+
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader notDrawer title='Pick Up' />
+                <PrimaryHeader notDrawer title={t('Pick Up')} />
 
                 <View style={styles.backWhite} >
                     <ScrollView showsVerticalScrollIndicator={false}>
@@ -166,7 +183,7 @@ const PickUp = (props) => {
                         })}
                         {pickUpType &&
                             <>
-                                <AppText FONT_18 bold color={colors.darkGreen2} children={'Date and Time'} />
+                                <AppText FONT_18 bold color={colors.darkGreen2} children={t('Date and Time')} />
                                 <DatePicker date={date} setDate={setdate} />
                             </>
                         }
@@ -177,7 +194,7 @@ const PickUp = (props) => {
                                     activeOpacity={0.9}
                                     onPress={() => setmodal('time')}
                                     style={styles.inputView} >
-                                    <AppText FONT_18 children={time || 'Select Time Slot'} />
+                                    <AppText FONT_18 children={time || t('Select Time Slot')} />
                                     <FastImage source={IMAGES['date']}
                                         style={{
                                             width: 30,
@@ -190,7 +207,7 @@ const PickUp = (props) => {
                         }
                         {
                             time &&
-                            <PrimaryButton loading={addBooking.loading} onPress={handleConfirm} title='Confirm' />
+                            <PrimaryButton loading={addBooking.loading} onPress={handleConfirm} title={t('Confirm')} />
                         }
 
                     </ScrollView>
@@ -220,7 +237,7 @@ const PickUp = (props) => {
                     containerStyle={{ width: '85%', maxHeight: 350, overflow: "hidden" }}
                     modalvisible={true}
                     toggleModal={() => setmodal('')}>
-                    <AppText FONT_18 bold color={colors.darkGreen2} children={'Select Time'} />
+                    <AppText FONT_18 bold color={colors.darkGreen2} children={t('Select Time')} />
                     <ScrollView>
                         <View style={styles.scrollContent}>
 
@@ -423,19 +440,7 @@ const ColorFilter = [
 ]
 
 
-const data = [
-    {
-        id: 1,
-        title: 'Pick From Location',
-        icon: 'truk'
-    },
-    {
-        id: 2,
-        title: 'Drop to Work Shop',
-        icon: 'home'
-    },
 
-]
 const timeArray = [
     // "9:00 AM",
     // "9:30 AM",

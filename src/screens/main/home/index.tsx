@@ -23,7 +23,9 @@ import { setBookingStatus, setBookings, setSelectedServices, setServices, setSet
 import { BUCKET_URL } from '../../../others/utils/serviceConfig'
 import { useIsFocused } from '@react-navigation/native'
 import { BookingStatus } from '../../../others/utils/staticData'
+import { useTranslation } from 'react-i18next'
 const Home = () => {
+    const { t } = useTranslation()
     const [selectedServices, setselectedServices] = useState([])
     const [modal, setmodal] = useState('')
     const [selectCar, setselectCar] = useState('')
@@ -139,9 +141,9 @@ const Home = () => {
                     resizeMode='contain'
                     style={styles.image}
                 />
-                <AppText FONT_16 bold color='black' children={`Number ${item?.plate} - ServiceId ${item?.serviceId}  (${item?.carName})`} />
-                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} at ${item?.time} - ${item?.price} QAR\nStatus: ${item?.status}`} />
-                <AppText style={{ width: '70%' }} children={`Service: ${item?.services}`} />
+                <AppText FONT_16 bold color='black' children={`${t('Number')} ${item?.plate} - ${t('ServiceId')} ${item?.serviceId}  (${item?.carName})`} />
+                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} at ${item?.time} - ${item?.price} QAR\n${t('Status:')} ${item?.status}`} />
+                <AppText style={{ width: '70%' }} children={`${t('Service:')} ${item?.services}`} />
             </View>
         )
     }
@@ -175,7 +177,7 @@ const Home = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader title={'Hi, ' + user?.name} />
+                <PrimaryHeader title={t('Hi, ') + user?.name} />
                 <View style={styles.backWhite} >
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {BOOKINGS?.length>0 ?
@@ -206,10 +208,14 @@ const Home = () => {
                                     resizeMode='contain'
                                     style={styles.image}
                                 />
+<<<<<<< Updated upstream
                                 <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={`Welcome\nto our clinic`} />
+=======
+                                <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={t("Car care at\nat your doorstep")} />
+>>>>>>> Stashed changes
                             </Animated.View>
                         }
-                        <AppText style={{ marginBottom: mvs(14) }} FONT_18 Medium children='Our Services' />
+                        <AppText style={{ marginBottom: mvs(14) }} FONT_18 Medium children={t('Our Services')} />
                         <View style={[styles.scrollContent, {}]} >
                             {
                                 services.map((item: any, idx: number) => {
@@ -259,12 +265,12 @@ const Home = () => {
                                 disabled={!selectedServices[0]?.id}
                                 onPress={() => setselectCar('SelectCarModal')}
                                 isBorder width={'47%'}
-                                title='Select Car' />
+                                title={t('Select Car')} />
                             <PrimaryButton
                                 onPress={() => setselectCar('addCar')}
                                 disabled={!selectedServices[0]?.id}
                                 width={'47%'}
-                                title='Add New Car' />
+                                title={t('Add New Car')} />
                         </View>
                     </ScrollView>
 

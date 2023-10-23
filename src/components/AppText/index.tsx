@@ -125,6 +125,7 @@ const AppText = (props: Props) => {
           fontSize,
           color: color ? color : 'black',
           fontFamily: FONT_FAMILY,
+          textAlign: 'left'
         },
         props?.style,
       ]}>

@@ -10,6 +10,7 @@ import { SelectUnSelectItems } from '../../../others/utils/helpers'
 import BaseModal from '../../../components/reusables/BaseModal'
 import { fontFamily } from '../../../others/utils/fonts'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
 const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }: any) => {
     const servicesData = useSelector((state: any) => state.user.services.filter(e => e.category === 'other'));
@@ -18,6 +19,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
             setmodal(false)
         } else handleReset()
     }
+    const { t } = useTranslation()
     const SubServiceModal = React.memo(() => {
         const [selectedServices, setselectedServices] = useState(state[modal] || [])
         const [data, setdata] = useState(servicesData)
@@ -48,7 +50,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                     }
                     handleToggle(selectedServices?.length)
                 }}>
-                <AppText FONT_24 bold children={'Add Sub Services'} />
+                <AppText FONT_24 bold children={t('Add Sub Services')} />
                 <ScrollView
                     onStartShouldSetResponder={() => true}
                     style={styles.backWhite}
@@ -57,7 +59,11 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                         <AnyIcon name='check' color='white' type={Icons.Entypo} disabled size={26} containerStyle={styles.tick} />
                         <AppText FONT_16 Medium children={'     ' + item?.name} />
                     </View>
+<<<<<<< Updated upstream
                     {/* <AppText FONT_18 Medium style={{ marginVertical: 10 }} children='People also add this service' /> */}
+=======
+                    <AppText FONT_18 Medium style={{ marginVertical: 10 }} children={t('People also add this service')} />
+>>>>>>> Stashed changes
                     {
                         data.map((item: any, idx: number) => {
                             const foundElement: any = selectedServices.find((i: any) => i.id == item.id);
@@ -87,12 +93,12 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                 </ScrollView>
 
                 <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 30 }]} >
-                    <PrimaryButton onPress={handleReset} isBorder width={'47%'} title='Reset' />
+                    <PrimaryButton onPress={handleReset} isBorder width={'47%'} title={t('Reset')} />
                     <PrimaryButton
                         onPress={() => handleSumit(selectedServices)}
                         // disabled={selectedServices?.length < 1}
                         width={'47%'}
-                        title='Continue' />
+                        title={t('Continue')} />
                 </View>
             </BaseModal>
         )
@@ -111,15 +117,15 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                     multiline={true}
                     value={txt}
                     onChangeText={settxt}
-                    placeholder={'Describe the issue you are facing...'}
+                    placeholder={t('Describe the issue you are facing...')}
                 />
                 <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >
-                    <PrimaryButton onPress={handleToggle} isBorder width={'47%'} title='Cancel' />
+                    <PrimaryButton onPress={handleToggle} isBorder width={'47%'} title={t('Cancel')} />
                     <PrimaryButton
                         onPress={() => handleSumit(txt)}
                         // disabled={!txt}
                         width={'47%'}
-                        title='Submit' />
+                        title={t('Submit')} />
                 </View>
             </BaseModal>
         )

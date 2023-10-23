@@ -14,12 +14,13 @@ import { APIService } from '../../others/services/APIServices'
 import { useApi } from '../../others/services/useApi'
 import { countryCode, showError, showSuccess } from '../../others/utils/helpers'
 import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
 const VerifyCode = () => {
     const loginService = useApi(APIService.login)
     const verifyOtp = useApi(APIService.verifyOtp)
     const dispatch = useDispatch()
-
+    const { t } = useTranslation();
     // let data = useRoute()?.params
     let phone = useRoute()?.params?.phone
     // data = data ? data.response : null
@@ -49,7 +50,7 @@ const VerifyCode = () => {
         // }
 
         if (otp?.length < 4) {
-            return alert('Please enter correct OTP')
+            return showError(t('Please enter correct OTP'))
         } else {
             verifyOtp.requestCall({
                 phone: countryCode + phone,
@@ -57,10 +58,14 @@ const VerifyCode = () => {
             }).then((res) => {
                 console.log({ loginService: res.data })
                 if (res?.data?.error == 'Invalid OTP.') {
-                    showError('Invalid OTP')
+                    showError(t('Invalid OTP'))
                 }
                 else {
+<<<<<<< Updated upstream
                     // showSuccess('Successfully logged In')
+=======
+                    showSuccess(t('Successfully logged In'))
+>>>>>>> Stashed changes
                     dispatch(setUser({ ...res?.data, loggedInUser: true }));
                 }
             }).catch((err) => console.log({ err }))
@@ -78,11 +83,11 @@ const VerifyCode = () => {
             resizeMode='cover'
             style={{ flex: 1 }} source={IMAGES['login2']}>
             <View style={styles.VerifyCode}>
-                <AppText bold FONT_22 children='Code Verification' color={colors.WHITE} />
+                <AppText bold FONT_22 children={t('Code Verification')} color={colors.WHITE} />
                 <OtpVerification value={otp} setValue={setotp} />
-                <PrimaryButton loading={verifyOtp.loading} onPress={handleOtpVerification} title='Submit' />
+                <PrimaryButton loading={verifyOtp.loading} onPress={handleOtpVerification} title={t('Submit')} />
                 <TouchableOpacity disabled={counter !== 0} onPress={handleResend} style={{ padding: 5 }} >
-                    <AppText Medium center children={counter == 0 ? `Resend confirmation code?` : counter + ' seconds left'} color={colors.WHITE} />
+                    <AppText Medium center children={counter == 0 ? t(`Resend confirmation code?`) : counter + t(' seconds left')} color={colors.WHITE} />
                 </TouchableOpacity>
 
             </View>

@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux'
 import { extractNamesByKey } from '../../../others/utils/helpers'
 import { useIsFocused } from '@react-navigation/native'
 import { BookingStatus } from '../../../others/utils/staticData'
+import { useTranslation } from 'react-i18next'
 const Bookings = () => {
     const isFocused = useIsFocused()
 
@@ -67,12 +68,12 @@ const Bookings = () => {
         // }
 
     }, []);
-
+    const { t } = useTranslation()
 
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader title='Bookings' />
+                <PrimaryHeader title={t('Bookings')} />
                 <View style={styles.backWhite} >
                     <ScrollView contentContainerStyle={{ paddingTop: mvs(20) }} showsVerticalScrollIndicator={false}>
                         {
@@ -96,7 +97,7 @@ const Bookings = () => {
                                                     if ('time' == key || 'date' == key || 'status' == key || 'serviceId' == key || 'payment' == key || 'services' == key) {
                                                         return (
                                                             <View key={index} style={styles.rowText} >
-                                                                <AppText children={key} style={{ textTransform: 'capitalize' }} />
+                                                                <AppText children={t(key)} style={{ textTransform: 'capitalize' }} />
                                                                 <AppText style={styles.sText} children={val} />
 
                                                             </View>
@@ -108,7 +109,7 @@ const Bookings = () => {
                                     )
                                 })
                                 :
-                                <AppText center FONT_16 children='No data found' />
+                                <AppText center FONT_16 children={t('No data found')} />
                         }
                     </ScrollView>
                 </View>

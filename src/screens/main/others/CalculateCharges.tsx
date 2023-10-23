@@ -9,15 +9,17 @@ import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import navServices from '../../../others/utils/navServices'
+import { useTranslation } from 'react-i18next'
 
 const CalculateCharges = () => {
     const handleBookNow = () => {
         navServices.navigate('ThanksScreen')
     }
+    const { t } = useTranslation()
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader notDrawer title='Price' />
+                <PrimaryHeader notDrawer title={t('Price')} />
                 <View style={styles.backWhite} >
                     <ScrollView contentContainerStyle={{ flex: 1 }}
                         nestedScrollEnabled={true}

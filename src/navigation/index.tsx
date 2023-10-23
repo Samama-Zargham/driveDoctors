@@ -29,6 +29,7 @@ import RateUs from '../screens/main/others/RateUs';
 import AppText from '../components/AppText';
 import ThanksScreen from '../screens/main/others/ThanksScreen';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -80,6 +81,52 @@ function AuthStack() {
 
 
 function MyDrawer() {
+    const { t } = useTranslation()
+    const DrawerItems = [
+        {
+            label: t("Home "),
+            icon: "Layer19",
+            route: 'Home',
+            component: BottomTab,
+        },
+        {
+            label: t("Bookings"),
+            icon: "Layer18",
+            route: 'booking',
+            component: Bookings,
+        },
+        {
+            label: t("Listed Cars"),
+            icon: "Layer21",
+            route: 'CarDetails',
+            component: CarDetails,
+        },
+        {
+            label: t("Notifications"),
+            icon: "Layer16",
+            route: 'Notification',
+            component: Notifications,
+        },
+        {
+            label: t("Contact Us"),
+            icon: "Layer20",
+            route: 'Contact',
+            component: Contact,
+        },
+        {
+            label: t("Privacy Policy"),
+            icon: "Layer25copy",
+            route: 'PrivacyPolicy',
+            component: PrivacyPolicy,
+        },
+        {
+            label: t("Disclaimer"),
+            icon: "Layer26",
+            route: 'Disclaimer',
+            component: Disclaimer,
+        }
+    ];
+
     return (
         <Drawer.Navigator
             drawerContent={props => <CustomDrawer  {...props} data={DrawerItems} />}
@@ -133,6 +180,29 @@ function MyDrawer() {
 }
 
 const BottomTab = () => {
+    const { t } = useTranslation()
+    const TabItems = [
+        {
+            label: t("Home"),
+            icon: "Layer19",
+            component: Home,
+        },
+        {
+            label: t("Bookings"),
+            icon: "Layer18",
+            component: Bookings,
+        },
+        {
+            label: t("Notifications"),
+            icon: "Layer16",
+            component: Notifications,
+        },
+        {
+            label: t("Profile"),
+            icon: "Layer152",
+            component: Profile,
+        },
+    ];
     return (
         <Tab.Navigator
             screenOptions={{
@@ -186,76 +256,5 @@ const customTransition = ({ current }: any) => {
     };
 };
 
-const TabItems = [
-    {
-        label: "Home",
-        icon: "Layer19",
-        component: Home,
-    },
-    {
-        label: "Bookings",
-        icon: "Layer18",
-        component: Bookings,
-    },
-    {
-        label: "Notifications",
-        icon: "Layer16",
-        component: Notifications,
-    },
-    {
-        label: "Profile",
-        icon: "Layer152",
-        component: Profile,
-    },
-];
 
-const DrawerItems = [
-    {
-        label: "Home ",
-        icon: "Layer19",
-        route: 'Home',
-        component: BottomTab,
-    },
-    {
-        label: "Bookings",
-        icon: "Layer18",
-        route: 'booking',
-        component: Bookings,
-    },
-    {
-        label: "Listed Cars",
-        icon: "Layer21",
-        route: 'CarDetails',
-        component: CarDetails,
-    },
-    {
-        label: "Notifications",
-        icon: "Layer16",
-        route: 'Notification',
-        component: Notifications,
-    },
-    {
-        label: "Contact",
-        icon: "Layer20",
-        route: 'Contact',
-        component: Contact,
-    },
-    {
-        label: "Privacy Policy",
-        icon: "Layer25copy",
-        route: 'PrivacyPolicy',
-        component: PrivacyPolicy,
-    },
-    {
-        label: "Disclaimer",
-        icon: "Layer26",
-        route: 'Disclaimer',
-        component: Disclaimer,
-    },
-    // {
-    //     label: "Rate us",
-    //     icon: "Layer24",
-    //     route: 'RateUs',
-    //     component: RateUs,
-    // },
-];
+

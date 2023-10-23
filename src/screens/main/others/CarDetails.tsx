@@ -21,6 +21,7 @@ import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 import { setSelectedServices, setVehicles } from '../../../others/redux/reducers/userReducer'
 import { carDataFormatted, getCarModels } from '../../../others/utils/carsData'
+import { useTranslation } from 'react-i18next'
 const CarDetails = () => {
     const route = useRoute();
     const isTab = route.name === 'CarDetails';
@@ -134,7 +135,7 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
     const [carModal, setcarModal] = useState('')
     const [numberPlate, setNumberPlate] = useState('')
 
-
+    const { t } = useTranslation()
     const [animation] = useState(new Animated.Value(0));
     const { user } = useSelector((state: any) => state.user)
 
@@ -177,9 +178,7 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                     setmodal(false)
                 }
             }}>
-            <AppText FONT_24 bold children={'Add Car Details'} />
-
-            {console.log(carMake)}
+            <AppText FONT_24 bold children={t('Add Car Details')} />
             <ScrollView
                 onStartShouldSetResponder={() => true}
                 style={[styles.backWhite]}
@@ -189,7 +188,7 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                         label: 'key',
                         value: 'value'
                     }} setValue={setcarMake}
-                        header='Car Make' />
+                        header={t('Car Make')} />
                     {console.log(getCarModels(carMake))}
                     <DropDown value={carModal} setValue={setcarModal}
 
@@ -198,10 +197,10 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                             label: 'model',
                             value: 'model'
                         }}
-                        header='Car Modal' />
-                    <PrimaryInput placeholder='ex: ABDC 1234' header='Car Number Plate' onChangeText={setNumberPlate} />
+                        header={t('Car Modal')} />
+                    <PrimaryInput placeholder={t('ex: ABDC 1234')} header={t('Car Number Plate')} onChangeText={setNumberPlate} />
                     <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 90 }]} >
-                        <PrimaryButton onPress={() => addVehicle.loading ? {} : setmodal(false)} isBorder width={'47%'} title='Cancel' />
+                        <PrimaryButton onPress={() => addVehicle.loading ? {} : setmodal(false)} isBorder width={'47%'} title={t('Cancel')} />
                         <PrimaryButton
                             loading={addVehicle.loading}
                             onPress={() => {
@@ -226,7 +225,7 @@ export const AddCar = ({ setmodal, isNavigate = false, setIsAdded }: any) => {
                             }}
                             disabled={!carModal || !carMake || !numberPlate}
                             width={'47%'}
-                            title='Continue' />
+                            title={t('Continue')} />
                     </View>
                 </Animated.View>
             </ScrollView>

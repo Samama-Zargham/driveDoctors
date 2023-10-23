@@ -10,12 +10,13 @@ import { IMAGES } from '../../../assets/images'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import navServices from '../../../others/utils/navServices'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
 const SelectCarModal = ({ setmodal }: any) => {
     const { user, vehicles, servicesObject } = useSelector((state: any) => state.user)
     const [selectedCar, setselectedCar] = useState('')
 
-    console.log({ vehicles })
+    const { t } = useTranslation();
     const [animation] = useState(new Animated.Value(0));
 
     useEffect(() => {
@@ -52,7 +53,7 @@ const SelectCarModal = ({ setmodal }: any) => {
                 nestedScrollEnabled={true}
                 showsVerticalScrollIndicator={false}>
 
-                <AppText style={{ marginTop: mvs(20) }} FONT_18 semiBold children={'Listed Cars'} />
+                <AppText style={{ marginTop: mvs(20) }} FONT_18 semiBold children={t('Listed Cars')} />
                 {
                     vehicles?.length ?
                         vehicles?.map((item: any, index: number) => {
@@ -77,7 +78,7 @@ const SelectCarModal = ({ setmodal }: any) => {
                             )
                         })
                         :
-                        <AppText center children="car not found" />
+                        <AppText center children={t("car not found")} />
                 }
             </ScrollView>
 
@@ -85,7 +86,7 @@ const SelectCarModal = ({ setmodal }: any) => {
                 <PrimaryButton
                     onPress={() => setmodal('')}
                     isBorder width={'47%'}
-                    title='Cancel' />
+                    title={t('Cancel')} />
                 <PrimaryButton
                     disabled={selectedCar == ''}
                     onPress={() => {
@@ -93,7 +94,7 @@ const SelectCarModal = ({ setmodal }: any) => {
                             navServices.navigate('PickUp', { vehicle_id: selectedCar })
                     }}
                     width={'47%'}
-                    title='Select' />
+                    title={t('Select')} />
             </View>
         </BaseModal >
     )

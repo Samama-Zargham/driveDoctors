@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, TouchableOpacity, View, ViewProps } from 'react-native';
+import { I18nManager, StyleProp, StyleSheet, TouchableOpacity, View, ViewProps } from 'react-native';
 import React from 'react';
 import AppText from '../AppText';
 import { mvs } from '../../others/utils/responsive';
@@ -26,6 +26,7 @@ const PrimaryHeader: React.FC<Props> = ({
             style={[styles.main, containerStyle]}>
             <View style={[COMMON_STYLES.rowDirection, rightIcon ? { right: 10 } : {}]}>
                 {rightIcon && <AnyIcon
+                    containerStyle={[I18nManager.isRTL ? { transform: [{ rotate: '180deg' }] } : {}]}
                     disabled
                     type={Icons.Ionicons}
                     name={notDrawer ? 'chevron-back' : 'menu-outline'} //reorder-three-outline

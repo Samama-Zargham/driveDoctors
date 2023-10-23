@@ -12,17 +12,26 @@ import { IMAGES } from '../../../assets/images'
 import { CommonActions, useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import store from '../../../others/redux/store'
+<<<<<<< Updated upstream
 import { setBookingStatus, setBookings, setSelectedServices } from '../../../others/redux/reducers/userReducer'
 import { APIService } from '../../../others/services/APIServices'
 import { useApi } from '../../../others/services/useApi'
 import { extractNamesByKey } from '../../../others/utils/helpers'
 import { BookingStatus } from '../../../others/utils/staticData'
+=======
+import { setSelectedServices } from '../../../others/redux/reducers/userReducer'
+import { useTranslation } from 'react-i18next'
+>>>>>>> Stashed changes
 
 
 const ThanksScreen = () => {
     const selectedServices = useSelector((state: any) => state?.user?.selectedServices)
+<<<<<<< Updated upstream
     const { user,vehicles, servicesObject, bookingStatus } = useSelector((state: any) => state.user);
     console.log({ selectedServices })
+=======
+    const { t } = useTranslation()
+>>>>>>> Stashed changes
     const navigation = useNavigation()
     const [services, setservices] = useState([
         {
@@ -31,7 +40,11 @@ const ThanksScreen = () => {
             service: selectedServices?.serviceNames || '',
             date: selectedServices?.date?.toString() || '',
             Time: selectedServices?.time?.toString() || '',
+<<<<<<< Updated upstream
             status: bookingStatus["INITIALA"] || '',
+=======
+            status: t('Our clinic waiting for your car') || '',
+>>>>>>> Stashed changes
             payment: (selectedServices?.price?.toString() || '') + ' QAR'
         }
     ])
@@ -85,7 +98,7 @@ const ThanksScreen = () => {
             <View style={styles.backDark} >
                 <AppText color={colors.WHITE} FONT_22 children='' />
                 <View style={styles.backWhite} >
-                    <AppText center FONT_24 children={'Thanks For Your Booking'} color='white' />
+                    <AppText center FONT_24 children={t('Thanks For Your Booking')} color='white' />
                     <View style={styles.backWhite1}>
 
                         {
@@ -113,7 +126,7 @@ const ThanksScreen = () => {
                                                 }
                                             })
                                         }
-                                        <PrimaryButton onPress={handleOnpress} containerStyle={{ alignSelf: 'center' }} width={'78%'} title='Back to Home' />
+                                        <PrimaryButton onPress={handleOnpress} containerStyle={{ alignSelf: 'center' }} width={'78%'} title={t('Back to Home')} />
                                     </View>
                                 )
                             })

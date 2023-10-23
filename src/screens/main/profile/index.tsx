@@ -17,8 +17,10 @@ import store from '../../../others/redux/store'
 import { setUser, updateUser } from '../../../others/redux/reducers/userReducer'
 import { showError } from '../../../others/utils/helpers'
 import navServices from '../../../others/utils/navServices'
+import { useTranslation } from 'react-i18next'
 
 const Profile = () => {
+    const { t } = useTranslation()
     const [modal, setmodal] = useState(false)
     const { requestCall, loading } = useApi(APIService.deleteAccount)
     const updateProfile = useApi(APIService.updateProfile)
@@ -34,13 +36,13 @@ const Profile = () => {
     }
     const profileUpdate = () => {
         if (!name) {
-            return showError('Name field should not be empty')
+            return showError(t('Name field should not be empty'))
         }
         if (name?.length > 25) {
-            return showError('Name should not be greater than 25 characters')
+            return showError(t('Name should not be greater than 25 characters'))
         }
         if (password !== password_Confirm) {
-            return showError(`Password does'nt match`)
+            return showError(t("Password does'nt match"))
         } else {
             let body = {
                 name,
@@ -57,7 +59,7 @@ const Profile = () => {
     return (
         <BaseScreen>
             <View style={styles.backDark} >
-                <PrimaryHeader title='Profile' />
+                <PrimaryHeader title={t('Profile')} />
                 <View style={styles.backWhite} >
                     <ScrollView contentContainerStyle={{ paddingTop: mvs(20) }} showsVerticalScrollIndicator={false}>
                         <FastImage
@@ -66,14 +68,14 @@ const Profile = () => {
                             resizeMode='contain'
                         />
                         <AppText center FONT_18 semiBold children={name} />
-                        <PrimaryInput value={name} placeholder='' header='Name' onChangeText={setname} />
+                        <PrimaryInput value={name} placeholder='' header={t('Name')} onChangeText={setname} />
                         {/* <PrimaryInput placeholder='dummy@gmail.com' header='Email' /> */}
-                        <PrimaryInput editable={false} value={phone} placeholder='ex: +947 3030392388' header='Phone' onChangeText={setphone} />
-                        <PrimaryInput isEye placeholder='New Password' onChangeText={setpassword} header='Password' />
-                        <PrimaryInput isEye placeholder='Confirm New Password' onChangeText={setpassword} header='Confirm Password' />
+                        <PrimaryInput editable={false} value={phone} placeholder='' header={t('Phone')} onChangeText={setphone} />
+                        <PrimaryInput isEye placeholder={t('New Password')} onChangeText={setpassword} header={t('Password')} />
+                        <PrimaryInput isEye placeholder={t('Confirm New Password')} onChangeText={setpassword} header={t('Confirm Password')} />
 
-                        <PrimaryButton loading={updateProfile.loading} onPress={profileUpdate} title='Save' />
-                        <PrimaryButton loading={loading} onPress={handleDelete} containerStyle={{ marginTop: 2 }} title='Delete Account' />
+                        <PrimaryButton loading={updateProfile.loading} onPress={profileUpdate} title={t('Save')} />
+                        <PrimaryButton loading={loading} onPress={handleDelete} containerStyle={{ marginTop: 2 }} title={t('Delete Account')} />
 
                     </ScrollView>
                 </View>
@@ -82,8 +84,8 @@ const Profile = () => {
                 modal == 'delete' &&
                 <AlertModal
                     setmodalvisible={setmodal}
-                    title='Delete Account'
-                    description='Are you sure you want to delete account?'
+                    title={t('Delete Account')}
+                    description={t('Are you sure you want to delete account?')}
                     handleYes={() => {
                         requestCall(user?.id).then((res) => {
                             console.log(res)
