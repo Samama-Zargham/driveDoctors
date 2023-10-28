@@ -51,7 +51,45 @@ const CustomDrawer = (props: any) => {
                     contentContainerStyle={{ position: 'absolute', top: 0, left: 0, right: 0, }}
                     bounces={false}>
                     <DrawerItemList {...props} />
-                    <DrawerItem
+                    {/* {props.data?.map((item, index) => {
+                        let isFocus = routeName == item.label
+
+                        return (<DrawerItem
+                            style={[{
+                                backgroundColor: isFocus ?
+                                    colors.darkGreen1 : 'transparent',
+                                width: isTablet ? width * 0.4 : width * 0.5
+                            }]}
+                            key={index}
+                            onPress={() => {
+                                if (item.route == 'Hometab') {
+                                    navServices.navigate('BottomTab', { screen: 'Home' });
+                                }
+                                else {
+                                    navServices.navigate(item.route)
+                                }
+                                setrouteName(item?.label)
+
+                            }}
+                            labelStyle={{
+                                height: mvs(48),
+                                paddingVertical: 0,
+                                marginVertical: 0,
+                            }}
+                            label={({ focused, color }) => (<AppText bold color={isFocus ? colors.WHITE : colors.BLACK} children={item?.label} />)}
+                            icon={({ focused, color, size }) => (
+                                <FastImage
+                                    source={IMAGES[item?.icon]}
+                                    style={{
+                                        width: mvs(18),
+                                        height: mvs(18)
+                                    }}
+                                    resizeMode='contain'
+                                    tintColor={isFocus ? colors.WHITE : colors.BLACK}
+                                />
+                            )} />)
+                    })} */}
+                    {/* <DrawerItem
                         labelStyle={{
                             height: mvs(48),
                             paddingVertical: 0,
@@ -73,7 +111,7 @@ const CustomDrawer = (props: any) => {
                                 }}
                                 resizeMode='contain'
                             />
-                        )} /> 
+                        )} /> */}
                     <DrawerItem
                         labelStyle={{
                             height: mvs(48),
