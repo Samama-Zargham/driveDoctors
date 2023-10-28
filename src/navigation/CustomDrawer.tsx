@@ -73,7 +73,7 @@ const CustomDrawer = (props: any) => {
                                 }}
                                 resizeMode='contain'
                             />
-                        )} />
+                        )} /> 
                     <DrawerItem
                         labelStyle={{
                             height: mvs(48),
