@@ -10,6 +10,7 @@ import CustomSnackBar from './src/components/Snakbar/SnackBar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { getAsyncStorageValue } from './src/others/utils/helpers';
 import i18next from 'i18next';
+
 const App = () => {
   const [splash, setsplash] = useState(true)
   useEffect(() => {

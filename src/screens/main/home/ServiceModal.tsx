@@ -54,6 +54,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                 <ScrollView
                     onStartShouldSetResponder={() => true}
                     style={styles.backWhite}
+                    contentContainerStyle={{ paddingBottom: 60 }}
                     showsVerticalScrollIndicator={false}>
                     <View style={styles.booking}  >
                         <AnyIcon name='check' color='white' type={Icons.Entypo} disabled size={26} containerStyle={styles.tick} />
@@ -88,7 +89,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                     }
                 </ScrollView>
 
-                <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 30 }]} >
+                <View style={[COMMON_STYLES.rowDirectionWithSpaceBTW, { marginBottom: 5 }]} >
                     <PrimaryButton onPress={handleReset} isBorder width={'47%'} title={t('Reset')} />
                     <PrimaryButton
                         onPress={() => handleSumit(selectedServices)}
@@ -158,7 +159,8 @@ const styles = StyleSheet.create({
         width: mvs(38),
         height: mvs(38),
         justifyContent: "center",
-        alignItems: 'center'
+        alignItems: 'center',
+        marginRight: 20
     },
     booking: {
         backgroundColor: colors.WHITE,

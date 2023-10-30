@@ -49,6 +49,7 @@ const PrimaryInput: React.FC<Props> = ({
                     secureTextEntry={eye && isEye}
                     multiline={multiLine}
                     placeholder={placeholder}
+                    textAlign="right"
                     {...props}
                 />
                 {isEye && <AnyIcon onPress={() => seteye(!eye)} containerStyle={{ padding: 2, paddingRight: mvs(10) }} size={30} color={colors.BLACK} type={Icons.Ionicons} name={!eye ? 'eye' : 'eye-off'} />}
