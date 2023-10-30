@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next'
 const Bookings = () => {
     const isFocused = useIsFocused()
 
-    const { user, bookings, servicesObject, vehicles,bookingStatus } = useSelector((state: any) => state.user)
+    const { user, bookings, servicesObject, vehicles, bookingStatus } = useSelector((state: any) => state.user)
     const cloneBooking = Object.assign([], bookings)
     const BOOKINGS = cloneBooking?.reverse()
     const animatedValues = useRef(BOOKINGS.map(() => new Animated.Value(0))).current;
@@ -131,7 +131,8 @@ const styles = StyleSheet.create({
     backDark: { flex: 1, backgroundColor: colors.darkGreen },
     car: {
         width: mvs(60),
-        height: mvs(30)
+        height: mvs(30),
+        marginRight: 5
     },
     rowText: {
         ...COMMON_STYLES.rowDirection,

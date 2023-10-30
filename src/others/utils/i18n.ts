@@ -107,7 +107,9 @@ const resources: any = {
             'Submit Note': 'Submit Note',
             'or': 'or',
             'Phone Call': 'Phone Call',
-            'Contact on WhatsApp': 'Contact on WhatsApp'
+            'Contact on WhatsApp': 'Contact on WhatsApp',
+            'Yes': 'Yes',
+            'No': 'NO'
         }
     },
     ar: {
@@ -205,7 +207,9 @@ const resources: any = {
             "or": "أو",
             "Phone Call": "مكالمة هاتفية",
             "Contact on WhatsApp": "التواصل على الواتساب",
-            "Welcome\nto our clinic": "مرحبا بكم في عيادتنا",
+            "Welcome\nto our clinic": "مرحبا\n بكم في عيادتنا",
+            'Yes': 'نعم',
+            'No': 'لا'
         }
 
     }

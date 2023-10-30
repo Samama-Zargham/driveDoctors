@@ -211,7 +211,7 @@ const Home = () => {
                                 <AppText FONT_18 style={{ left: 10 }} bold color={colors.darkGreen2} children={t(`Welcome\nto our clinic`)} />
                             </Animated.View>
                         }
-                        <AppText style={{ marginBottom: mvs(14) }} FONT_18 Medium children={t('Our Services')} />
+                        <AppText style={{ marginVertical: BOOKINGS?.length > 0 ? 14 : 0, marginBottom: mvs(14) }} FONT_18 Medium children={t('Our Services')} />
                         <View style={[styles.scrollContent, {}]} >
                             {
                                 services.map((item: any, idx: number) => {
