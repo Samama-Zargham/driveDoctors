@@ -109,7 +109,9 @@ const resources: any = {
             'Phone Call': 'Phone Call',
             'Contact on WhatsApp': 'Contact on WhatsApp',
             'Yes': 'Yes',
-            'No': 'NO'
+            'No': 'NO',
+            'success': 'Success',
+            'error': 'Error'
         }
     },
     ar: {
@@ -209,7 +211,9 @@ const resources: any = {
             "Contact on WhatsApp": "التواصل على الواتساب",
             "Welcome\nto our clinic": "مرحبا\n بكم في عيادتنا",
             'Yes': 'نعم',
-            'No': 'لا'
+            'No': 'لا',
+            'success': 'نجاح',
+            'error': 'خطأ'
         }
 
     }

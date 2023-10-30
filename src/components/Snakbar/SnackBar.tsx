@@ -10,6 +10,7 @@ import AppText from '../AppText';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import FastImage from 'react-native-fast-image';
 import { IMAGES } from '../../assets/images';
+import { useTranslation } from 'react-i18next';
 
 
 const CustomSnackBar = () => {
@@ -50,11 +51,12 @@ const CustomSnackBar = () => {
             onClose && onClose();
         }, 500);
     };
+    const { t } = useTranslation();
 
     useEffect(() => {
         (message && type) && handleOpen();
     }, [message, type]);
-
+    const txt1 = type == 'success' ? t('success') : t('error');
     const animatedStyles = {
         transform: [
             {
@@ -84,7 +86,7 @@ const CustomSnackBar = () => {
                                     height: 34
                                 }} source={svgName} />
                             <View style={{ marginLeft: mvs(20) }}>
-                                <AppText color={'#4E4B66'} semiBold children={type.toString().charAt(0).toUpperCase() + type.toString().slice(1)} />
+                                <AppText color={'#4E4B66'} semiBold children={txt1} />
                                 <AppText FONT_10 style={{ width: mvs(220) }} numberOfLines={3} FONT_12 color={'#4E4B66'} children={message} />
                             </View>
                         </View>
