@@ -173,7 +173,6 @@ const Home = () => {
             store.dispatch(setSettings(res?.settings))
         }).catch((err) => console.log({ err }))
     }, [])
-    console.log({ BOOKINGS })
     return (
         <BaseScreen>
             <View style={styles.backDark} >

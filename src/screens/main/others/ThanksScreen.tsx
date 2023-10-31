@@ -23,18 +23,18 @@ import { useTranslation } from 'react-i18next'
 const ThanksScreen = () => {
     const selectedServices = useSelector((state: any) => state?.user?.selectedServices)
     const { user, vehicles, servicesObject, bookingStatus } = useSelector((state: any) => state.user);
-    console.log({ selectedServices })
+    // console.log({ selectedServices })
     const { t } = useTranslation()
     const navigation = useNavigation()
     const [services, setservices] = useState([
         {
             carName: selectedServices?.carName || '',
-            serviceId: selectedServices?.serviceId?.toString() || '',
-            service: selectedServices?.serviceNames || '',
-            date: selectedServices?.date?.toString() || '',
+            ServiceId: selectedServices?.serviceId?.toString() || '',
+            Service: selectedServices?.serviceNames || '',
+            Date: selectedServices?.date?.toString() || '',
             Time: selectedServices?.time?.toString() || '',
-            status: bookingStatus["INITIALA"] || '',
-            payment: (selectedServices?.price?.toString() || '') + ' QAR'
+            Status: bookingStatus["INITIAL"] || '',
+            Payment: (selectedServices?.price?.toString() || '') + ' QAR'
         }
     ])
     const handleOnpress = () => {
@@ -108,7 +108,7 @@ const ThanksScreen = () => {
                                                 if (index > 0) {
                                                     return (
                                                         <View key={index} style={styles.rowText} >
-                                                            <AppText style={{ width: '25%' }} FONT_16 children={key.charAt(0).toUpperCase() + key.slice(1)} />
+                                                            <AppText style={{ width: '25%' }} FONT_16 children={t(key)} />
                                                             <AppText style={{ width: '75%', textAlign: 'right' }} FONT_16 children={val.charAt(0).toUpperCase() + val.slice(1)} />
                                                         </View>
                                                     )
