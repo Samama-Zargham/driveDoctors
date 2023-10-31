@@ -6,6 +6,7 @@ import { mvs } from '../../others/utils/responsive'
 import { COMMON_STYLES } from '../../others/utils/commonStyles'
 import AnyIcon, { Icons } from './AnyIcon'
 import { countryCode } from '../../others/utils/helpers'
+import i18next from 'i18next'
 interface Props extends TextInputProps {
     header?: string,
     multiLine?: boolean
@@ -49,7 +50,7 @@ const PrimaryInput: React.FC<Props> = ({
                     secureTextEntry={eye && isEye}
                     multiline={multiLine}
                     placeholder={placeholder}
-                    textAlign="right"
+                    textAlign={i18next.language == 'ar' ? "right" : "left"}
                     {...props}
                 />
                 {isEye && <AnyIcon onPress={() => seteye(!eye)} containerStyle={{ padding: 2, paddingRight: mvs(10) }} size={30} color={colors.BLACK} type={Icons.Ionicons} name={!eye ? 'eye' : 'eye-off'} />}

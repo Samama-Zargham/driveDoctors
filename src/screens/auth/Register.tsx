@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { I18nManager, ImageBackground, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { IMAGES } from '../../assets/images'
 import AppText from '../../components/AppText'
@@ -9,11 +9,14 @@ import PrimaryButton from '../../components/buttons/PrimaryButton'
 import navServices from '../../others/utils/navServices'
 import { useApi } from '../../others/services/useApi'
 import { APIService } from '../../others/services/APIServices'
-import { countryCode, showError, showSuccess } from '../../others/utils/helpers'
+import { countryCode, setAsyncStorageValue, showError, showSuccess } from '../../others/utils/helpers'
 import { setServices } from '../../others/redux/reducers/userReducer'
 import store from '../../others/redux/store'
 import { useTranslation } from 'react-i18next'
-
+import { COMMON_STYLES } from '../../others/utils/commonStyles'
+import i18next from 'i18next'
+import i18n from '../../others/utils/i18n'
+import RNRestart from 'react-native-restart';
 const Register = () => {
     const registerService = useApi(APIService.signUp)
     const mainCategoryServices = useApi(APIService.mainServices)
@@ -21,6 +24,15 @@ const Register = () => {
     const [phone, setphone] = useState<any>();
     const [password, setpassword] = useState<any>();
     const [name, setname] = useState<any>();
+
+    const languageChange = async (lang: string) => {
+        console.log({ lang, i18: i18next.language })
+        if (i18n.language !== lang) {
+            I18nManager.forceRTL(i18n.language !== 'ar');
+            await setAsyncStorageValue('lang', lang);
+            RNRestart.Restart();
+        }
+    }
     const handleRegister = () => {
         const regex = /^[0-9]+$/;
         if (!phone || !name || !password) {
@@ -56,6 +68,18 @@ const Register = () => {
                 <PrimaryInput keyboardType='phone-pad' isPhone top={10} placeholder={t('Phone Number')} onChangeText={setphone} />
                 <PrimaryInput top={10} isEye placeholder={t('Password')} onChangeText={setpassword} />
                 <PrimaryButton loading={registerService.loading || mainCategoryServices.loading} onPress={handleRegister} title={t('Register')} />
+                <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >
+                    <PrimaryButton
+                        onPress={() => languageChange('ar')}
+                        isBorder={i18next.language !== 'ar'}
+                        width={'47%'}
+                        title={t('Arabic')} />
+                    <PrimaryButton
+                        onPress={() => languageChange('en')}
+                        isBorder={i18next.language !== 'en'}
+                        width={'47%'}
+                        title={t('English')} />
+                </View>
                 <TouchableOpacity onPress={() => navServices.navigate('Login')} style={{ padding: 5 }} >
                     <AppText Medium center children={t(`Already have a account? Sign In`)} color={colors.WHITE} />
                 </TouchableOpacity>

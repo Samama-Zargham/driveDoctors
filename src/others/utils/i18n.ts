@@ -7,6 +7,8 @@ import { initReactI18next } from "react-i18next";
 const resources: any = {
     en: {
         translation: {
+            'Arabic': 'Arabic',
+            'English': 'English',
             "Input Field is empty": "Input Field is empty",
             'Please write correct phone number': 'Please write correct phone number',
             'Dr. Yaser Qurban': 'Dr. Yaser Qurban',
@@ -116,6 +118,8 @@ const resources: any = {
     },
     ar: {
         translation: {
+            'Arabic': 'عربي',
+            'English': 'إنجليزي',
             "Input Field is empty": "حقل الإدخال فارغ",
             "Please write correct phone number": "يرجى كتابة رقم الهاتف الصحيح",
             "Phone number not registered": "رقم الهاتف غير مسجل",
