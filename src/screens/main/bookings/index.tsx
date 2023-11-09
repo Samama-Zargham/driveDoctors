@@ -36,6 +36,7 @@ const Bookings = () => {
                     const servicesArray = book?.services?.split(',');
                     const parts = book?.time?.split(' ');
                     const timestamp = parts[0];
+
                     return ({
                         ...book,
                         carName: vehicles.some((e: any) => e.id === book.vehicle_id) ? `${vehicles.find((e: any) => e.id === book.vehicle_id)?.make} ${vehicles.find((e: any) => e.id === book.vehicle_id)?.model}` : "",
@@ -43,7 +44,7 @@ const Bookings = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: bookingStatus[book?.status + (isArabic() ? '_ar' : "")],
+                        status: bookingStatus[book?.status + (isArabic() ? '_AR' : "")],
                         payment: `${book?.price | 0} QAR`,
                     })
                 }

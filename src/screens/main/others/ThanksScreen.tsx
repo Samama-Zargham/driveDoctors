@@ -74,7 +74,7 @@ const ThanksScreen = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: bookingStatus[book?.status + (isArabic() ? '_ar' : "")],
+                        status: bookingStatus[book?.status + (isArabic() ? '_AR' : "")],
                         payment: `${book?.price | 0} QAR`,
                     })
                 }
