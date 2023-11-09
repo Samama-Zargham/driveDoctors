@@ -15,7 +15,7 @@ import store from '../../../others/redux/store'
 import { setBookingStatus, setBookings, setSelectedServices } from '../../../others/redux/reducers/userReducer'
 import { APIService } from '../../../others/services/APIServices'
 import { useApi } from '../../../others/services/useApi'
-import { extractNamesByKey } from '../../../others/utils/helpers'
+import { extractNamesByKey, isArabic } from '../../../others/utils/helpers'
 import { BookingStatus } from '../../../others/utils/staticData'
 import { useTranslation } from 'react-i18next'
 
@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next'
 const ThanksScreen = () => {
     const selectedServices = useSelector((state: any) => state?.user?.selectedServices)
     const { user, vehicles, servicesObject, bookingStatus } = useSelector((state: any) => state.user);
-    // console.log({ selectedServices })
+    console.log({ selectedServices })
     const { t } = useTranslation()
     const navigation = useNavigation()
     const [services, setservices] = useState([
@@ -74,7 +74,7 @@ const ThanksScreen = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: bookingStatus[book?.status],
+                        status: bookingStatus[book?.status + (isArabic() ? '_ar' : "")],
                         payment: `${book?.price | 0} QAR`,
                     })
                 }

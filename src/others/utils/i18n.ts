@@ -118,11 +118,13 @@ const resources: any = {
             'success': 'Success',
             'error': 'Error',
             "Service": "Service",
-            "Status": "Status"
+            "Status": "Status",
+            'Other Car Repair': 'Other Car Repair'
         }
     },
     ar: {
         translation: {
+            'Other Car Repair': 'إصلاح السيارات الأخرى',
             'Arabic': 'عربي',
             'English': 'إنجليزي',
             "Input Field is empty": "حقل الإدخال فارغ",
@@ -208,6 +210,7 @@ const resources: any = {
             "Thanks For Your Booking": "شكرا لحجزك",
             "Back to Home": "العودة إلى المنزل",
             "Home ": "بيت",
+            "Home": "بيت",
             "Contact Us": "اتصل بنا",
             "Privacy Policy": "سياسة الخصوصية",
             "Disclaimer": "تنصل",

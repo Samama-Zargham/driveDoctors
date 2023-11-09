@@ -7,7 +7,7 @@ import { colors } from '../../../others/utils/colors'
 import FastImage from 'react-native-fast-image'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import { IMAGES } from '../../../assets/images'
-import { STATUS, SelectUnSelectItems, extractNamesByKey, processArray } from '../../../others/utils/helpers'
+import { STATUS, SelectUnSelectItems, extractNamesByKey, isArabic, processArray } from '../../../others/utils/helpers'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import PrimaryHeader from '../../../components/reusables/PrimaryHeader'
 import LinearGradient from 'react-native-linear-gradient'
@@ -25,6 +25,7 @@ import { useIsFocused } from '@react-navigation/native'
 import { BookingStatus } from '../../../others/utils/staticData'
 import { useTranslation } from 'react-i18next'
 const Home = () => {
+
     const { t } = useTranslation()
     const [selectedServices, setselectedServices] = useState([])
     const [modal, setmodal] = useState('')
@@ -41,6 +42,7 @@ const Home = () => {
     {
         id: 123456789,
         name: 'Other Car Repair',
+        name_ar: 'إصلاح السيارات الأخرى',
         icon: IMAGES['Layer14'],
         category: 'EXTRAT_ITEM',
         isSubService: true
@@ -58,6 +60,7 @@ const Home = () => {
     useEffect(() => {
         myBookingsService.requestCall(user?.id)
             .then((response) => {
+                console.log({ response })
                 store.dispatch(setBookingStatus(response.statuses))
 
                 store.dispatch(setBookings(response.booking.map((book: any) => {
@@ -72,7 +75,7 @@ const Home = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: bookingStatus[book?.status],
+                        status: bookingStatus[book?.status + (isArabic() ? '_ar' : "")],
                         orignalStatus: book?.status,
                         payment: `${book?.price | 0} QAR`,
                     })
@@ -241,7 +244,7 @@ const Home = () => {
                                                     style={styles.service}
                                                     start={{ x: 0, y: 2 }} end={{ x: 1.5, y: 0 }}
                                                     colors={foundElement?.id ? [colors.parrot, colors.parrot] : [colors.parrot, colors.parrot2, colors.parrot2]} >
-                                                    <AppText Medium children={item.name} />
+                                                    <AppText Medium children={isArabic() ? item?.name_ar : item?.name} />
                                                     <FastImage
                                                         source={{ uri: `${BUCKET_URL}/${item.icon}` }}
                                                         resizeMode='contain'

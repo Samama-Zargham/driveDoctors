@@ -6,8 +6,12 @@ import store from "../redux/store";
 import { updateSnackBar } from "../redux/reducers/userReducer";
 // import DocumentPicker from "react-native-document-picker";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from "./i18n";
 
-
+export const isArabic = () => {
+    const isArabic = i18n.language == 'ar'
+    return isArabic
+}
 export function removeSpaceAndLowerCase(inputString: string) {
     // Remove spaces using regular expression and replace with an empty string
     const stringWithoutSpaces = inputString.replace(/\s/g, "");
@@ -440,6 +444,7 @@ function convertArrayToObject(inputArray: Service[]): Record<string, Service> {
 type MyObject = {
     [key: string]: {
         name: string;
+        name_ar: string;
     };
 };
 
@@ -447,11 +452,12 @@ function extractNamesByKey(obj: MyObject, keysToExtract: string[]): string[] {
     const extractedNames: string[] = [];
     for (const key of keysToExtract) {
         if (obj[key] && obj[key].name) {
-            extractedNames.push(obj[key].name);
+            isArabic() ?
+                extractedNames.push(obj[key]?.name_ar)
+                :
+                extractedNames.push(obj[key].name);
         }
     }
-    console.log({ extractedNames, keysToExtract, obj })
-
     return extractedNames
 }
 

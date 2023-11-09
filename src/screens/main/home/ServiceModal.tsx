@@ -6,7 +6,7 @@ import { colors } from '../../../others/utils/colors'
 import PrimaryButton from '../../../components/buttons/PrimaryButton'
 import { COMMON_STYLES } from '../../../others/utils/commonStyles'
 import AnyIcon, { Icons } from '../../../components/reusables/AnyIcon'
-import { SelectUnSelectItems } from '../../../others/utils/helpers'
+import { SelectUnSelectItems, isArabic } from '../../../others/utils/helpers'
 import BaseModal from '../../../components/reusables/BaseModal'
 import { fontFamily } from '../../../others/utils/fonts'
 import { useSelector } from 'react-redux'
@@ -58,7 +58,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                     showsVerticalScrollIndicator={false}>
                     <View style={styles.booking}  >
                         <AnyIcon name='check' color='white' type={Icons.Entypo} disabled size={26} containerStyle={styles.tick} />
-                        <AppText FONT_16 Medium children={'     ' + item?.name} />
+                        <AppText FONT_16 Medium children={'     ' + (isArabic() ? item?.name_ar : item?.name)} />
                     </View>
                     {/* <AppText FONT_18 Medium style={{ marginVertical: 10 }} children={t('People also add this service')} /> */}
                     {
@@ -81,7 +81,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                                             containerStyle={[styles.tick,
                                             { backgroundColor: foundElement?.id ? colors.green : colors.LIGHT_GRAY }]}
                                         />
-                                        <AppText FONT_18 children={'     ' + item?.name} />
+                                        <AppText FONT_18 children={'     ' + isArabic() ? item?.name_ar : item?.name} />
                                     </Animated.View>
                                 </TouchableOpacity>
                             )
@@ -108,7 +108,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                 modalvisible={true}
                 toggleModal={handleToggle}>
 
-                <AppText FONT_18 style={{ marginBottom: mvs(10) }} semiBold children={item?.name} />
+                <AppText FONT_18 style={{ marginBottom: mvs(10) }} semiBold children={isArabic() ? item?.name_ar : item?.name} />
                 <TextInput
                     style={styles.input}
                     multiline={true}

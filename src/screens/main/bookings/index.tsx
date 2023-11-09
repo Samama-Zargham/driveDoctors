@@ -13,15 +13,16 @@ import { APIService } from '../../../others/services/APIServices'
 import store from '../../../others/redux/store'
 import { setBookingStatus, setBookings } from '../../../others/redux/reducers/userReducer'
 import { useSelector } from 'react-redux'
-import { extractNamesByKey } from '../../../others/utils/helpers'
+import { extractNamesByKey, isArabic } from '../../../others/utils/helpers'
 import { useIsFocused } from '@react-navigation/native'
-import { BookingStatus } from '../../../others/utils/staticData'
 import { useTranslation } from 'react-i18next'
 const Bookings = () => {
     const isFocused = useIsFocused()
 
     const { user, bookings, servicesObject, vehicles, bookingStatus } = useSelector((state: any) => state.user)
     const cloneBooking = Object.assign([], bookings)
+    console.log({ bookingStatus })
+
     const BOOKINGS = cloneBooking?.reverse()
     const animatedValues = useRef(BOOKINGS.map(() => new Animated.Value(0))).current;
     const myBookingsService = useApi(APIService.myBookings)
@@ -35,7 +36,6 @@ const Bookings = () => {
                     const servicesArray = book?.services?.split(',');
                     const parts = book?.time?.split(' ');
                     const timestamp = parts[0];
-
                     return ({
                         ...book,
                         carName: vehicles.some((e: any) => e.id === book.vehicle_id) ? `${vehicles.find((e: any) => e.id === book.vehicle_id)?.make} ${vehicles.find((e: any) => e.id === book.vehicle_id)?.model}` : "",
@@ -43,7 +43,7 @@ const Bookings = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: bookingStatus[book?.status],
+                        status: bookingStatus[book?.status + (isArabic() ? '_ar' : "")],
                         payment: `${book?.price | 0} QAR`,
                     })
                 }

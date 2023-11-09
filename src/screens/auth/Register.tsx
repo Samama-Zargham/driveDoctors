@@ -9,7 +9,7 @@ import PrimaryButton from '../../components/buttons/PrimaryButton'
 import navServices from '../../others/utils/navServices'
 import { useApi } from '../../others/services/useApi'
 import { APIService } from '../../others/services/APIServices'
-import { countryCode, setAsyncStorageValue, showError, showSuccess } from '../../others/utils/helpers'
+import { countryCode, isArabic, setAsyncStorageValue, showError, showSuccess } from '../../others/utils/helpers'
 import { setServices } from '../../others/redux/reducers/userReducer'
 import store from '../../others/redux/store'
 import { useTranslation } from 'react-i18next'
@@ -24,9 +24,7 @@ const Register = () => {
     const [phone, setphone] = useState<any>();
     const [password, setpassword] = useState<any>();
     const [name, setname] = useState<any>();
-
     const languageChange = async (lang: string) => {
-        console.log({ lang, i18: i18next.language })
         if (i18n.language !== lang) {
             I18nManager.forceRTL(i18n.language !== 'ar');
             await setAsyncStorageValue('lang', lang);
