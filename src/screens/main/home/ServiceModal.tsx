@@ -11,6 +11,7 @@ import BaseModal from '../../../components/reusables/BaseModal'
 import { fontFamily } from '../../../others/utils/fonts'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 
 const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }: any) => {
     const servicesData = useSelector((state: any) => state.user.services.filter(e => e.category === 'other'));
@@ -114,6 +115,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                     multiline={true}
                     value={txt}
                     onChangeText={settxt}
+                    textAlign={i18next.language == 'ar' ? "right" : "left"}
                     placeholder={t('Describe the issue you are facing...')}
                 />
                 <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >

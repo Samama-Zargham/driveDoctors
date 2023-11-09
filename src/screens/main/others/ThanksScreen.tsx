@@ -34,7 +34,7 @@ const ThanksScreen = () => {
             Date: selectedServices?.date?.toString() || '',
             Time: selectedServices?.time?.toString() || '',
             Status: bookingStatus["INITIAL"] || '',
-            Payment: (selectedServices?.price?.toString() || '') + ' QAR'
+            // Payment: (selectedServices?.price?.toString() || '') + ' QAR'
         }
     ])
     const handleOnpress = () => {

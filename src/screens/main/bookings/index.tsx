@@ -95,7 +95,7 @@ const Bookings = () => {
                                             </View>
                                             {
                                                 Object.entries(item).map(([key, val], index) => {
-                                                    if ('time' == key || 'date' == key || 'status' == key || 'serviceId' == key || 'payment' == key || 'services' == key) {
+                                                    if ('time' == key || 'date' == key || 'status' == key || 'serviceId' == key || 'services' == key) {
                                                         return (
                                                             <View key={index} style={styles.rowText} >
                                                                 <AppText children={t(key)} style={{ textTransform: 'capitalize' }} />

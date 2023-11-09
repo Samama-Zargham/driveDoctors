@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ImageBackground,I18nManager, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { IMAGES } from '../../assets/images'
 import AppText from '../../components/AppText'
@@ -11,9 +11,12 @@ import { APIService } from '../../others/services/APIServices'
 import { useApi } from '../../others/services/useApi'
 import store from '../../others/redux/store'
 import { setServices, setSettings, setUser } from '../../others/redux/reducers/userReducer'
-import { _returnError, convertArrayToObject, countryCode, showError, showSuccess } from '../../others/utils/helpers'
+import { _returnError, convertArrayToObject, countryCode,setAsyncStorageValue, showError, showSuccess } from '../../others/utils/helpers'
 import { useTranslation } from 'react-i18next'
-
+import i18next from 'i18next'
+import i18n from '../../others/utils/i18n'
+import RNRestart from 'react-native-restart';
+import { COMMON_STYLES } from '../../others/utils/commonStyles'
 const Login = () => {
     const { t } = useTranslation();
     const [phone, setPhone] = useState<any>('');
@@ -59,6 +62,14 @@ const Login = () => {
         // }
 
     };
+    const languageChange = async (lang: string) => {
+        if (i18n.language !== lang) {
+            I18nManager.forceRTL(i18n.language !== 'ar');
+            await setAsyncStorageValue('lang', lang);
+            RNRestart.Restart();
+        }
+    }
+
     return (
         <ImageBackground
             resizeMode='cover'
@@ -71,10 +82,21 @@ const Login = () => {
                     <AppText style={{ alignSelf: "flex-end", top: 7 }} Medium center children={`Forget Password? `} color={colors.WHITE} />
                 </TouchableOpacity> */}
                 <PrimaryButton loading={loginService.loading || mainCategoryServices?.loading} disabled={loginService.loading} onPress={handleSignIn} title={t('Sign In')} />
+                <View style={COMMON_STYLES.rowDirectionWithSpaceBTW} >
+                    <PrimaryButton
+                        onPress={() => languageChange('ar')}
+                        isBorder={i18next.language !== 'ar'}
+                        width={'47%'}
+                        title={t('Arabic')} />
+                    <PrimaryButton
+                        onPress={() => languageChange('en')}
+                        isBorder={i18next.language !== 'en'}
+                        width={'47%'}
+                        title={t('English')} />
+                </View>
                 <TouchableOpacity onPress={() => navServices.navigate('Register')} style={{ padding: 5 }} >
                     <AppText Medium center children={t(`Don't have an account? Sign Up`)} color={colors.WHITE} />
                 </TouchableOpacity>
-
             </View>
         </ImageBackground>
     )

@@ -23,7 +23,9 @@ import { setBookingStatus, setBookings, setSelectedServices, setServices, setSet
 import { BUCKET_URL } from '../../../others/utils/serviceConfig'
 import { useIsFocused } from '@react-navigation/native'
 import { BookingStatus } from '../../../others/utils/staticData'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next';
+import i18n from '../../../others/utils/i18n'
+
 const Home = () => {
 
     const { t } = useTranslation()
@@ -84,6 +86,7 @@ const Home = () => {
             .catch(() => { });
     }, [isFocused])
     useEffect(() => {
+        languageChange()
         mainCategoryServices.requestCall().then((response) => {
             console.log({ services: response.services })
             store.dispatch(setServices(response.services));
@@ -114,7 +117,17 @@ const Home = () => {
     }, [fadeAnim, slideAnim]);
 
     const animatedValues = useRef(services.map(() => new Animated.Value(0))).current;
+    const updateProfiles = useApi(APIService.updateProfile)
 
+    const languageChange = () => {
+        let body = {
+            name: user?.name,
+            phone: user?.phone,
+            lang: i18n.language == 'ar' ? 'ar' : 'en'
+        }
+        updateProfiles.requestCall(user?.id, body).then(async (res) => {
+        }).catch((err) => console.log({ err }))
+    }
     useEffect(() => {
         const animations = services.map((item, index) =>
             Animated.timing(animatedValues[index], {
@@ -144,7 +157,7 @@ const Home = () => {
                     style={styles.image}
                 />
                 <AppText FONT_16 bold color='black' children={`${t('Number')} ${item?.plate} - ${t('ServiceId')} ${item?.serviceId}  (${item?.carName})`} />
-                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} ${t('at')} ${item?.time} - ${item?.price} QAR\n${t('Status:')} ${item?.status}`} />
+                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} ${t('at')} ${item?.time}\n${t('Status:')} ${item?.status}`} />  
                 <AppText style={{ width: '70%' }} children={`${t('Service:')} ${item?.services}`} />
             </View>
         )
