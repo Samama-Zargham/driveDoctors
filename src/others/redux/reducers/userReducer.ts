@@ -13,6 +13,7 @@ export type Service = {
 export type ServicesObject = Record<string, Service>;
 interface State {
   user: any;
+  fcmToken: any;
   authToken: any;
   bookings: any[];
   vehicles: any[];
@@ -39,9 +40,10 @@ const initialState: State = {
   Notifications: [],
   services: [],
   Settings: [],
-  bookingStatus:[],
+  bookingStatus: [],
   servicesObject: {},
   loggedInUser: false,
+  fcmToken: '',
   snackBar: {
     duration: 3000,
     message: '',
@@ -59,6 +61,9 @@ export const userReducer = createSlice({
       state.user = action.payload.user;
       state.authToken = action.payload.access_token;
       state.loggedInUser = action.payload.loggedInUser
+    },
+    setFcmToken: (state, action) => {
+      state.fcmToken = action.payload;
     },
     updateUser: (state, action) => {
       state.user = action.payload;
@@ -95,10 +100,10 @@ export const userReducer = createSlice({
       state.snackBar.message = action.payload.message
     },
     setBookingStatus: (state, action) => {
-      state.bookingStatus= action.payload
+      state.bookingStatus = action.payload
     },
 
-  
+
 
   },
 });
@@ -109,6 +114,6 @@ export const getUserRoles = (state: any) => state.entities.user.userRole;
 //will give the only LogedInuser Roles Redux data from store
 export const getLoggedInUser = (state: any) => state.entities.user.loggedInUser;
 
-export const { resetUserReducer, updateUser, setSettings, setSelectedServices, setUser, setAuthToken, updateSnackBar, setLoggedInUser, setNotifications, setBookings, setVehicles, setServices, setBookingStatus } = userReducer.actions;
+export const { setFcmToken, resetUserReducer, updateUser, setSettings, setSelectedServices, setUser, setAuthToken, updateSnackBar, setLoggedInUser, setNotifications, setBookings, setVehicles, setServices, setBookingStatus } = userReducer.actions;
 
 export default userReducer.reducer;

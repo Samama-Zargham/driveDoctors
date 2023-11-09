@@ -47,10 +47,10 @@ const ThanksScreen = () => {
                 CommonActions.reset({
                     index: 0,
                     routes: [
-                        { name: 'Home' }
+                        { name: t('Home') }
                     ]
                 }),
-                navigation.navigate('Home'),
+                navigation.navigate(t('Home')),
 
             );
         })

@@ -37,7 +37,8 @@ const Home = () => {
     const getSettings = useApi(APIService.getSettings)
     const cloneBooking = Object.assign([], bookings);
     const BOOKINGS = bookings?.filter((e: any) => (e.orignalStatus != "COMPLETED" && e.orignalStatus != "CANCELLED"))?.reverse();
-    const servicesData = servicesData1?.filter(e => !e.category)
+    console.log({ BOOKINGS })
+    const servicesData = servicesData1?.filter((e: any) => !e.category)
     const [services, setservices] = useState([...servicesData,
     {
         id: 123456789,
@@ -60,14 +61,12 @@ const Home = () => {
     useEffect(() => {
         myBookingsService.requestCall(user?.id)
             .then((response) => {
-                console.log({ response })
                 store.dispatch(setBookingStatus(response.statuses))
 
                 store.dispatch(setBookings(response.booking.map((book: any) => {
                     const servicesArray = book?.services?.split(',');
                     const parts = book?.time?.split(' ');
                     const timestamp = parts[0];
-
                     return ({
                         ...book,
                         carName: vehicles.some((e: any) => e.id === book.vehicle_id) ? `${vehicles.find((e: any) => e.id === book.vehicle_id)?.make} ${vehicles.find((e: any) => e.id === book.vehicle_id)?.model}` : "",
@@ -145,7 +144,7 @@ const Home = () => {
                     style={styles.image}
                 />
                 <AppText FONT_16 bold color='black' children={`${t('Number')} ${item?.plate} - ${t('ServiceId')} ${item?.serviceId}  (${item?.carName})`} />
-                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} at ${item?.time} - ${item?.price} QAR\n${t('Status:')} ${item?.status}`} />
+                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} ${t('at')} ${item?.time} - ${item?.price} QAR\n${t('Status:')} ${item?.status}`} />
                 <AppText style={{ width: '70%' }} children={`${t('Service:')} ${item?.services}`} />
             </View>
         )

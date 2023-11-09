@@ -1,4 +1,4 @@
-import { I18nManager, Linking, Platform, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, I18nManager, Linking, Platform, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import AppText from '../components/AppText'
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer'
@@ -21,6 +21,9 @@ import { setAsyncStorageValue } from '../others/utils/helpers'
 import i18n from '../others/utils/i18n'
 import RNRestart from 'react-native-restart';
 import { useTranslation } from 'react-i18next'
+import { useApi } from '../others/services/useApi'
+import { APIService } from '../others/services/APIServices'
+import ReactNativeModal from 'react-native-modal'
 
 
 const CustomDrawer = (props: any) => {
@@ -31,15 +34,32 @@ const CustomDrawer = (props: any) => {
     const { Settings } = useSelector((state: any) => state.user)
     const androidLink = Settings?.find((setting: any) => setting?.name === 'androidStore')?.value
     const iphoneLink = Settings?.find((setting: any) => setting?.name === 'iPhoneStore')?.value
+    const { loading, requestCall } = useApi(APIService.updateProfile)
 
+    const { user } = useSelector((state: any) => state.user)
     const [toggle, settoggle] = useState(i18next.language === 'ar' ? true : false)
-    const languageChange = async () => {
-        I18nManager.forceRTL(i18n.language !== 'ar');
-        await setAsyncStorageValue('lang', i18next.language === 'ar' ? 'en' : 'ar');
-        RNRestart.Restart();
+    const languageChange = () => {
+        let body = {
+            name: user?.name,
+            phone: user?.phone,
+            lang: i18n.language == 'ar' ? 'ar' : 'en'
+        }
+        requestCall(user?.id, body).then(async (res) => {
+            I18nManager.forceRTL(i18n.language !== 'ar');
+            await setAsyncStorageValue('lang', i18next.language === 'ar' ? 'en' : 'ar');
+            RNRestart.Restart();
+        }).catch((err) => console.log({ err }))
     }
     return (
         <View style={styles.backDark} >
+            {loading && <ReactNativeModal
+                backdropOpacity={0.2}
+                backdropColor="black"
+                style={{ padding: 0, margin: 0 }}
+                isVisible={true}>
+                <ActivityIndicator color={'black'} size="large" />
+            </ReactNativeModal>
+            }
             {/* header */}
             <PrimaryHeader rightIcon={false} containerStyle={{ marginTop: mvs(10) }} title={t('Menu')} />
             <View style={styles.backWhite} >

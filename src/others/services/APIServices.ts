@@ -81,6 +81,7 @@ export const APIService = {
         return data
     },
     updateProfile: async (customerId: number, body?: any) => {
+        console.log({ body })
         const url = API_CONFIG.updateProfile + "/" + customerId;
         const { data } = await HTTP_CLIENT.post(url, body);
         return data

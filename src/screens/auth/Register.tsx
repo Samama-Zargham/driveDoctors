@@ -43,7 +43,12 @@ const Register = () => {
         else if (!regex.test(phone)) {
             return showError(t('Please write phone number in correct format'))
         } else {
-            registerService.requestCall({ phone: countryCode + phone, name, password }).then((response) => {
+            registerService.requestCall({
+                lang: i18n.language == 'ar' ? 'ar' : 'en',
+                phone: countryCode + phone,
+                name,
+                password
+            }).then((response) => {
                 // console.log({ response: response.data })
                 mainCategoryServices.requestCall().then((response) => {
                     showSuccess(t('Otp code send successfully'))

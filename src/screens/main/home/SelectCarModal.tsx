@@ -57,6 +57,7 @@ const SelectCarModal = ({ setmodal }: any) => {
                 {
                     vehicles?.length ?
                         vehicles?.map((item: any, index: number) => {
+                            console.log({ item })
                             return (
                                 <Animated.View style={animatedStyles} key={index}>
                                     <TouchableOpacity
