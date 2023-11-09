@@ -13,12 +13,14 @@ import { useRoute } from '@react-navigation/native'
 import { APIService } from '../../others/services/APIServices'
 import { useApi } from '../../others/services/useApi'
 import { countryCode, showError, showSuccess } from '../../others/utils/helpers'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 
 const VerifyCode = () => {
     const loginService = useApi(APIService.login)
     const verifyOtp = useApi(APIService.verifyOtp)
+    const { fcmToken } = useSelector((state: any) => state.user)
+    console.log({ fcmToken })
     const dispatch = useDispatch()
     const { t } = useTranslation();
     // let data = useRoute()?.params
@@ -26,7 +28,6 @@ const VerifyCode = () => {
     // data = data ? data.response : null
     const [otp, setotp] = useState('')
     const [counter, setCounter] = useState(60);
-    console.log({ phone })
     useEffect(() => {
         let interval: any;
         if (counter > 0) {
@@ -54,7 +55,8 @@ const VerifyCode = () => {
         } else {
             verifyOtp.requestCall({
                 phone: countryCode + phone,
-                otp
+                otp,
+                fcm: fcmToken
             }).then((res) => {
                 console.log({ loginService: res.data })
                 if (res?.data?.error == 'Invalid OTP.') {
