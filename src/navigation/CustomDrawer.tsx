@@ -45,6 +45,7 @@ const CustomDrawer = (props: any) => {
             lang: i18n.language == 'ar' ? 'ar' : 'en'
         }
         requestCall(user?.id, body).then(async (res) => {
+            console.log({ res })
             I18nManager.forceRTL(i18n.language !== 'ar');
             await setAsyncStorageValue('lang', i18next.language === 'ar' ? 'en' : 'ar');
             RNRestart.Restart();

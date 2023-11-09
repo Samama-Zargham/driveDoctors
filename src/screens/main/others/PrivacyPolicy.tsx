@@ -8,6 +8,7 @@ import AppText from '../../../components/AppText'
 import { useSelector } from 'react-redux'
 import RenderHTML from 'react-native-render-html'
 import { useTranslation } from 'react-i18next'
+import { isArabic } from '../../../others/utils/helpers'
 
 const PrivacyPolicy = () => {
     const { t } = useTranslation()
@@ -19,7 +20,7 @@ const PrivacyPolicy = () => {
                 <ScrollView style={styles.backWhite} >
                     <RenderHTML
                         contentWidth={width}
-                        source={{ html: Settings[2]?.value }}
+                        source={{ html: isArabic() ? Settings[6]?.value : Settings[2]?.value }}
                     />
                     <AppText children={`\n`} />
                 </ScrollView>

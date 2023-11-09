@@ -8,11 +8,12 @@ import { useSelector } from 'react-redux'
 import AppText from '../../../components/AppText'
 import RenderHTML from 'react-native-render-html'
 import { useTranslation } from 'react-i18next'
+import { isArabic } from '../../../others/utils/helpers'
 
 const Disclaimer = () => {
     const { Settings } = useSelector((state: any) => state.user)
     const { t } = useTranslation()
-
+    console.log({ Settings })
     return (
         <BaseScreen>
             <View style={styles.backDark} >
@@ -20,7 +21,7 @@ const Disclaimer = () => {
                 <ScrollView style={styles.backWhite} >
                     <RenderHTML
                         contentWidth={width}
-                        source={{ html: Settings[1]?.value }}
+                        source={{ html: isArabic() ? Settings[5]?.value : Settings[1]?.value }}
                     />
                     <AppText children={`\n`} />
                 </ScrollView>

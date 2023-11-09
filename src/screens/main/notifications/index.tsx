@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import store from '../../../others/redux/store'
 import { setNotifications } from '../../../others/redux/reducers/userReducer'
 import { useTranslation } from 'react-i18next'
+import { isArabic } from '../../../others/utils/helpers'
 
 const Notifications = () => {
     const isFocused = useIsFocused()
@@ -70,10 +71,7 @@ const Notifications = () => {
                                                     <AppText children={t('Number Plate: ') + vehicle[0]?.plate + '\n'} />
                                                 </View>
                                             }
-                                            <AppText children={item?.message} />
-
-
-
+                                            <AppText children={isArabic() ? item?.message_ar : item?.message} />
                                         </Animated.View>
                                     )
                                 })

@@ -39,7 +39,7 @@ const Home = () => {
     const getSettings = useApi(APIService.getSettings)
     const cloneBooking = Object.assign([], bookings);
     const BOOKINGS = bookings?.filter((e: any) => (e.orignalStatus != "COMPLETED" && e.orignalStatus != "CANCELLED"))?.reverse();
-    console.log({ BOOKINGS })
+    // console.log({ BOOKINGS })
     const servicesData = servicesData1?.filter((e: any) => !e.category)
     const [services, setservices] = useState([...servicesData,
     {
@@ -88,12 +88,12 @@ const Home = () => {
     useEffect(() => {
         languageChange()
         mainCategoryServices.requestCall().then((response) => {
-            console.log({ services: response.services })
+            // console.log({ services: response.services })
             store.dispatch(setServices(response.services));
         }).catch((error) => { })
         myvehicles.requestCall(user?.id)
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 dispatch(setVehicles(response.vehicles))
             })
             .catch(() => { });
@@ -157,7 +157,7 @@ const Home = () => {
                     style={styles.image}
                 />
                 <AppText FONT_16 bold color='black' children={`${t('Number')} ${item?.plate} - ${t('ServiceId')} ${item?.serviceId}  (${item?.carName})`} />
-                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} ${t('at')} ${item?.time}\n${t('Status:')} ${item?.status}`} />  
+                <AppText FONT_16 style={{ width: '75%' }} bold color={colors.darkGreen2} children={`${item?.date} ${t('at')} ${item?.time}\n${t('Status:')} ${item?.status}`} />
                 <AppText style={{ width: '70%' }} children={`${t('Service:')} ${item?.services}`} />
             </View>
         )
@@ -184,7 +184,7 @@ const Home = () => {
     }, [selectCar])
     useEffect(() => {
         getSettings.requestCall().then((res: any) => {
-            console.log({ settingssettingssettingssettings: res?.settings })
+            // console.log({ settingssettingssettingssettings: res?.settings })
             store.dispatch(setSettings(res?.settings))
         }).catch((err) => console.log({ err }))
     }, [])
@@ -238,7 +238,7 @@ const Home = () => {
                                                 activeOpacity={0.7}
                                                 onPress={() => {
                                                     setselectedItem(item)
-                                                    console.log({ item })
+                                                    // console.log({ item })
                                                     if (state[item?.id] && item?.isSubService) {
                                                         setmodal(item?.id)
                                                     }
