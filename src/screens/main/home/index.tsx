@@ -85,7 +85,7 @@ const Home = () => {
             })
             .catch(() => { });
     }, [isFocused])
-    useEffect(() => {
+    useLayoutEffect(() => {
         mainCategoryServices.requestCall().then((response) => {
             // console.log({ services: response.services })
             store.dispatch(setServices(response.services));

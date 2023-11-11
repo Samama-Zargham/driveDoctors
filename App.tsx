@@ -12,7 +12,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { getAsyncStorageValue } from './src/others/utils/helpers';
 import i18next from 'i18next';
 import { setFcmToken } from './src/others/redux/reducers/userReducer';
-
+import notifee from '@notifee/react-native';
 const App = () => {
   const [splash, setsplash] = useState(true)
 
@@ -33,10 +33,33 @@ const App = () => {
     }
   }
 
+
+
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (message: any) => {
       console.log("Message Receiveded", message);
       setnofification(message)
+      // Request permissions (required for iOS)
+      await notifee.requestPermission()
+      const channelId = await notifee.createChannel({
+        id: 'default',
+        name: 'Default Channel',
+      });
+      console.log("channelId :: ", channelId)
+      notifee.displayNotification({
+        title: message.notification.title,
+        body: message.notification.body,
+        android: {
+          channelId,
+          // pressAction: {
+          //   id: 'default',
+          // },
+        },
+        ios: {
+          categoryId: 'post',
+
+        },
+      });
       setTimeout(() => {
         setVisible(true)
       }, 100);

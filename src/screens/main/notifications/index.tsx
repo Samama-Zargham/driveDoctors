@@ -17,7 +17,7 @@ import { isArabic } from '../../../others/utils/helpers'
 const Notifications = () => {
     const isFocused = useIsFocused()
     const { requestCall, loading } = useApi(APIService.getNotify)
-    const { user, Notifications, vehicles } = useSelector((state: any) => state.user)
+    const { user, Notifications, vehicles, bookingStatus } = useSelector((state: any) => state.user)
     const { t } = useTranslation()
     const animatedValues = useRef(Notifications?.map(() => new Animated.Value(0))).current;
 
@@ -71,7 +71,8 @@ const Notifications = () => {
                                                     <AppText children={t('Number Plate: ') + vehicle[0]?.plate + '\n'} />
                                                 </View>
                                             }
-                                            <AppText children={isArabic() ? item?.message_ar : item?.message} />
+                                            {/* <AppText children={isArabic() ? item?.message_ar : item?.message} /> */}
+                                            <AppText children={bookingStatus[item?.message?.split("_")?.[0]+ (isArabic() ? '_AR' : "")]} />
                                         </Animated.View>
                                     )
                                 })
