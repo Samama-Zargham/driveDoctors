@@ -67,6 +67,7 @@ const Notifications = () => {
                                             ]}>
                                             {vehicle[0]?.plate &&
                                                 <View>
+                                                    {/* <AppText children={t('Booking Id: ') + vehicle[0]?.bookingId} /> */}
                                                     <AppText children={t('Car Info: ') + vehicle[0]?.make + " " + vehicle[0]?.model} />
                                                     <AppText children={t('Number Plate: ') + vehicle[0]?.plate + '\n'} />
                                                 </View>
