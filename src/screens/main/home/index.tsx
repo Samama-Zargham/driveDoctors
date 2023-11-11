@@ -86,7 +86,6 @@ const Home = () => {
             .catch(() => { });
     }, [isFocused])
     useEffect(() => {
-        languageChange()
         mainCategoryServices.requestCall().then((response) => {
             // console.log({ services: response.services })
             store.dispatch(setServices(response.services));
@@ -118,16 +117,6 @@ const Home = () => {
 
     const animatedValues = useRef(services.map(() => new Animated.Value(0))).current;
     const updateProfiles = useApi(APIService.updateProfile)
-
-    const languageChange = () => {
-        let body = {
-            name: user?.name,
-            phone: user?.phone,
-            lang: i18n.language == 'ar' ? 'ar' : 'en'
-        }
-        updateProfiles.requestCall(user?.id, body).then(async (res) => {
-        }).catch((err) => console.log({ err }))
-    }
     useEffect(() => {
         const animations = services.map((item, index) =>
             Animated.timing(animatedValues[index], {

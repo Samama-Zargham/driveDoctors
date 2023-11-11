@@ -6,8 +6,6 @@ import { colors } from '../../others/utils/colors'
 import { mvs } from '../../others/utils/responsive'
 import PrimaryButton from '../../components/buttons/PrimaryButton'
 import OtpVerification from '../../components/reusables/OtpVerification'
-import navServices from '../../others/utils/navServices'
-import store from '../../others/redux/store'
 import { setUser } from '../../others/redux/reducers/userReducer'
 import { useRoute } from '@react-navigation/native'
 import { APIService } from '../../others/services/APIServices'
@@ -15,17 +13,15 @@ import { useApi } from '../../others/services/useApi'
 import { countryCode, showError, showSuccess } from '../../others/utils/helpers'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import i18n from '../../others/utils/i18n'
 
 const VerifyCode = () => {
     const loginService = useApi(APIService.login)
     const verifyOtp = useApi(APIService.verifyOtp)
     const { fcmToken } = useSelector((state: any) => state.user)
-    console.log({ fcmToken })
     const dispatch = useDispatch()
     const { t } = useTranslation();
-    // let data = useRoute()?.params
     let phone = useRoute()?.params?.phone
-    // data = data ? data.response : null
     const [otp, setotp] = useState('')
     const [counter, setCounter] = useState(60);
     useEffect(() => {
@@ -43,20 +39,14 @@ const VerifyCode = () => {
 
 
     const handleOtpVerification = () => {
-        // if (data) {
-        //     if (val === data?.user?.otp) {
-        //         store.dispatch(setUser(data));
-        //         navServices.navigate('MyDrawer')
-        //     }
-        // }
-
         if (otp?.length < 4) {
             return showError(t('Please enter correct OTP'))
         } else {
             verifyOtp.requestCall({
                 phone: countryCode + phone,
                 otp,
-                fcm: fcmToken
+                fcm: fcmToken,
+                lang: i18n.language == 'ar' ? 'ar' : 'en'
             }).then((res) => {
                 console.log({ loginService: res.data })
                 if (res?.data?.error == 'Invalid OTP.') {
