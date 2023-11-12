@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next'
 const ThanksScreen = () => {
     const selectedServices = useSelector((state: any) => state?.user?.selectedServices)
     const { user, vehicles, servicesObject, bookingStatus } = useSelector((state: any) => state.user);
+    console.log({ bookingStatus })
     console.log({ selectedServices })
     const { t } = useTranslation()
     const navigation = useNavigation()
@@ -33,7 +34,7 @@ const ThanksScreen = () => {
             Service: selectedServices?.serviceNames || '',
             Date: selectedServices?.date?.toString() || '',
             Time: selectedServices?.time?.toString() || '',
-            Status: bookingStatus["INITIAL"] || '',
+            Status: bookingStatus["INITIAL" + (isArabic() ? "_AR" : "")] || '',
             // Payment: (selectedServices?.price?.toString() || '') + ' QAR'
         }
     ])

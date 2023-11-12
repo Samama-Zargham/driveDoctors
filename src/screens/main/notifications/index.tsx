@@ -59,6 +59,7 @@ const Notifications = () => {
                             Notifications?.length > 0 ?
                                 Notifications?.map((item: any, idx: number) => {
                                     let vehicle = vehicles?.filter((i: any) => i?.id == item?.vehicle_id)
+                                    console.log({ vehicle })
                                     return (
                                         <Animated.View
                                             key={idx}
@@ -73,7 +74,7 @@ const Notifications = () => {
                                                 </View>
                                             }
                                             {/* <AppText children={isArabic() ? item?.message_ar : item?.message} /> */}
-                                            <AppText children={bookingStatus[item?.message?.split("_")?.[0]+ (isArabic() ? '_AR' : "")]} />
+                                            <AppText children={bookingStatus[item?.message?.split("_")?.[0] + (isArabic() ? '_AR' : "")]} />
                                         </Animated.View>
                                     )
                                 })

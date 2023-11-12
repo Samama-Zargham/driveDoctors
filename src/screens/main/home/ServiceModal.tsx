@@ -12,6 +12,7 @@ import { fontFamily } from '../../../others/utils/fonts'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import i18next from 'i18next'
+import i18n from '../../../others/utils/i18n'
 
 const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }: any) => {
     const servicesData = useSelector((state: any) => state.user.services.filter(e => e.category === 'other'));
@@ -21,7 +22,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
         } else handleReset()
     }
     const { t } = useTranslation()
-    const SubServiceModal = React.memo(() => {
+    const SubServiceModal = () => {
         const [selectedServices, setselectedServices] = useState(state[modal] || [])
         const [data, setdata] = useState(servicesData)
         const animatedValues = useRef(data.map(() => new Animated.Value(0))).current;
@@ -39,6 +40,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
             Animated.stagger(200, animations).start(); // Start animations in sequence with a stagger
 
         }, [animatedValues, data]);
+        const { user } = useSelector((state: any) => state.user)
 
         return (
             <BaseModal
@@ -59,13 +61,13 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                     showsVerticalScrollIndicator={false}>
                     <View style={styles.booking}  >
                         <AnyIcon name='check' color='white' type={Icons.Entypo} disabled size={26} containerStyle={styles.tick} />
-                        <AppText FONT_16 Medium children={'     ' + (isArabic() ? item?.name_ar : item?.name)} />
+                        <AppText FONT_16 Medium children={'  ' + (isArabic() ? item?.name_ar : item?.name)} />
                     </View>
                     {/* <AppText FONT_18 Medium style={{ marginVertical: 10 }} children={t('People also add this service')} /> */}
                     {
                         data.map((item: any, idx: number) => {
                             const foundElement: any = selectedServices.find((i: any) => i.id == item.id);
-
+                            console.log({ item: isArabic() ? item?.name_ar : item?.name })
                             return (
                                 <TouchableOpacity
                                     key={idx}
@@ -82,7 +84,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                                             containerStyle={[styles.tick,
                                             { backgroundColor: foundElement?.id ? colors.green : colors.LIGHT_GRAY }]}
                                         />
-                                        <AppText FONT_18 children={'     ' + isArabic() ? item?.name_ar : item?.name} />
+                                        <AppText FONT_18 >{isArabic() ? item?.name_ar : item?.name}</AppText>
                                     </Animated.View>
                                 </TouchableOpacity>
                             )
@@ -100,7 +102,7 @@ const ServiceModal = ({ setmodal, handleReset, modal, state, handleSumit, item }
                 </View>
             </BaseModal>
         )
-    })
+    }
     const InputModal = () => {
         const [txt, settxt] = useState(state[modal] || '')
         return (

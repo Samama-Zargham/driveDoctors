@@ -14,7 +14,7 @@ import DeviceInfo from 'react-native-device-info';
 import ToggleSwitch from 'toggle-switch-react-native'
 import { fontFamily } from '../others/utils/fonts'
 import store from '../others/redux/store'
-import { setUser } from '../others/redux/reducers/userReducer'
+import { setUser, updateUser } from '../others/redux/reducers/userReducer'
 import { useSelector } from 'react-redux'
 import i18next from 'i18next'
 import { setAsyncStorageValue } from '../others/utils/helpers'
@@ -38,13 +38,16 @@ const CustomDrawer = (props: any) => {
 
     const { user } = useSelector((state: any) => state.user)
     const [toggle, settoggle] = useState(i18next.language === 'ar' ? true : false)
+    console.log({ user })
     const languageChange = () => {
         let body = {
             name: user?.name,
             phone: user?.phone,
-            lang: i18n.language == 'ar' ? 'ar' : 'en'
+            lang: i18n.language == 'ar' ? 'en' : 'ar'
         }
+        console.log({ body })
         requestCall(user?.id, body).then(async (res) => {
+            store.dispatch(updateUser(user))
             console.log({ res })
             I18nManager.forceRTL(i18n.language !== 'ar');
             await setAsyncStorageValue('lang', i18next.language === 'ar' ? 'en' : 'ar');

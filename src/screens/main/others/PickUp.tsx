@@ -21,6 +21,7 @@ import { useApi } from '../../../others/services/useApi'
 import { APIService } from '../../../others/services/APIServices'
 import BaseModal from '../../../components/reusables/BaseModal'
 import { useTranslation } from 'react-i18next'
+import { isArabic } from '../../../others/utils/helpers'
 
 const PickUp = (props) => {
     const { vehicle_id } = props.route.params
@@ -69,9 +70,10 @@ const PickUp = (props) => {
         let price = 0;
         if (selectedServices?.selectedServices?.length) {
             selectedServices?.selectedServices?.forEach((element: any) => {
+                console.log({ element })
                 if (element?.id != '123456789') {
                     serviceIds?.push(element?.id)
-                    serviceNames?.push(element?.name)
+                    serviceNames?.push(isArabic() ? element?.name_ar : element?.name)
 
                     price += +element?.charges
                 }

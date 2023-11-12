@@ -452,6 +452,7 @@ function extractNamesByKey(obj: MyObject, keysToExtract: string[]): string[] {
     const extractedNames: string[] = [];
     for (const key of keysToExtract) {
         if (obj[key] && obj[key].name) {
+            console.log({ isArabic: isArabic() })
             isArabic() ?
                 extractedNames.push(obj[key]?.name_ar)
                 :

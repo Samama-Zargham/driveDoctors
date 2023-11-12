@@ -84,6 +84,7 @@ export const APIService = {
         console.log({ body })
         const url = API_CONFIG.updateProfile + "/" + customerId;
         const { data } = await HTTP_CLIENT.post(url, body);
+        console.log({ data })
         return data
     }
 };

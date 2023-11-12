@@ -69,6 +69,8 @@ const Home = () => {
                     const servicesArray = book?.services?.split(',');
                     const parts = book?.time?.split(' ');
                     const timestamp = parts[0];
+                    const STATUSES = response?.statuses
+                    console.log({ book })
                     return ({
                         ...book,
                         carName: vehicles.some((e: any) => e.id === book.vehicle_id) ? `${vehicles.find((e: any) => e.id === book.vehicle_id)?.make} ${vehicles.find((e: any) => e.id === book.vehicle_id)?.model}` : "",
@@ -76,7 +78,7 @@ const Home = () => {
                         services: extractNamesByKey(servicesObject, servicesArray).join(', '),
                         date: timestamp,
                         time: parts[1] + " " + parts[2],
-                        status: bookingStatus[book?.status + (isArabic() ? '_AR' : "")],
+                        status: STATUSES[book?.status + (isArabic() ? '_AR' : "")],
                         orignalStatus: book?.status,
                         payment: `${book?.price | 0} QAR`,
                     })
@@ -137,6 +139,7 @@ const Home = () => {
         setmodal('')
     }
     const CarouselCardItem = ({ item, index }: any) => {
+        // console.log({ item })
         return (
             <View
                 style={styles.carcare1}>
@@ -155,19 +158,11 @@ const Home = () => {
         setState((pre: any) => ({ ...pre, [modal]: newItem }))
         setmodal('')
     }
-    const Modal = React.useMemo(() => {
-        if (modal) {
-            return (<ServiceModal
-                state={state}
-                handleReset={handleReset}
-                setState={setState}
-                modal={modal}
-                handleSumit={handleSumit}
-                setmodal={setmodal}
-                item={selectedItem}
-            />)
-        } else null
-    }, [modal])
+    // const Modal = () => {
+    //     if (modal) {
+    //         return ()
+    //     } else null
+    // }
     useEffect(() => {
         store.dispatch(setSelectedServices({ customer_id: user?.id, selectedServices, state }))
     }, [selectCar])
@@ -275,7 +270,17 @@ const Home = () => {
 
                 </View>
             </View>
-            {Modal}
+            {modal &&
+                <ServiceModal
+                    state={state}
+                    handleReset={handleReset}
+                    setState={setState}
+                    modal={modal}
+                    handleSumit={handleSumit}
+                    setmodal={setmodal}
+                    item={selectedItem}
+                />
+            }
             {
                 selectCar == 'addCar' && <AddCar isNavigate={true} setmodal={setselectCar} />
             }
