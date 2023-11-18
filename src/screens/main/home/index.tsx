@@ -45,7 +45,7 @@ const Home = () => {
     {
         id: 123456789,
         name: 'Other Car Repair',
-        name_ar:'مشاغل أخرى',
+        name_ar:'مشاكل اخرى',
         icon: IMAGES['Layer14'],
         category: 'EXTRAT_ITEM',
         isSubService: true
