@@ -125,7 +125,7 @@ const resources: any = {
     },
     ar: {
         translation: {
-            'Other Car Repair': 'مشاكل اخرى',
+            'Other Car Repair': 'مشاغل أخرى',
             'Arabic': 'عربي',
             'English': 'إنجليزي',
             "Input Field is empty": "حقل الإدخال فارغ",
@@ -189,9 +189,9 @@ const resources: any = {
             "Are you sure you want to delete account?": "هل أنت متأكد أنك تريد حذف الحساب؟",
             "car not found": "لم يتم العثور على السيارة",
             "Cancel": "إلغاء",
-            "Select": "موافق",
+            "Select": "يختار",
             "Listed Cars": "السيارات المدرجة",
-            "Continue": "موافق",
+            "Continue": "يكمل",
             "Add Sub Services": "إضافة الخدمات الفرعية",
             "People also add this service": "يضيف الأشخاص أيضًا هذه الخدمة",
             "Reset": "إعادة ضبط",
@@ -201,16 +201,16 @@ const resources: any = {
             "Car Modal": "طراز السيارةl",
             "Car Number Plate": "سيارة لوحة رقم",
             "Pick Up": "يلتقط",
-            "Select Time Slot": "اختيار الوقت",
-            "Confirm": "موافق",
+            "Select Time Slot": "حدد فتحة زمنية",
+            "Confirm": "يتأكد",
             "Date and Time": "التاريخ و الوقت",
-            "Pick From Location": "نقل السيارة من الموقع",
-            "Drop to Work Shop": "زيارة مركز الصيانة",
+            "Pick From Location": "اختر من الموقع",
+            "Drop to Work Shop": "اذهب إلى متجر العمل",
             "Select Date": "حدد تاريخ",
             "Select Time": "حدد الوقت",
             "Price": "سعر",
             "Thanks For Your Booking": "شكرا لحجزك",
-            "Back to Home": "الصفحة الرئيسية",
+            "Back to Home": "العودة إلى المنزل",
             "Home ": "لرئيسية",
             "Home": "لرئيسية",
             "Contact Us": "اتصل بنا",
@@ -238,6 +238,7 @@ const resources: any = {
 
     }
 };
+
 
 i18n
     .use(initReactI18next) // passes i18n down to react-i18next
