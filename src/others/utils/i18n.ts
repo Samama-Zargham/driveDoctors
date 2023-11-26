@@ -200,7 +200,7 @@ const resources: any = {
             "Car Make": "صنع السيارة",
             "Car Modal": "طراز السيارةl",
             "Car Number Plate": "سيارة لوحة رقم",
-            "Pick Up": "يلتقط",
+            "Pick Up": "عودة",
             "Select Time Slot": "حدد فتحة زمنية",
             "Confirm": "يتأكد",
             "Date and Time": "التاريخ و الوقت",
