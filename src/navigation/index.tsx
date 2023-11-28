@@ -9,7 +9,7 @@ import { IMAGES } from '../assets/images';
 import { colors } from '../others/utils/colors';
 import { mvs } from '../others/utils/responsive';
 import { COMMON_STYLES } from '../others/utils/commonStyles';
-import { Platform, Text } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawer from './CustomDrawer';
@@ -30,6 +30,7 @@ import AppText from '../components/AppText';
 import ThanksScreen from '../screens/main/others/ThanksScreen';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -37,15 +38,21 @@ const Stack = createStackNavigator();
 function MainNav() {
     const isLogedIn = useSelector((state: any) => state.user.loggedInUser)
     console.log({ isLogedIn })
+    const insets = useSafeAreaInsets();
     return (
-        <>
+        <View
+            style={{
+                flex: 1,
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom
+            }}
+        >
             {isLogedIn ? <MainStack /> : <AuthStack />}
-        </>
+        </View>
     );
 }
 
 function MainStack() {
-
     return (
         <Stack.Navigator
             initialRouteName='MyDrawer'

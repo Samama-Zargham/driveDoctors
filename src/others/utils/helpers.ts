@@ -407,7 +407,7 @@ export function processArray(arr) {
         return arr.slice(0, 5);
     }
 }
-export const countryCode = '+92'  //'+974'
+export const countryCode = '+974'  //'+974'
 const showSuccess = (message: string | undefined) => {
     store.dispatch(
         updateSnackBar({

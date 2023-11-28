@@ -13,6 +13,7 @@ import { getAsyncStorageValue } from './src/others/utils/helpers';
 import i18next from 'i18next';
 import { setFcmToken } from './src/others/redux/reducers/userReducer';
 import notifee from '@notifee/react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 const App = () => {
   const [splash, setsplash] = useState(true)
 
@@ -129,16 +130,18 @@ const App = () => {
     }, []) // Include any dependencies that should trigger the effect
   );
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Provider store={store}>
-        <CustomSnackBar />
-        <PersistGate persistor={persistor}>
-          <NavigationContainer ref={navServices.setTopLevelNavigator}>
-            {splash ? <Splash /> : <MainStack />}
-          </NavigationContainer>
-        </PersistGate>
-      </Provider>
-    </GestureHandlerRootView>
+    <SafeAreaProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Provider store={store}>
+          <CustomSnackBar />
+          <PersistGate persistor={persistor}>
+            <NavigationContainer ref={navServices.setTopLevelNavigator}>
+              {splash ? <Splash /> : <MainStack />}
+            </NavigationContainer>
+          </PersistGate>
+        </Provider>
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
 };
 
