@@ -9,7 +9,7 @@ import { IMAGES } from '../assets/images';
 import { colors } from '../others/utils/colors';
 import { mvs } from '../others/utils/responsive';
 import { COMMON_STYLES } from '../others/utils/commonStyles';
-import { Platform, Text, View } from 'react-native';
+import { Platform, StatusBar, Text, View } from 'react-native';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawer from './CustomDrawer';
@@ -37,16 +37,10 @@ const Stack = createStackNavigator();
 
 function MainNav() {
     const isLogedIn = useSelector((state: any) => state.user.loggedInUser)
-    console.log({ isLogedIn })
+    // console.log({ isLogedIn })
     const insets = useSafeAreaInsets();
     return (
-        <View
-            style={{
-                flex: 1,
-                paddingTop: insets.top,
-                paddingBottom: insets.bottom
-            }}
-        >
+        <View style={[{ flex: 1 }, Platform.OS == 'android' && { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             {isLogedIn ? <MainStack /> : <AuthStack />}
         </View>
     );
